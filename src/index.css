@@ -1,13 +1,74 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* font */
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Source+Sans+Pro:wght@400;600;700&display=swap");
+
+/* tailwind */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* css */
+.btnMainCol {
+  background: radial-gradient(
+      166.9% 1884.09% at 4.37% -48.59%,
+      rgba(0, 0, 0, 0.3) 0%,
+      rgba(0, 0, 0, 0) 100%
+    ),
+    #3b593e;
+}
+.btnSecondaryCol {
+  background: radial-gradient(
+      487.5% 746.3% at 41.53% -111.11%,
+      rgba(255, 255, 255, 0.05) 0%,
+      rgba(0, 0, 0, 0) 100%
+    ),
+    #1c1d24;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.tagBreakfast {
+  background: radial-gradient(
+        57.37% 226.16% at 6.43% -44.44%,
+        rgba(255, 255, 255, 0.3) 0%,
+        rgba(0, 0, 0, 0) 100%
+      )
+      /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */,
+    linear-gradient(180deg, #64bc26 0%, #51981f 100%);
+}
+.tagLunch {
+  background: linear-gradient(180deg, #f3c847 0%, #d7a50e 100%);
+}
+.tagDinner {
+  background: linear-gradient(180deg, #e59a10 0%, #c8870e 100%);
+}
+
+.succesGradient {
+  background: linear-gradient(180deg, #71d42b 0%, #4d901d 100%);
+}
+.warningGradient {
+  background: linear-gradient(180deg, #ffae33 0%, #e68a00 100%);
+}
+.failureGradient {
+  background: linear-gradient(180deg, #da1301 0%, #980d01 100%);
+}
+
+.subscribe {
+  background: linear-gradient(180deg, #be0504 0%, #8c0403 100%);
+}
+
+.signBg {
+  background: radial-gradient(
+        89.71% 71.41% at -29.12% 18.06%,
+        rgba(255, 255, 255, 0.06) 0%,
+        rgba(0, 0, 0, 0) 100%
+      )
+      /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */,
+    #272728;
+}
+
+.combinationBg {
+  background: radial-gradient(
+      123.85% 531.53% at 3.36% -16.11%,
+      rgba(255, 255, 255, 0.2) 0%,
+      rgba(255, 255, 255, 0.05) 100%
+    )
+    /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
 }
