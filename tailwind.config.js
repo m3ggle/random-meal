@@ -2,6 +2,21 @@
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
+    screens: {
+      400: "400px",
+      handy: "370px",
+      500: "500px",
+      sm: "640px",
+      600: "600px",
+      700: "700px",
+      md: "768px",
+      800: "800px",
+      900: "900px",
+      lg: "1024px",
+      1100: "1100px",
+      xl: "1280px",
+      "2xl": "1536px",
+    },
     extend: {
       colors: {
         lightTextCol: "#F2F3F4",
@@ -10,8 +25,9 @@ module.exports = {
 
         bgPrimaryCol: "#282933",
         bgSecondaryCol: "#F2F3F4",
+        bgSecondaryDarkCol: "#1C1D24",
         navCol: "#353646",
-        iconCol: "#F2F3F4",
+        iconTransCol: "#F2F3F490",
 
         inputCol: "#E0E4E8",
 
@@ -21,7 +37,10 @@ module.exports = {
       },
       fontFamily: {
         openSans: ["Open Sans", "sans-serif"],
-        sansSource: ["Sans Source Pro", "sans-serif"],
+        sourceSans: ["Source Sans Pro", "sans-serif"],
+      },
+      dropShadow: {
+        cardIcon: "0px 8px 24px #000000",
       },
     },
   },

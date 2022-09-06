@@ -7,13 +7,16 @@
 @tailwind utilities;
 
 /* css */
-.btnMainCol {
+.btnPrimaryCol {
   background: radial-gradient(
       166.9% 1884.09% at 4.37% -48.59%,
       rgba(0, 0, 0, 0.3) 0%,
       rgba(0, 0, 0, 0) 100%
     ),
     #3b593e;
+}
+.btnPrimaryColHover {
+  background: radial-gradient(77% 77% at 0% 13.5%, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, #293D2B;
 }
 .btnSecondaryCol {
   background: radial-gradient(
@@ -71,4 +74,50 @@
       rgba(255, 255, 255, 0.05) 100%
     )
     /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
+}
+
+.instagramGradient {
+  background: linear-gradient(196.7deg, #505FD4 16.76%, #CF2F8A 55.29%, #FDD16E 93.39%);
+}
+
+.imgOverlayRandomMeal {
+  background: linear-gradient(180.26deg, rgba(0, 0, 0, 0) 0.23%, rgba(0, 0, 0, 0) 52.83%, rgba(0, 0, 0, 0.7) 99.77%);
+}
+
+
+/* Shadows */
+.cardNameShadow {
+  box-shadow: 0px 20px 75px rgba(0, 0, 0, 0.50);
+}
+
+.cardShadow {
+  box-shadow: 0px 20px 75px rgba(0, 0, 0, 0.2);
+}
+
+.cardIconShadow {
+  box-shadow: 0px 8px 24px #000000;
+}
+
+.DayMealsShadow {
+  box-shadow: 0px 30px 50px #191A20;
+}
+
+.informationBoxShadow {
+  box-shadow: 0px 30px 50px rgba(0, 0, 0, 0.5);
+}
+
+.buttonShadow {
+  box-shadow: 0px 30px 50px rgba(0, 0, 0, 0.3);
+}
+
+.buttonDiceShadow {
+  box-shadow: 0px 20px 75px rgba(0, 0, 0, 0.5);
+}
+
+.buyinglistMealShadow {
+  box-shadow: 0px 30px 50px rgba(0, 0, 0, 0.3)
+}
+
+.modalShadow {
+  box-shadow: 0px 20px 120px #000000
 }

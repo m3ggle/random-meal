@@ -112,7 +112,7 @@ function inputs() {
               
               
         {/* input open (icon txt) */}
-        <div className="w-full flex flex-col gap-y-[8px]">
+        <div className="w-full flex flex-col">
           {/* Label */}
           <label className={`text-inputCol ${styles.paragraph14} hidden`}>
             Search
@@ -139,7 +139,7 @@ function inputs() {
         </div>
 
         {/* input open (icon txt icon) */}
-        <div className="w-full flex flex-col gap-y-[8px] ">
+        <div className="w-full flex flex-col">
           {/* Label */}
           <label className={`text-inputCol ${styles.paragraph14} hidden`}>
             Search
