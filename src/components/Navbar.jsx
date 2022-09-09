@@ -150,7 +150,7 @@ const Navbar = () => {
 
       {/* mobile Navbar */}
       <div
-        className={`md:hidden absolute top-[86%] w-full h-[14%] max-h-[125px] flex justify-center z-[60] bg-bgPrimaryCol pt-3 rounded-t-[20px]`}
+        className={`md:hidden absolute top-[86%] w-full h-[14%] max-h-[190px] flex justify-center z-[60] bg-bgPrimaryCol pt-3 rounded-t-[20px]`}
       >
         <div className="flex justify-between py-[10px] px-[20px] min-w-[320px] w-9/12 max-w-[450px] h-20 rounded-xl bg-bgSecondaryDarkCol">
           <div className={`w-[60px] h-[60px] ${styles.flexCenter}`}>

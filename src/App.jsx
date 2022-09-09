@@ -2,6 +2,7 @@
 // import Inputs from './utilities/Inputs'
 // import Profile from './pages/Profile';
 // import Buttons from './utilities/Buttons'
+import Creation from "./components/Creation";
 import Navbar from "./components/Navbar";
 import BuyingList from "./pages/BuyingList";
 import FavMeals from "./pages/FavMeals";
@@ -28,6 +29,7 @@ function App() {
       {/* <Mealdetails /> */}
       {/* <BuyingList /> */}
       <FavMeals />
+      <Creation />
     </div>
   );
 }

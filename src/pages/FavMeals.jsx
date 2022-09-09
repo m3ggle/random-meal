@@ -1,17 +1,18 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import {
   FaBars,
-  FaSearch,
-  FaExclamationTriangle,
+  FaCheck,
   FaExclamationCircle,
+  FaExclamationTriangle,
+  FaSearch,
 } from "react-icons/fa";
-import styles from '../styles';
-import CardsSamples from '../utilities/cards/CardsSamples'
-import useWindowDimensions from '../hooks/useWindowDimensions'
+import useWindowDimensions from "../hooks/useWindowDimensions";
+import styles from "../styles";
+import CardsSamples from "../utilities/cards/CardsSamples";
 
 const FavMeals = () => {
-    const [selected] = useState('3 Meals')
-    const { width } = useWindowDimensions()
+  const [selected] = useState("3 Meals");
+  const { width, height } = useWindowDimensions();
 
   return (
     <div className="w-full h-screen flex flex-col gap-y-3">
@@ -154,22 +155,24 @@ const FavMeals = () => {
           selected === "3 Meals" ? "flex" : "hidden"
         } gap-2 flex-wrap w-full px-6 500:px-10 overflow-scroll 300:gap-5 600:gap-6 justify-center max-w-[1350px]`}
       >
-        {width < 200 ? (
-          <CardsSamples type="mobile" />
-        ) : (
-          <>
-            <CardsSamples type="three" />
-            <CardsSamples type="three" />
-            <CardsSamples type="three" />
-            <CardsSamples type="three" />
-          </>
-        )}
-
+        <CardsSamples type="three" />
+        <CardsSamples type="three" />
+        <CardsSamples type="three" />
+        <CardsSamples type="three" />
+        <div
+          className={`absolute  ${
+            height > 600 && width > 767 ? "top-[88%]" : "top-[74%]"
+          } left-[74%] 600:left-[84%] btnPrimaryCol buttonShadow hover:bg-[#293D2B] w-20 h-20 z-30 rounded-full ${
+            styles.flexCenter
+          }`}
+        >
+          <FaCheck size="25px" className="text-lightTextCol" />
+        </div>
         {/* puffer */}
         <div className="h-[20%] md:h-[5%] w-full"></div>
       </div>
     </div>
   );
-}
+};
 
-export default FavMeals
+export default FavMeals;

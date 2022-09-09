@@ -50,7 +50,7 @@ const CardThreeMobile = ({ lock }) => {
         </div>
       </div>
       {/* info */}
-      <div className="flex flex-wrap w-full gap-x-1 gap-y-[2px] mt-1">
+      <div className="flex flex-wrap w-full gap-x-1 gap-y-[2px] mt-1 mb-2">
         <div className={`px-4 py-1 w-fit tagInfo rounded-full ${styles.tag10}`}>
           Calories: 1245kcal
         </div>
