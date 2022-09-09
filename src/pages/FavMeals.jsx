@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import {
-  FaBars,
   FaCheck,
   FaExclamationCircle,
   FaExclamationTriangle,
+  FaFilter,
+  FaPlus,
   FaSearch,
 } from "react-icons/fa";
 import useWindowDimensions from "../hooks/useWindowDimensions";
@@ -39,7 +40,7 @@ const FavMeals = () => {
             <div
               className={`w-[50px] h-[46px] border-[1px] rounded-xl ${styles.flexCenter} text-lightTextCol`}
             >
-              <FaBars size="14px" />
+              <FaFilter size="14px" />
             </div>
           </div>
           <div
@@ -148,12 +149,16 @@ const FavMeals = () => {
         {/* puffer */}
         <div className="h-[20%] md:h-[5%] w-full"></div>
       </div>
+      
 
       {/* 3 Meals */}
       <div
         className={`${
-          selected === "3 Meals" ? "flex" : "hidden"
-        } gap-2 flex-wrap w-full px-6 500:px-10 overflow-scroll 300:gap-5 600:gap-6 justify-center max-w-[1350px]`}
+          selected === "3 Meals" ? "1400:grid flex" : "hidden"
+        } gap-2 grid-cols-2 flex-wrap w-full px-6 500:px-10 overflow-scroll 300:gap-5 600:gap-6 justify-center max-w-[1350px]`}
+        // className={`${
+        //   selected === "3 Meals" ? "flex" : "hidden"
+        // } gap-2 flex-wrap w-full px-6 500:px-10 overflow-scroll 300:gap-5 600:gap-6 justify-center max-w-[1350px]`}
       >
         <CardsSamples type="three" />
         <CardsSamples type="three" />
@@ -166,7 +171,7 @@ const FavMeals = () => {
             styles.flexCenter
           }`}
         >
-          <FaCheck size="25px" className="text-lightTextCol" />
+          <FaPlus size="25px" className="text-lightTextCol" />
         </div>
         {/* puffer */}
         <div className="h-[20%] md:h-[5%] w-full"></div>

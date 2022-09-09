@@ -29,7 +29,7 @@ function App() {
       {/* <Mealdetails /> */}
       {/* <BuyingList /> */}
       <FavMeals />
-      <Creation />
+      {/* <Creation /> */}
     </div>
   );
 }

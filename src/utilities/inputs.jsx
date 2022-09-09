@@ -1,8 +1,8 @@
 import {
-  FaBars,
   FaEdit,
   FaExclamationCircle,
   FaExclamationTriangle,
+  FaFilter,
   FaSearch,
 } from "react-icons/fa";
 import styles from "../styles";
@@ -40,8 +40,6 @@ function inputs() {
           </div>
         </div>
 
-              
-
         {/* input closed (icon txt + filter) */}
         <div className="w-full flex flex-col gap-y-[8px] ">
           {/* Label */}
@@ -64,7 +62,7 @@ function inputs() {
             <div
               className={`w-[50px] h-[46px] border-[1px] rounded-xl ${styles.flexCenter} text-lightTextCol`}
             >
-              <FaBars size="14px" />
+              <FaFilter size="14px" />
             </div>
           </div>
           <div
@@ -75,8 +73,6 @@ function inputs() {
             Please Enter The Correct Password
           </div>
         </div>
-
-              
 
         {/* input closed (icon txt icon) */}
         <div className="w-full flex flex-col gap-y-[8px] ">
@@ -109,8 +105,6 @@ function inputs() {
           </div>
         </div>
 
-              
-              
         {/* input open (icon txt) */}
         <div className="w-full flex flex-col">
           {/* Label */}

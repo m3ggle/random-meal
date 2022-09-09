@@ -12,7 +12,7 @@ import CardMobile from "./CardMobile";
 const CardThreeMobile = ({ lock }) => {
   const { width } = useWindowDimensions();
   return (
-    <div className="flex flex-col px-6 pt-4 pb-5 rounded-[24px] combinationBg">
+    <div className="flex flex-col px-6 pt-4 pb-6 h-fit rounded-[24px] combinationBg">
       {/* header */}
       <div className="flex flex-row 500:items-center justify-between gap-x-5">
         {/* left part */}
