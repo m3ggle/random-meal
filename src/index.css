@@ -15,6 +15,17 @@
     ),
     #3b593e;
 }
+
+.buyinglistBtnHover:hover {
+   background: radial-gradient(
+      166.9% 1884.09% at 4.37% -48.59%,
+      rgba(0, 0, 0, 0.3) 0%,
+      rgba(0, 0, 0, 0) 100%
+    ),
+    #3b593e;
+    box-shadow: 0px 30px 50px rgba(0, 0, 0, 0.3);
+}
+
 .btnPrimaryColHover {
   background: radial-gradient(77% 77% at 0% 13.5%, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, #293D2B;
 }
@@ -41,6 +52,9 @@
 }
 .tagDinner {
   background: linear-gradient(180deg, #e59a10 0%, #c8870e 100%);
+}
+.tagInfo {
+  background: linear-gradient(180deg, #2B5A8C 0%, #2B598C 0.01%, #1F4064 100%);
 }
 
 .succesGradient {
@@ -127,4 +141,3 @@
 .modalShadow {
   box-shadow: 0px 20px 120px #000000
 }
-

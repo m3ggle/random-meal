@@ -1,7 +1,7 @@
-import React from 'react'
-import styles from '../styles'
-import { FaTimes, FaShoppingCart, FaShare } from "react-icons/fa";
-import DinnerImg from '../assets/images/dinnerExample.jpg'
+import React from "react";
+import { FaShare, FaShoppingCart, FaTimes } from "react-icons/fa";
+import DinnerImg from "../assets/images/dinnerExample.jpg";
+import styles from "../styles";
 
 const Mealdetails = () => {
   return (
@@ -19,7 +19,10 @@ const Mealdetails = () => {
             <div className={`w-full h-full imgOverlayMealdetails`}></div>
             {/* close icon */}
             <div className="absolute top-12 right-12 w-fit h-fit">
-              <FaTimes size="30px" className="text-lightTextCol" />
+              <FaTimes
+                size="30px"
+                className="text-lightTextCol cursor-pointer"
+              />
             </div>
           </div>
 
@@ -29,7 +32,7 @@ const Mealdetails = () => {
             <div className="w-full flex flex-col gap-y-2">
               <div className="flex flex-row items-center gap-x-2"></div>
               <p
-                className={`${styles.heading32} text-lightTextCol flex flex-row gap-x-2 items-center`}
+                className={`${styles.heading32} text-lightTextCol flex flex-row gap-x-2 items-center w-fit cursor-pointer`}
               >
                 Sed sodales convallis ut
                 <FaShare size="25px" />
@@ -71,137 +74,150 @@ const Mealdetails = () => {
               </p>
             </div>
             {/* instructions + ingredients */}
-            <div className="w-full flex flex-col-reverse 900:flex-row gap-y-8 900:gap-x-10 900:py-4">
+            <div className="w-full flex flex-col-reverse gap-y-8 900:gap-x-10 900:py-4">
               {/* instructions */}
               <div className="w-full flex flex-col gap-y-2">
                 <p className={`${styles.heading24} text-lightTextCol`}>
                   How its done
                 </p>
-                <div className="w-full max-w-[540px] flex flex-col buyinglistMealShadow p-[24px] gap-y-4 rounded-xl">
-                  {/* txt */}
-                  <p className={`${styles.paragraph16} text-lightTextCol`}>
-                    <span className={`text-[24px]`}>1.</span> Sit fringilla
-                    suspendisse convallis eget fringilla euismod. Id arcu, massa
-                    lacinia eget id. Augue velit id accumsan massa.
-                  </p>
-                  {/* Equipment and Ingredients */}
-                  <div className="w-full flex flex-wrap gap-4">
-                    {/* Equipment */}
-                    <div className="flex flex-col gap-y-2 min-w-[168px]">
-                      <p className={`${styles.paragraph14} text-lightTextCol`}>
-                        Equipment
-                      </p>
-                      <div className="w-fit flex gap-x-2">
-                        <div
-                          className="relative w-20 h-20 rounded-full bg-center bg-cover bg-gray-400 overflow-hidden"
-                          style={{ backgroundImage: `url(${DinnerImg})` }}
-                        ></div>
-                        <div
-                          className="relative w-20 h-20 rounded-full bg-center bg-cover bg-gray-400 overflow-hidden"
-                          style={{ backgroundImage: `url(${DinnerImg})` }}
-                        ></div>
-                        <div
-                          className="relative w-20 h-20 rounded-full bg-center bg-cover bg-gray-400 overflow-hidden"
-                          style={{ backgroundImage: `url(${DinnerImg})` }}
-                        ></div>
-                      </div>
-                    </div>
-                    {/* ingredients */}
-                    <div className="flex flex-col gap-y-2">
-                      <p className={`${styles.paragraph14} text-lightTextCol`}>
-                        Ingredients
-                      </p>
-                      <div className="w-fit flex gap-x-2">
-                        <div
-                          className="relative w-20 h-20 rounded-full bg-center bg-cover bg-gray-400 overflow-hidden"
-                          style={{ backgroundImage: `url(${DinnerImg})` }}
+                {/* Steps */}
+                <div className="flex lg:grid grid-cols-2 flex-col gap-3">
+                  <div className="w-full max-w-[540px] flex flex-col buyinglistMealShadow p-[24px] gap-y-4 rounded-xl">
+                    {/* txt */}
+                    <p className={`${styles.paragraph16} text-lightTextCol`}>
+                      <span className={`text-[24px]`}>1.</span> Sit fringilla
+                      suspendisse convallis eget fringilla euismod. Id arcu,
+                      massa lacinia eget id. Augue velit id accumsan massa.
+                    </p>
+                    {/* Equipment and Ingredients */}
+                    <div className="w-full flex flex-wrap gap-4">
+                      {/* Equipment */}
+                      <div className="flex flex-col gap-y-2 min-w-[168px]">
+                        <p
+                          className={`${styles.paragraph14} text-lightTextCol`}
                         >
+                          Equipment
+                        </p>
+                        <div className="w-fit flex gap-x-2">
                           <div
-                            className={`w-full h-full rounded-full bg-[#28293380] opacity-0 hover:opacity-100 cursor-pointer ${styles.flexCenter}`}
-                          >
-                            <FaShoppingCart
-                              size="30%"
-                              className="text-lightTextCol"
-                            />
-                          </div>
+                            className="relative w-20 h-20 rounded-full bg-center bg-cover bg-gray-400 overflow-hidden"
+                            style={{ backgroundImage: `url(${DinnerImg})` }}
+                          ></div>
+                          <div
+                            className="relative w-20 h-20 rounded-full bg-center bg-cover bg-gray-400 overflow-hidden"
+                            style={{ backgroundImage: `url(${DinnerImg})` }}
+                          ></div>
+                          <div
+                            className="relative w-20 h-20 rounded-full bg-center bg-cover bg-gray-400 overflow-hidden"
+                            style={{ backgroundImage: `url(${DinnerImg})` }}
+                          ></div>
                         </div>
-                        <div
-                          className="relative w-20 h-20 rounded-full bg-center bg-cover bg-gray-400 overflow-hidden"
-                          style={{ backgroundImage: `url(${DinnerImg})` }}
+                      </div>
+                      {/* ingredients */}
+                      <div className="flex flex-col gap-y-2">
+                        <p
+                          className={`${styles.paragraph14} text-lightTextCol`}
                         >
+                          Ingredients
+                        </p>
+                        <div className="w-fit flex gap-x-2">
+                          {/* mit hover */}
                           <div
-                            className={`w-full h-full rounded-full bg-[#28293380] opacity-0 hover:opacity-100 cursor-pointer ${styles.flexCenter}`}
+                            className="w-20 h-20 rounded-full bg-center bg-cover bg-gray-400 overflow-hidden"
+                            style={{ backgroundImage: `url(${DinnerImg})` }}
                           >
-                            <FaShoppingCart
-                              size="30%"
-                              className="text-lightTextCol"
-                            />
+                            <div
+                              className={`w-full h-full rounded-full bg-[#28293380] opacity-0 hover:opacity-100 cursor-pointer ${styles.flexCenter}`}
+                            >
+                              <FaShoppingCart
+                                size="30%"
+                                className="text-lightTextCol"
+                              />
+                            </div>
+                          </div>
+                          <div
+                            className="relative w-20 h-20 rounded-full bg-center bg-cover bg-gray-400 overflow-hidden"
+                            style={{ backgroundImage: `url(${DinnerImg})` }}
+                          >
+                            <div
+                              className={`w-full h-full rounded-full bg-[#28293380] opacity-0 hover:opacity-100 cursor-pointer ${styles.flexCenter}`}
+                            >
+                              <FaShoppingCart
+                                size="30%"
+                                className="text-lightTextCol"
+                              />
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
 
-                {/* Step2 */}
-                <div className="w-full max-w-[540px] flex flex-col buyinglistMealShadow p-[24px] gap-y-4 rounded-xl">
-                  {/* txt */}
-                  <p className={`${styles.paragraph16} text-lightTextCol`}>
-                    <span className={`text-[24px]`}>2.</span>Nec mauris eu,
-                    consectetur hac tellus sagittis feugiat nunc nibh.
-                  </p>
-                  {/* Equipment and Ingredients */}
-                  <div className="w-full flex flex-wrap gap-4">
-                    {/* Equipment */}
-                    <div className="flex flex-col gap-y-2 min-w-[168px]">
-                      <p className={`${styles.paragraph14} text-lightTextCol`}>
-                        Equipment
-                      </p>
-                      <div className="w-fit flex gap-x-2">
-                        <div
-                          className="relative w-20 h-20 rounded-full bg-center bg-cover bg-gray-400 overflow-hidden"
-                          style={{ backgroundImage: `url(${DinnerImg})` }}
-                        ></div>
-                        <div
-                          className="relative w-20 h-20 rounded-full bg-center bg-cover bg-gray-400 overflow-hidden"
-                          style={{ backgroundImage: `url(${DinnerImg})` }}
-                        ></div>
-                        <div
-                          className="relative w-20 h-20 rounded-full bg-center bg-cover bg-gray-400 overflow-hidden"
-                          style={{ backgroundImage: `url(${DinnerImg})` }}
-                        ></div>
-                      </div>
-                    </div>
-                    {/* ingredients */}
-                    <div className="flex flex-col gap-y-2">
-                      <p className={`${styles.paragraph14} text-lightTextCol`}>
-                        Ingredients
-                      </p>
-                      <div className="w-fit flex gap-x-2">
-                        <div
-                          className="relative w-20 h-20 rounded-full bg-center bg-cover bg-gray-400 overflow-hidden"
-                          style={{ backgroundImage: `url(${DinnerImg})` }}
+                  {/* Step2 */}
+                  <div className="w-full max-w-[540px] flex flex-col buyinglistMealShadow p-[24px] gap-y-4 rounded-xl">
+                    {/* txt */}
+                    <p className={`${styles.paragraph16} text-lightTextCol`}>
+                      <span className={`text-[24px]`}>2.</span>Nec mauris eu,
+                      consectetur hac tellus sagittis feugiat nunc nibh.
+                    </p>
+                    {/* Equipment and Ingredients */}
+                    <div className="w-full flex flex-wrap gap-4">
+                      {/* Equipment */}
+                      <div className="flex flex-col gap-y-2 min-w-[168px]">
+                        <p
+                          className={`${styles.paragraph14} text-lightTextCol`}
                         >
+                          Equipment
+                        </p>
+                        <div className="w-fit flex gap-x-2">
                           <div
-                            className={`w-full h-full rounded-full bg-[#28293380] opacity-0 hover:opacity-100 cursor-pointer ${styles.flexCenter}`}
-                          >
-                            <FaShoppingCart
-                              size="30%"
-                              className="text-lightTextCol"
-                            />
-                          </div>
+                            className="relative w-20 h-20 rounded-full bg-center bg-cover bg-gray-400 overflow-hidden"
+                            style={{ backgroundImage: `url(${DinnerImg})` }}
+                          ></div>
+                          <div
+                            className="relative w-20 h-20 rounded-full bg-center bg-cover bg-gray-400 overflow-hidden"
+                            style={{ backgroundImage: `url(${DinnerImg})` }}
+                          ></div>
+                          <div
+                            className="relative w-20 h-20 rounded-full bg-center bg-cover bg-gray-400 overflow-hidden"
+                            style={{ backgroundImage: `url(${DinnerImg})` }}
+                          ></div>
                         </div>
-                        <div
-                          className="relative w-20 h-20 rounded-full bg-center bg-cover bg-gray-400 overflow-hidden"
-                          style={{ backgroundImage: `url(${DinnerImg})` }}
+                      </div>
+                      {/* ingredients */}
+                      <div className="flex flex-col gap-y-2">
+                        <p
+                          className={`${styles.paragraph14} text-lightTextCol`}
                         >
+                          Ingredients
+                        </p>
+                        <div className="w-fit flex gap-x-2">
+                          {/* mit hover */}
                           <div
-                            className={`w-full h-full rounded-full bg-[#28293380] opacity-0 hover:opacity-100 cursor-pointer ${styles.flexCenter}`}
+                            className="w-20 h-20 rounded-full bg-center bg-cover bg-gray-400 overflow-hidden"
+                            style={{ backgroundImage: `url(${DinnerImg})` }}
                           >
-                            <FaShoppingCart
-                              size="30%"
-                              className="text-lightTextCol"
-                            />
+                            <div
+                              className={`w-full h-full rounded-full bg-[#28293380] opacity-0 hover:opacity-100 cursor-pointer ${styles.flexCenter}`}
+                            >
+                              <FaShoppingCart
+                                size="30%"
+                                className="text-lightTextCol"
+                              />
+                            </div>
+                          </div>
+                          <div
+                            className="relative w-20 h-20 rounded-full bg-center bg-cover bg-gray-400 overflow-hidden"
+                            style={{ backgroundImage: `url(${DinnerImg})` }}
+                          >
+                            <div
+                              className={`w-full h-full rounded-full bg-[#28293380] opacity-0 hover:opacity-100 cursor-pointer ${styles.flexCenter}`}
+                            >
+                              <FaShoppingCart
+                                size="30%"
+                                className="text-lightTextCol"
+                              />
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -217,36 +233,110 @@ const Mealdetails = () => {
                 </p>
                 {/* ingredients pics */}
                 <div className="max-w-[540px] w-full flex flex-wrap gap-2">
-                  <div
-                    className="relative w-20 h-20 rounded-full bg-center bg-cover bg-gray-400 overflow-hidden"
-                    style={{ backgroundImage: `url(${DinnerImg})` }}
-                  >
-                    <div className="w-full h-full rounded-full bg-gray-400 hidden hover:flex"></div>
+                  <div className="flex flex-col max-w-20 items-center gap-1">
+                    <div
+                      className="w-20 h-20 rounded-full bg-center bg-cover bg-gray-400 overflow-hidden"
+                      style={{ backgroundImage: `url(${DinnerImg})` }}
+                    >
+                      <div
+                        className={`w-full h-full rounded-full bg-[#28293380] opacity-0 hover:opacity-100 cursor-pointer ${styles.flexCenter}`}
+                      >
+                        <FaShoppingCart
+                          size="30%"
+                          className="text-lightTextCol"
+                        />
+                      </div>
+                    </div>
+                    <p
+                      className={`${styles.paragraph14} text-lightTextCol w-20 text-center`}
+                    >
+                      Lachs
+                    </p>
                   </div>
-                  <div
-                    className="w-20 h-20 rounded-full bg-center bg-cover bg-gray-400"
-                    style={{ backgroundImage: `url(${DinnerImg})` }}
-                  ></div>
-                  <div
-                    className="w-20 h-20 rounded-full bg-center bg-cover bg-gray-400"
-                    style={{ backgroundImage: `url(${DinnerImg})` }}
-                  ></div>
-                  <div
-                    className="w-20 h-20 rounded-full bg-center bg-cover bg-gray-400"
-                    style={{ backgroundImage: `url(${DinnerImg})` }}
-                  ></div>
-                  <div
-                    className="w-20 h-20 rounded-full bg-center bg-cover bg-gray-400"
-                    style={{ backgroundImage: `url(${DinnerImg})` }}
-                  ></div>
-                  <div
-                    className="w-20 h-20 rounded-full bg-center bg-cover bg-gray-400"
-                    style={{ backgroundImage: `url(${DinnerImg})` }}
-                  ></div>
-                  <div
-                    className="w-20 h-20 rounded-full bg-center bg-cover bg-gray-400"
-                    style={{ backgroundImage: `url(${DinnerImg})` }}
-                  ></div>
+
+                  <div className="flex flex-col max-w-20 items-center gap-1">
+                    <div
+                      className="w-20 h-20 rounded-full bg-center bg-cover bg-gray-400 overflow-hidden"
+                      style={{ backgroundImage: `url(${DinnerImg})` }}
+                    >
+                      <div
+                        className={`w-full h-full rounded-full bg-[#28293380] opacity-0 hover:opacity-100 cursor-pointer ${styles.flexCenter}`}
+                      >
+                        <FaShoppingCart
+                          size="30%"
+                          className="text-lightTextCol"
+                        />
+                      </div>
+                    </div>
+                    <p
+                      className={`${styles.paragraph14} text-lightTextCol w-20 text-center`}
+                    >
+                      Lachs
+                    </p>
+                  </div>
+
+                  <div className="flex flex-col max-w-20 items-center gap-1">
+                    <div
+                      className="w-20 h-20 rounded-full bg-center bg-cover bg-gray-400 overflow-hidden"
+                      style={{ backgroundImage: `url(${DinnerImg})` }}
+                    >
+                      <div
+                        className={`w-full h-full rounded-full bg-[#28293380] opacity-0 hover:opacity-100 cursor-pointer ${styles.flexCenter}`}
+                      >
+                        <FaShoppingCart
+                          size="30%"
+                          className="text-lightTextCol"
+                        />
+                      </div>
+                    </div>
+                    <p
+                      className={`${styles.paragraph14} text-lightTextCol w-20 text-center`}
+                    >
+                      Lachs
+                    </p>
+                  </div>
+
+                  <div className="flex flex-col max-w-20 items-center gap-1">
+                    <div
+                      className="w-20 h-20 rounded-full bg-center bg-cover bg-gray-400 overflow-hidden"
+                      style={{ backgroundImage: `url(${DinnerImg})` }}
+                    >
+                      <div
+                        className={`w-full h-full rounded-full bg-[#28293380] opacity-0 hover:opacity-100 cursor-pointer ${styles.flexCenter}`}
+                      >
+                        <FaShoppingCart
+                          size="30%"
+                          className="text-lightTextCol"
+                        />
+                      </div>
+                    </div>
+                    <p
+                      className={`${styles.paragraph14} text-lightTextCol w-20 text-center`}
+                    >
+                      Lachs
+                    </p>
+                  </div>
+
+                  <div className="flex flex-col max-w-20 items-center gap-1">
+                    <div
+                      className="w-20 h-20 rounded-full bg-center bg-cover bg-gray-400 overflow-hidden"
+                      style={{ backgroundImage: `url(${DinnerImg})` }}
+                    >
+                      <div
+                        className={`w-full h-full rounded-full bg-[#28293380] opacity-0 hover:opacity-100 cursor-pointer ${styles.flexCenter}`}
+                      >
+                        <FaShoppingCart
+                          size="30%"
+                          className="text-lightTextCol"
+                        />
+                      </div>
+                    </div>
+                    <p
+                      className={`${styles.paragraph14} text-lightTextCol w-20 text-center`}
+                    >
+                      Lachs
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -255,6 +345,6 @@ const Mealdetails = () => {
       </div>
     </div>
   );
-}
+};
 
-export default Mealdetails
+export default Mealdetails;

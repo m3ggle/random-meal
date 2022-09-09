@@ -13,7 +13,8 @@ import styles from "../styles";
 const HomeCards640T1280 = () => {
   return (
     <div
-      className={`hidden sm:flex xl:hidden w-full h-screen items-center justify-center`}
+      className={`hidden xl:hidden w-full h-screen items-center justify-center`}
+      // className={`hidden sm:flex xl:hidden w-full h-screen items-center justify-center`}
     >
       <div className="flex flex-col gap-y-[60px] 900:gap-y-[80px] 1100:gap-y-[120px] w-full">
         {/* top */}

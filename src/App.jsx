@@ -3,17 +3,20 @@
 // import Profile from './pages/Profile';
 // import Buttons from './utilities/Buttons'
 import Navbar from "./components/Navbar";
+import BuyingList from "./pages/BuyingList";
+import FavMeals from "./pages/FavMeals";
 import RandomMeal from "./pages/RandomMeal";
 // import HomeCards1280 from "./utilities/HomeCards1280";
 // import SignIn from "./pages/SignIn";
 // import SignUp from "./pages/SignUp";
 // import ForgotPassword from "./pages/ForgotPassword"
-import Mealdetails from "./components/Mealdetails";
+// import Mealdetails from "./components/Mealdetails";
 
 function App() {
   return (
-    <div className={`relative w-full md:flex md:flex-row bg-bgPrimaryCol`}>
-      
+    <div
+      className={`relative w-full flex md:flex-row bg-bgPrimaryCol overflow-hidden`}
+    >
       {/* <Buttons /> */}
       <Navbar />
       {/* <SignIn /> */}
@@ -21,8 +24,10 @@ function App() {
       {/* <ForgotPassword /> */}
       {/* <Profile /> */}
       {/* <Cards /> */}
-      <RandomMeal />
-      <Mealdetails />
+      {/* <RandomMeal /> */}
+      {/* <Mealdetails /> */}
+      {/* <BuyingList /> */}
+      <FavMeals />
     </div>
   );
 }

@@ -12,10 +12,10 @@ import styles from "../styles";
 
 const HomeCards0T640 = () => {
     return (
-    <div className="w-full flex items-center flex-col sm:hidden 500:gap-y-[10px] 500:py-[20px]">
+    <div className="w-full max-w-[640px] flex items-center flex-col xl:hidden 500:gap-y-[10px] 500:py-[20px]">
       {/* meals */}
       <div
-        className="relative w-full 500:w-[90%] h-[200px] 500:rounded-[20px] bg-red-400 bg-center bg-cover overflow-hidden DayMealsShadow z-10"
+        className="relative w-full 500:w-[90%] h-[30%] 500:rounded-[20px] bg-red-400 bg-center bg-cover overflow-hidden DayMealsShadow z-10"
         style={{ backgroundImage: `url(${BreakfastImg})` }}
       >
         <div className="w-full h-full imgOverlayRandomMeal"></div>
@@ -41,7 +41,7 @@ const HomeCards0T640 = () => {
         </div>
       </div>
       <div
-        className="relative mt-[-10px] 500:mt-0 w-full 500:w-[90%] h-[200px] rounded-t-[20px] 500:rounded-[20px] bg-red-400 bg-center bg-cover overflow-hidden DayMealsShadow z-20"
+        className="relative mt-[-10px] 500:mt-0 w-full 500:w-[90%] h-[30%] rounded-t-[20px] 500:rounded-[20px] bg-red-400 bg-center bg-cover overflow-hidden DayMealsShadow z-20"
         style={{ backgroundImage: `url(${LunchImg})` }}
       >
         <div className="w-full h-full imgOverlayRandomMeal"></div>
@@ -67,7 +67,7 @@ const HomeCards0T640 = () => {
         </div>
       </div>
       <div
-        className="relative mt-[-10px] 500:mt-0 w-full 500:w-[90%] h-[200px] rounded-t-[20px] 500:rounded-[20px] bg-red-400 bg-center bg-cover overflow-hidden DayMealsShadow z-30"
+        className="relative mt-[-10px] 500:mt-0 w-full 500:w-[90%] h-[25%] md:h-[30%] rounded-t-[20px] 500:rounded-[20px] bg-red-400 bg-center bg-cover overflow-hidden DayMealsShadow z-30"
         style={{ backgroundImage: `url(${DinnerImg})` }}
       >
         <div className="w-full h-full imgOverlayRandomMeal"></div>
@@ -94,7 +94,7 @@ const HomeCards0T640 = () => {
       </div>
 
       {/* button */}
-      <div className="w-full h-[140px] 500:h-[60px] flex justify-center items-center gap-x-[24px] z-40">
+      <div className="w-full h-[14%] 500:h-[60px] flex justify-center items-center gap-x-[24px] z-40 600:mt-[12px]">
         <FaShoppingCart size="25px" className="text-lightTextCol" />
         <div
           className={`py-4 px-4 rounded-xl ${styles.flexCenter} buttonShadow btnPrimaryCol hover:bg-[#293D2B]`}
@@ -109,4 +109,5 @@ const HomeCards0T640 = () => {
   );
 }
 
+// 140px
 export default HomeCards0T640
