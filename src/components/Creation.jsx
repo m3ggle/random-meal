@@ -29,7 +29,7 @@ const Creation = () => {
   */
 
   return (
-    <div className="fixed top-0 left-0 w-full h-screen z-[100] bg-[#00000030]">
+    <div className="fixed top-0 left-0 w-full h-screen z-[100] bg-bgPrimaryCol">
       <div className="relative w-full h-screen overflow-auto flex justify-center ">
         {/* beginning of the actual modal */}
         <div
@@ -80,9 +80,100 @@ const Creation = () => {
                     />
                   </div>
                   <div
-                    className={`w-[50px] h-[46px] border-[1px] rounded-xl ${styles.flexCenter} text-lightTextCol`}
+                    className={`relative w-[50px] h-[46px] border-[1px] rounded-xl ${styles.flexCenter} text-lightTextCol z-[60]`}
                   >
                     <FaFilter size="14px" />
+                    {/* Filter */}
+                    <div className="flex hidden w-[256px] absolute bg-bgSecondaryDarkCol informationBoxShadow rounded-2xl top-[110%] right-0 flex-col p-4">
+                      <p
+                        className={`${styles.heading14} border-b-[1px] border-lightTextCol mb-2`}
+                      >
+                        Filter for:
+                      </p>
+                      {/* content */}
+                      <div className="flex flex-col">
+                        {/* one line */}
+                        <div className="flex items-center hover:bg-[#3E4150] hover:px-2 rounded-[4px] py-2 cursor-pointer">
+                          <p className={`${styles.paragraph14} w-[110px]`}>
+                            Breakfast
+                          </p>
+                          <div className="flex flex-grow gap-x-4 items-center justify-between">
+                            <div
+                              className={`px-4 py-1 w-fit tagBreakfast rounded-full ${styles.tag10}`}
+                            >
+                              Breakfast
+                            </div>
+                            <div className="flex">
+                              <FaCheck />
+                            </div>
+                          </div>
+                        </div>
+                        {/* one line */}
+                        <div className="flex items-center hover:bg-[#3E4150] rounded-[4px] py-2 cursor-pointer hover:px-2">
+                          <p className={`${styles.paragraph14} w-[110px]`}>
+                            Lunch
+                          </p>
+                          <div className="flex flex-grow gap-x-4 items-center justify-between">
+                            <div
+                              className={`px-4 py-1 w-fit tagLunch rounded-full ${styles.tag10}`}
+                            >
+                              Lunch
+                            </div>
+                            <div className="flex">
+                              <FaCheck />
+                            </div>
+                          </div>
+                        </div>
+                        {/* one line */}
+                        <div className="flex items-center hover:bg-[#3E4150] rounded-[4px] py-2 cursor-pointer hover:px-2">
+                          <p className={`${styles.paragraph14} w-[110px]`}>
+                            Dinner
+                          </p>
+                          <div className="flex flex-grow gap-x-4 items-center justify-between">
+                            <div
+                              className={`px-4 py-1 w-fit tagDinner rounded-full ${styles.tag10}`}
+                            >
+                              Dinner
+                            </div>
+                            <div className="flex">
+                              <FaCheck />
+                            </div>
+                          </div>
+                        </div>
+                        {/* one line */}
+                        <div className="flex items-center hover:bg-[#3E4150] rounded-[4px] py-2 cursor-pointer hover:px-2">
+                          <p className={`${styles.paragraph14} w-[110px]`}>
+                            Vegeterian
+                          </p>
+                          <div className="flex flex-grow gap-x-4 items-center justify-between">
+                            <div
+                              className={`px-4 py-1 w-fit tagBreakfast rounded-full ${styles.tag10}`}
+                            >
+                              Vegeterian
+                            </div>
+                            <div className="flex">
+                              <FaTimes />
+                            </div>
+                          </div>
+                        </div>
+                        {/* one line */}
+                        <div className="flex items-center hover:bg-[#3E4150] rounded-[4px] py-2 cursor-pointer hover:px-2">
+                          <p className={`${styles.paragraph14} w-[110px]`}>
+                            Vegan
+                          </p>
+                          <div className="flex flex-grow gap-x-4 items-center justify-between">
+                            <div
+                              className={`px-4 py-1 w-fit tagBreakfast rounded-full ${styles.tag10}`}
+                            >
+                              Vegan
+                            </div>
+                            <div className="flex">
+                              <FaTimes />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div
@@ -310,9 +401,12 @@ const Creation = () => {
             {/* check btn */}
             <div
               className={`fixed  top-[88%]
-              } left-[74%] 600:left-[84%] btnPrimaryCol buttonShadow hover:bg-[#293D2B] w-20 h-20 z-30 rounded-full ${styles.flexCenter}`}
+              } left-[74%] 600:left-[84%] btnPrimaryCol buttonShadow hover:bg-[#293D2B] w-14 h-14 600:w-20 600:h-20 z-30 rounded-full ${styles.flexCenter}`}
             >
-              <FaCheck size="25px" className="text-lightTextCol" />
+              <FaCheck
+                size={width > 600 ? "25px" : "20px"}
+                className="text-lightTextCol"
+              />
             </div>
           </div>
         </div>

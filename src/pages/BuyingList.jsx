@@ -12,7 +12,7 @@ import Button from "../utilities/Buttons";
 const BuyingList = () => {
   return (
     <div
-      className={`absolute top-0 w-screen overflow-hidden left-0 md:left-20 h-screen z-50 bg-[#00000030]`}
+      className={`absolute top-0 w-screen overflow-hidden left-0 md:left-20 h-screen z-[70] bg-[#00000030]`}
     >
       {/* top with the content */}
       <div className="relative w-full md:max-w-[534px] h-screen overflow-scroll bg-bgPrimaryCol pt-10 pb-28 md:pb-32 flex flex-col">

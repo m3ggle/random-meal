@@ -5,7 +5,7 @@ import styles from "../styles";
 
 const Mealdetails = () => {
   return (
-    <div className="fixed top-0 left-0 w-full h-screen z-[100] bg-[#00000030]">
+    <div className="fixed top-0 left-0 w-full h-screen z-[100] bg-bgPrimaryCol">
       <div className="relative w-full h-screen overflow-auto flex justify-center">
         {/* beginning of the actual modal */}
         <div

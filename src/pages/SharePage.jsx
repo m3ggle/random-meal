@@ -4,15 +4,14 @@ import {
   FaExclamationCircle,
   FaExclamationTriangle,
   FaFilter,
-  FaTimes,
-  FaPlus,
   FaSearch,
+  FaTimes,
 } from "react-icons/fa";
 import useWindowDimensions from "../hooks/useWindowDimensions";
 import styles from "../styles";
 import CardsSamples from "../utilities/cards/CardsSamples";
 
-const FavMeals = () => {
+const SharePage = () => {
   const [selected] = useState("3 Meals");
   const { width, height } = useWindowDimensions();
 
@@ -160,106 +159,17 @@ const FavMeals = () => {
         </div>
       </div>
 
-      {/* 1 vs 3 */}
-      <div className={`${styles.flexCenter} mb-4`}>
-        <div
-          className={`${styles.flexCenter} w-[120px] h-6 border-b-2 ${
-            selected !== "1 Meal" && "border-[#626476]"
-          } cursor-pointer`}
-        >
-          <p
-            className={`text-[16px] ${
-              selected === "1 Meal"
-                ? "text-lightTextCol font-semibold"
-                : "text-[#626476] font-normal"
-            }`}
-          >
-            1 Meal
-          </p>
-        </div>
-        <div
-          className={`${styles.flexCenter} w-[120px] h-6 border-b-2 ${
-            selected !== "3 Meals" && "border-[#626476]"
-          } cursor-pointer`}
-        >
-          <p
-            className={`text-[16px] ${
-              selected === "3 Meals"
-                ? "text-lightTextCol font-semibold"
-                : "text-[#626476] font-normal"
-            }`}
-          >
-            3 Meals
-          </p>
-        </div>
-      </div>
-      {/* meals (1 meal and 3 meals are actually not seperate, just without the logic behind it there is no other choice otherwise put it in one div) */}
-      {/* 1 meal */}
-      <div
-        className={`${
-          selected === "1 Meal" ? "flex" : "hidden"
-        } gap-2 flex-wrap w-full px-10 overflow-scroll 600:gap-6 justify-center max-w-[1350px]`}
-      >
-        {width < 600 ? (
-          <CardsSamples type="mobile" />
-        ) : (
-          <CardsSamples type="little" />
-        )}
-        {width < 600 ? (
-          <CardsSamples type="mobile" />
-        ) : (
-          <CardsSamples type="little" />
-        )}
-        {width < 600 ? (
-          <CardsSamples type="mobile" />
-        ) : (
-          <CardsSamples type="little" />
-        )}
-        {width < 600 ? (
-          <CardsSamples type="mobile" />
-        ) : (
-          <CardsSamples type="little" />
-        )}
-        {width < 600 ? (
-          <CardsSamples type="mobile" />
-        ) : (
-          <CardsSamples type="little" />
-        )}
-        {width < 600 ? (
-          <CardsSamples type="mobile" />
-        ) : (
-          <CardsSamples type="little" />
-        )}
-
-        {/* puffer */}
-        <div className="h-[20%] md:h-[5%] w-full"></div>
-      </div>
-
-      {/* 3 Meals */}
+      {/* meals */}
       <div
         className={`${
           selected === "3 Meals" ? "1400:grid flex" : "hidden"
         } gap-2 grid-cols-2 flex-wrap w-full px-6 500:px-10 overflow-scroll 300:gap-5 600:gap-6 justify-center max-w-[1350px]`}
-        // className={`${
-        //   selected === "3 Meals" ? "flex" : "hidden"
-        // } gap-2 flex-wrap w-full px-6 500:px-10 overflow-scroll 300:gap-5 600:gap-6 justify-center max-w-[1350px]`}
       >
         <CardsSamples type="three" />
         <CardsSamples type="three" />
         <CardsSamples type="three" />
         <CardsSamples type="three" />
-        <div
-          className={`absolute  ${
-            height > 600 && width > 767 ? "top-[88%]" : "top-[78%]"
-          } left-[74%] 600:left-[84%] btnPrimaryCol buttonShadow hover:bg-[#293D2B] w-14 h-14 600:w-20 600:h-20 z-30 rounded-full ${
-            styles.flexCenter
-          } z-[80]`}
-        >
-          <FaPlus
-            size={width > 600 ? "25px" : "20px"}
-            className="text-lightTextCol"
-          />
-        </div>
+
         {/* puffer */}
         <div className="h-[20%] md:h-[5%] w-full"></div>
       </div>
@@ -267,4 +177,4 @@ const FavMeals = () => {
   );
 };
 
-export default FavMeals;
+export default SharePage;

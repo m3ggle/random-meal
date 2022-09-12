@@ -6,7 +6,9 @@ import Creation from "./components/Creation";
 import Navbar from "./components/Navbar";
 import BuyingList from "./pages/BuyingList";
 import FavMeals from "./pages/FavMeals";
+import ProfileOthers from "./pages/ProfileOthers";
 import RandomMeal from "./pages/RandomMeal";
+import SharePage from "./pages/SharePage";
 // import HomeCards1280 from "./utilities/HomeCards1280";
 // import SignIn from "./pages/SignIn";
 // import SignUp from "./pages/SignUp";
@@ -27,9 +29,11 @@ function App() {
       {/* <Cards /> */}
       {/* <RandomMeal /> */}
       {/* <Mealdetails /> */}
-      {/* <BuyingList /> */}
-      <FavMeals />
+      <BuyingList />
+      {/* <FavMeals /> */}
       {/* <Creation /> */}
+      {/* <ProfileOthers /> */}
+      <SharePage />
     </div>
   );
 }
