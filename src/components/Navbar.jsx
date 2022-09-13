@@ -11,12 +11,29 @@ import {
 import InstagramIcon from "../assets/svg/instagramIcon.svg";
 import Logo from "../assets/svg/Logo.svg";
 import styles from "../styles";
+import { useLocation } from 'react-router-dom'
+import {Link} from "react-router-dom"
+import { useEffect } from "react";
 
 const Navbar = () => {
-  const [activeSite] = useState("home");
+  const location = useLocation();
+
+  const [activeSite, setActiveSite] = useState({
+    site: useLocation().pathname,
+    hidden:
+      location.pathname.includes("/signIn") ||
+      location.pathname.includes("/signUp") ||
+      location.pathname.includes("/forgotPassword"),
+  });
+  const { site, hidden } = activeSite
+  
+  // mainly for rerender otherwise the ui will not update if clicked on a navbar btn
+  useEffect(() => {
+    setActiveSite(prevState => ({...prevState, site: location.pathname}))
+  }, [location]);
 
   return (
-    <div className="w-0px md:w-[80px]">
+    <div className={`${hidden ? "hidden" : "flex"} w-0px md:w-[80px]`}>
       {/* desktop Navbar */}
       <div className="hidden md:flex w-[80px] md:fixed md:h-screen  bg-navCol py-[32px] flex-col justify-between z-[60]">
         {/* navbar top */}
@@ -29,122 +46,160 @@ const Navbar = () => {
           {/* Items */}
           <div className="flex flex-col align-center">
             {/* profile */}
-            <div
-              className={`w-[80px] h-[80px] ${styles.flexCenter} ${
-                activeSite === "profile" ? "bg-navCol" : "bg-bgPrimaryCol"
+            <Link
+              to={"/profile"}
+              className={`w-[80px] h-[80px] ${
+                styles.flexCenter
+              }  cursor-pointer ${
+                site === "/profile" ? "bg-navCol" : "bg-bgPrimaryCol"
               }`}
             >
               <div
                 className={`w-[80px] h-[80px] ${styles.flexCenter} ${
-                  activeSite === "profile"
+                  site === "/profile"
                     ? "bg-bgPrimaryCol rounded-l-[50px]"
                     : "bg-navCol"
                 } 
-              ${activeSite === "buyinglist" ? "rounded-br-[50px]" : ""} 
+              ${site === "/buyinglist" ? "rounded-br-[50px]" : ""} 
               `}
               >
-                <FaUserAlt size="25px" className="text-lightTextCol" />
+                <FaUserAlt
+                  size="25px"
+                  className="text-lightTextCol hover:text-[#3b593e]"
+                />
               </div>
-            </div>
+            </Link>
 
             {/* buyinglist */}
-            <div
-              className={`w-[80px] h-[80px] ${styles.flexCenter} 
+            <Link
+              to={"/buyinglist"}
+              className={`w-[80px] h-[80px] ${styles.flexCenter}  cursor-pointer
             ${
-              activeSite === "buyinglist" ? "bg-navCol" : "bg-bgPrimaryCol"
+              site === "/buyinglist" ? "bg-navCol" : "bg-bgPrimaryCol"
             }            
             `}
             >
               <div
                 className={`w-[80px] h-[80px] ${styles.flexCenter} 
               ${
-                activeSite === "buyinglist"
+                site === "/buyinglist"
                   ? "bg-bgPrimaryCol rounded-l-[50px]"
                   : "bg-navCol"
               }
-                ${activeSite === "profile" ? "rounded-tr-[50px]" : ""} 
-                ${activeSite === "home" ? "rounded-br-[50px]" : ""} 
+                ${site === "/profile" ? "rounded-tr-[50px]" : ""} 
+                ${site === "/home" ? "rounded-br-[50px]" : ""} 
               `}
               >
-                <FaShoppingCart size="25px" className="text-lightTextCol" />
+                <FaShoppingCart
+                  size="25px"
+                  className="text-lightTextCol hover:text-[#3b593e]"
+                />
               </div>
-            </div>
+            </Link>
 
             {/* home */}
-            <div
-              className={`w-[80px] h-[80px] ${styles.flexCenter} 
-            ${
-              activeSite === "home" ? "bg-navCol" : "bg-bgPrimaryCol"
-            }            
+            <Link
+              to={"/home"}
+              className={`w-[80px] h-[80px] ${styles.flexCenter}  cursor-pointer
+            ${site === "/home" ? "bg-navCol" : "bg-bgPrimaryCol"}            
             `}
             >
               <div
                 className={`w-[80px] h-[80px] ${styles.flexCenter} 
               ${
-                activeSite === "home"
+                site === "/home"
                   ? "bg-bgPrimaryCol rounded-l-[50px]"
                   : "bg-navCol"
               }
-                ${activeSite === "buyinglist" ? "rounded-tr-[50px]" : ""} 
-                ${activeSite === "favorites" ? "rounded-br-[50px]" : ""} 
+                ${site === "/buyinglist" ? "rounded-tr-[50px]" : ""} 
+                ${site === "/favorites" ? "rounded-br-[50px]" : ""} 
               `}
               >
-                <FaHome size="25px" className="text-lightTextCol" />
+                <FaHome
+                  size="25px"
+                  className="text-lightTextCol hover:text-[#3b593e]"
+                />
               </div>
-            </div>
+            </Link>
 
             {/* favorites */}
-            <div
-              className={`w-[80px] h-[80px] ${styles.flexCenter} 
+            <Link
+              to={"/favorites"}
+              className={`w-[80px] h-[80px] ${styles.flexCenter}  cursor-pointer
             ${
-              activeSite === "favorites" ? "bg-navCol" : "bg-bgPrimaryCol"
+              site === "/favorites" ? "bg-navCol" : "bg-bgPrimaryCol"
             }            
             `}
             >
               <div
                 className={`w-[80px] h-[80px] ${styles.flexCenter} 
               ${
-                activeSite === "favorites"
+                site === "/favorites"
                   ? "bg-bgPrimaryCol rounded-l-[50px]"
                   : "bg-navCol"
               }
-                ${activeSite === "home" ? "rounded-tr-[50px]" : ""} 
-                ${activeSite === "sharepage" ? "rounded-br-[50px]" : ""} 
+                ${site === "/home" ? "rounded-tr-[50px]" : ""} 
+                ${site === "/sharepage" ? "rounded-br-[50px]" : ""} 
               `}
               >
-                <FaStar size="25px" className="text-lightTextCol" />
+                <FaStar
+                  size="25px"
+                  className="text-lightTextCol hover:text-[#3b593e]"
+                />
               </div>
-            </div>
+            </Link>
 
             {/* sharepage */}
-            <div
-              className={`w-[80px] h-[80px] ${styles.flexCenter} 
+            <Link
+              to={"/sharepage"}
+              className={`w-[80px] h-[80px] ${styles.flexCenter}  cursor-pointer
             ${
-              activeSite === "sharepage" ? "bg-navCol" : "bg-bgPrimaryCol"
+              site === "/sharepage" ? "bg-navCol" : "bg-bgPrimaryCol"
             }            
             `}
             >
               <div
                 className={`w-[80px] h-[80px] ${styles.flexCenter} 
               ${
-                activeSite === "sharepage"
+                site === "/sharepage"
                   ? "bg-bgPrimaryCol rounded-l-[50px]"
                   : "bg-navCol"
               }
-                ${activeSite === "favorites" ? "rounded-tr-[50px]" : ""} 
+                ${site === "/favorites" ? "rounded-tr-[50px]" : ""} 
               `}
               >
-                <FaUsers size="25px" className="text-lightTextCol" />
+                <FaUsers
+                  size="25px"
+                  className="text-lightTextCol hover:text-[#3b593e]"
+                />
               </div>
-            </div>
+            </Link>
           </div>
         </div>
 
         {/* navbar bottom */}
         <div className="flex flex-col w-full gap-y-[35px] items-center">
-          <FaPinterestP size="25px" className="text-[#B00000]" />
-          <img src={InstagramIcon} alt="Instagram Icon" />
-          <FaTwitter size="25px" className="text-[#16A1F1]" />
+          <a
+            href="https://www.pinterest.de/megglebande/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FaPinterestP size="25px" className="text-[#B00000]" />
+          </a>
+          <a
+            href="https://www.instagram.com/m1ggle/?hl=de"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img src={InstagramIcon} alt="Instagram Icon" />
+          </a>
+          <a
+            href="https://twitter.com/Asmongold"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FaTwitter size="25px" className="text-[#16A1F1]" />
+          </a>
         </div>
       </div>
 
@@ -153,21 +208,61 @@ const Navbar = () => {
         className={`md:hidden absolute top-[86%] w-full h-[14%] max-h-[190px] flex justify-center z-[60] bg-bgPrimaryCol pt-3 rounded-t-[20px]`}
       >
         <div className="flex justify-between py-[10px] px-[20px] min-w-[320px] w-9/12 max-w-[450px] h-20 rounded-xl bg-bgSecondaryDarkCol">
-          <div className={`w-[60px] h-[60px] ${styles.flexCenter}`}>
-            <FaUsers size="25px" className="text-lightTextCol" />
-          </div>
-          <div className={`w-[60px] h-[60px] ${styles.flexCenter}`}>
-            <FaStar size="25px" className="text-lightTextCol" />
-          </div>
-          <div className={`w-[60px] h-[60px] ${styles.flexCenter}`}>
-            <FaHome size="25px" className="text-lightTextCol" />
-          </div>
-          <div className={`w-[60px] h-[60px] ${styles.flexCenter}`}>
-            <FaShoppingCart size="25px" className="text-lightTextCol" />
-          </div>
-          <div className={`w-[60px] h-[60px] ${styles.flexCenter}`}>
-            <FaUserAlt size="25px" className="text-lightTextCol" />
-          </div>
+          <Link
+            to={"/sharepage"}
+            className={`w-[60px] h-[60px] ${styles.flexCenter} ${
+              site === "/sharepage" ? "rounded-full bg-bgPrimaryCol" : ""
+            } cursor-pointer`}
+          >
+            <FaUsers
+              size="25px"
+              className="text-lightTextCol hover:text-[#3b593e]"
+            />
+          </Link>
+          <Link
+            to={"/favorites"}
+            className={`w-[60px] h-[60px] ${styles.flexCenter} ${
+              site === "/favorites" ? "rounded-full bg-bgPrimaryCol" : ""
+            } cursor-pointer`}
+          >
+            <FaStar
+              size="25px"
+              className="text-lightTextCol hover:text-[#3b593e]"
+            />
+          </Link>
+          <Link
+            to={"/home"}
+            className={`w-[60px] h-[60px] ${styles.flexCenter} ${
+              site === "/home" ? "rounded-full bg-bgPrimaryCol" : ""
+            } cursor-pointer`}
+          >
+            <FaHome
+              size="25px"
+              className="text-lightTextCol hover:text-[#3b593e]"
+            />
+          </Link>
+          <Link
+            to={"/buyinglist"}
+            className={`w-[60px] h-[60px] ${styles.flexCenter} ${
+              site === "/buyinglist" ? "rounded-full bg-bgPrimaryCol" : ""
+            } cursor-pointer`}
+          >
+            <FaShoppingCart
+              size="25px"
+              className="text-lightTextCol hover:text-[#3b593e]"
+            />
+          </Link>
+          <Link
+            to={"/profile"}
+            className={`w-[60px] h-[60px] ${styles.flexCenter} ${
+              site === "/profile" ? "rounded-full bg-bgPrimaryCol" : ""
+            } cursor-pointer`}
+          >
+            <FaUserAlt
+              size="25px"
+              className="text-lightTextCol hover:text-[#3b593e]"
+            />
+          </Link>
         </div>
       </div>
     </div>

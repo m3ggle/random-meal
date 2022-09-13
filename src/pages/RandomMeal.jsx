@@ -1,7 +1,7 @@
 import React from "react";
-import Card0T640 from "../utilities/HomeCards0T640"
+import Card0T640 from "../utilities/HomeCards0T640";
 // import Card640T1280 from "../utilities/HomeCards640T1280"
-import Card1280 from "../utilities/HomeCards1280"
+import Card1280 from "../utilities/HomeCards1280";
 
 const RandomMeal = () => {
   return (
@@ -15,7 +15,6 @@ const RandomMeal = () => {
 
       {/* 1280px - ...px */}
       <Card1280 />
-
     </div>
   );
 };

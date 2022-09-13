@@ -13,7 +13,23 @@ import CardsSamples from "../utilities/cards/CardsSamples";
 
 const SharePage = () => {
   const [selected] = useState("3 Meals");
+  const [filterState, setFilterState] = useState(false);
+  const [selectedFilter, setSelectedFilter] = useState({
+    Breakfast: false,
+    Lunch: false,
+    Dinner: false,
+    Vegetarian: false,
+    Vegan: false,
+  });
   const { width, height } = useWindowDimensions();
+
+  // filter
+  const handleSelectedFilterChange = (e) => {
+    setSelectedFilter({
+      ...selectedFilter,
+      [e]: !selectedFilter[e],
+    });
+  };
 
   return (
     <div className="w-full h-screen flex flex-col gap-y-3">
@@ -37,12 +53,17 @@ const SharePage = () => {
                 placeholder="Search For Meals..."
               />
             </div>
+            {/* Filter */}
             <div
-              className={`relative w-[50px] h-[46px] border-[1px] rounded-xl ${styles.flexCenter} text-lightTextCol z-[60]`}
+              className={`relative w-[50px] h-[46px] border-[1px] rounded-xl ${styles.flexCenter} text-lightTextCol z-[60] cursor-pointer`}
+              onClick={() => setFilterState((prevState) => !prevState)}
             >
               <FaFilter size="14px" />
-              {/* Filter */}
-              <div className="flex hidden w-[256px] absolute bg-bgSecondaryDarkCol informationBoxShadow rounded-2xl top-[110%] right-0 flex-col p-4">
+              <div
+                className={`${
+                  filterState ? "flex" : "hidden"
+                } w-[256px] absolute bg-bgSecondaryDarkCol informationBoxShadow rounded-2xl top-[110%] right-0 flex-col p-4`}
+              >
                 <p
                   className={`${styles.heading14} border-b-[1px] border-lightTextCol mb-2`}
                 >
@@ -50,80 +71,31 @@ const SharePage = () => {
                 </p>
                 {/* content */}
                 <div className="flex flex-col">
-                  {/* one line */}
-                  <div className="flex items-center hover:bg-[#3E4150] hover:px-2 rounded-[4px] py-2 cursor-pointer">
-                    <p className={`${styles.paragraph14} w-[110px]`}>
-                      Breakfast
-                    </p>
-                    <div className="flex flex-grow gap-x-4 items-center justify-between">
-                      <div
-                        className={`px-4 py-1 w-fit tagBreakfast rounded-full ${styles.tag10}`}
-                      >
-                        Breakfast
-                      </div>
-                      <div className="flex">
-                        <FaCheck />
-                      </div>
-                    </div>
-                  </div>
-                  {/* one line */}
-                  <div className="flex items-center hover:bg-[#3E4150] rounded-[4px] py-2 cursor-pointer hover:px-2">
-                    <p className={`${styles.paragraph14} w-[110px]`}>Lunch</p>
-                    <div className="flex flex-grow gap-x-4 items-center justify-between">
-                      <div
-                        className={`px-4 py-1 w-fit tagLunch rounded-full ${styles.tag10}`}
-                      >
-                        Lunch
-                      </div>
-                      <div className="flex">
-                        <FaCheck />
+                  {Object.keys(selectedFilter).map((key, index) => (
+                    <div
+                      key={index}
+                      onClick={() => handleSelectedFilterChange(key)}
+                      className="flex items-center hover:bg-[#3E4150] rounded-[4px] py-2 cursor-pointer hover:px-2"
+                    >
+                      <p className={`${styles.paragraph14} w-[110px]`}>{key}</p>
+                      <div className="flex flex-grow gap-x-4 items-center justify-between">
+                        <div
+                          className={`px-4 py-1 w-fit ${
+                            key === "Dinner"
+                              ? "tagDinner"
+                              : key === "Lunch"
+                              ? "tagLunch"
+                              : "tagBreakfast"
+                          } rounded-full ${styles.tag10}`}
+                        >
+                          {key}
+                        </div>
+                        <div className="flex">
+                          {selectedFilter[key] ? <FaCheck /> : <FaTimes />}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  {/* one line */}
-                  <div className="flex items-center hover:bg-[#3E4150] rounded-[4px] py-2 cursor-pointer hover:px-2">
-                    <p className={`${styles.paragraph14} w-[110px]`}>Dinner</p>
-                    <div className="flex flex-grow gap-x-4 items-center justify-between">
-                      <div
-                        className={`px-4 py-1 w-fit tagDinner rounded-full ${styles.tag10}`}
-                      >
-                        Dinner
-                      </div>
-                      <div className="flex">
-                        <FaCheck />
-                      </div>
-                    </div>
-                  </div>
-                  {/* one line */}
-                  <div className="flex items-center hover:bg-[#3E4150] rounded-[4px] py-2 cursor-pointer hover:px-2">
-                    <p className={`${styles.paragraph14} w-[110px]`}>
-                      Vegeterian
-                    </p>
-                    <div className="flex flex-grow gap-x-4 items-center justify-between">
-                      <div
-                        className={`px-4 py-1 w-fit tagBreakfast rounded-full ${styles.tag10}`}
-                      >
-                        Vegeterian
-                      </div>
-                      <div className="flex">
-                        <FaTimes />
-                      </div>
-                    </div>
-                  </div>
-                  {/* one line */}
-                  <div className="flex items-center hover:bg-[#3E4150] rounded-[4px] py-2 cursor-pointer hover:px-2">
-                    <p className={`${styles.paragraph14} w-[110px]`}>Vegan</p>
-                    <div className="flex flex-grow gap-x-4 items-center justify-between">
-                      <div
-                        className={`px-4 py-1 w-fit tagBreakfast rounded-full ${styles.tag10}`}
-                      >
-                        Vegan
-                      </div>
-                      <div className="flex">
-                        <FaTimes />
-                      </div>
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -140,21 +112,24 @@ const SharePage = () => {
             <p className={`text-lightTextCol ${styles.paragraph16} mr-1`}>
               Filter:
             </p>
-            <div
-              className={`px-4 py-1 w-fit tagLunch rounded-full ${styles.tag10}`}
-            >
-              Lunch
-            </div>
-            <div
-              className={`px-4 py-1 w-fit tagDinner rounded-full ${styles.tag10}`}
-            >
-              Dinner
-            </div>
-            <div
-              className={`px-4 py-1 w-fit tagBreakfast rounded-full ${styles.tag10}`}
-            >
-              Vegetarian
-            </div>
+            {Object.keys(selectedFilter).map((key, index) => {
+              if (selectedFilter[key]) {
+                return (
+                  <div
+                    key={index}
+                    className={`px-4 py-1 w-fit  ${
+                      key === "Dinner"
+                        ? "tagDinner"
+                        : key === "Lunch"
+                        ? "tagLunch"
+                        : "tagBreakfast"
+                    }  rounded-full ${styles.tag10}`}
+                  >
+                    {key}
+                  </div>
+                );
+              }
+            })}
           </div>
         </div>
       </div>

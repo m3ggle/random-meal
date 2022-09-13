@@ -32,7 +32,9 @@ module.exports = {
         iconTransCol: "#F2F3F490",
 
         inputCol: "#E0E4E8",
+        inputPlaceholderCol: "#E0E4E860",
 
+        default: "#F2F3F4",
         success: "#5CAB23",
         warning: "#FFAE33",
         failure: "#DA1301",

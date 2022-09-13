@@ -1,9 +1,14 @@
 import React from "react";
 import { FaShare, FaShoppingCart, FaTimes } from "react-icons/fa";
+import { useNavigate, useParams } from "react-router-dom";
 import DinnerImg from "../assets/images/dinnerExample.jpg";
 import styles from "../styles";
 
 const Mealdetails = () => {
+  const params = useParams();
+  const navigate = useNavigate();
+  console.log(navigate);
+
   return (
     <div className="fixed top-0 left-0 w-full h-screen z-[100] bg-bgPrimaryCol">
       <div className="relative w-full h-screen overflow-auto flex justify-center">
@@ -18,7 +23,10 @@ const Mealdetails = () => {
           >
             <div className={`w-full h-full imgOverlayMealdetails`}></div>
             {/* close icon */}
-            <div className="absolute top-12 right-12 w-fit h-fit">
+            <div
+              className="absolute top-12 right-12 w-fit h-fit"
+              onClick={() => navigate(-1)}
+            >
               <FaTimes
                 size="30px"
                 className="text-lightTextCol cursor-pointer"
@@ -34,7 +42,7 @@ const Mealdetails = () => {
               <p
                 className={`${styles.heading32} text-lightTextCol flex flex-row gap-x-2 items-center w-fit cursor-pointer`}
               >
-                Sed sodales convallis ut
+                Sed sodales convallis ut {params.id}
                 <FaShare size="25px" />
               </p>
               {/* servings */}

@@ -1,10 +1,10 @@
 import React from "react";
 import {
   FaAt,
+  FaGoogle,
   FaCircleNotch,
   FaExclamationCircle,
   FaExclamationTriangle,
-  FaGoogle,
   // FaCheck,
   // FaTimes,
   FaLock,

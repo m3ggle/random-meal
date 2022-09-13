@@ -13,6 +13,7 @@ import {
 import useWindowDimensions from "../hooks/useWindowDimensions";
 import styles from "../styles";
 import CardsSamples from "../utilities/cards/CardsSamples";
+import {useNavigate} from "react-router-dom"
 
 const Creation = () => {
   const { width, height } = useWindowDimensions();
@@ -28,6 +29,8 @@ const Creation = () => {
     }
   */
 
+  const navigate = useNavigate()
+  
   return (
     <div className="fixed top-0 left-0 w-full h-screen z-[100] bg-bgPrimaryCol">
       <div className="relative w-full h-screen overflow-auto flex justify-center ">
@@ -42,7 +45,10 @@ const Creation = () => {
               <FaChevronLeft size="30px" className="text-lightTextCol" />
             </div>
             {/* go leave */}
-            <div className={`w-11 h-11 rounded-full ${styles.flexCenter}`}>
+            <div
+              onClick={() => navigate(-1)}
+              className={`w-11 h-11 rounded-full ${styles.flexCenter} cursor-pointer`}
+            >
               <FaTimes size="30px" className="text-lightTextCol" />
             </div>
           </div>

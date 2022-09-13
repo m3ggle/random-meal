@@ -30,7 +30,7 @@ const CardThreeMobile = ({ lock }) => {
             src={ProfilePic}
             alt="Profile"
             className={`${
-              width > 700 ? "w-[44px] h-[44px]" : "w-[24px] h-[24px]"
+              width > 700 ? "w-[44px] h-[44px] cursor-pointer" : "w-[24px] h-[24px] cursor-pointer"
             }`}
           />
         </div>
@@ -39,14 +39,14 @@ const CardThreeMobile = ({ lock }) => {
           <p
             className={
               width > 700
-                ? `text-[16px] font-semibold`
-                : `text-[14px] font-semibold`
+                ? `text-[16px] font-semibold cursor-pointer`
+                : `text-[14px] font-semibold cursor-pointer`
             }
           >
             134
           </p>
-          <FaHeart size={width > 700 ? "16px" : "14px"} />
-          <FaShoppingCart size={width > 700 ? "16px" : "14px"} />
+          <FaHeart size={width > 700 ? "16px" : "14px"} className="cursor-pointer"/>
+          <FaShoppingCart size={width > 700 ? "16px" : "14px"} className="cursor-pointer"/>
         </div>
       </div>
       {/* info */}
