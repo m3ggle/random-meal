@@ -22,7 +22,7 @@ const FavMeals = () => {
     Vegetarian: false,
     Vegan: false,
   });
-  const [selectedCount, setSelectedCount] = useState("3 Meals");
+  const [selectedCount, setSelectedCount] = useState("1 Meal");
   const { width, height } = useWindowDimensions();
 
   const navigate = useNavigate();

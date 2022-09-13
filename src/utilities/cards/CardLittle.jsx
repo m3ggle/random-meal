@@ -1,15 +1,13 @@
 import React from "react";
 import { FaHeart, FaLock, FaShoppingCart } from "react-icons/fa";
-import BreakfastImg from "../../assets/images/breakfastExample.jpg";
-import DinnerImg from "../../assets/images/dinnerExample.jpg";
+import { Link } from "react-router-dom";
 import LunchImg from "../../assets/images/lunchExample.jpg";
-import ProfilePic from "../../assets/images/ProfilePic.webp";
 import styles from "../../styles";
-import CardLarge from "./CardLarge";
 
-const CardLittle = ({lock}) => {
+const CardLittle = ({ lock }) => {
   return (
-    <div
+    <Link
+      to={"/mealdetails/123"}
       className="w-[193px] h-[264px] bg-cover bg-center flex justify-center rounded-xl relative cardShadow"
       style={{ backgroundImage: `url(${LunchImg})` }}
     >
@@ -40,7 +38,7 @@ const CardLittle = ({lock}) => {
           />
         )}
       </div>
-    </div>
+    </Link>
   );
 };
 

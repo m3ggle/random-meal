@@ -1,16 +1,12 @@
 import React from "react";
 import { FaHeart, FaLock, FaShoppingCart } from "react-icons/fa";
 import DinnerImg from "../../assets/images/dinnerExample.jpg";
-import LunchImg from "../../assets/images/lunchExample.jpg";
-import ProfilePic from "../../assets/images/ProfilePic.webp";
-import styles from "../../styles";
-import CardLarge from "./CardLarge";
-import CardLittle from "./CardLittle";
-
+import {Link} from "react-router-dom"
 
 const CardMobile = () => {
   return (
-    <div
+    <Link
+      to={`/mealdetails/123`}
       className="w-[122px] h-[167px] bg-cover bg-center flex justify-center rounded-xl relative cardShadow"
       style={{ backgroundImage: `url(${DinnerImg})` }}
     >
@@ -36,7 +32,7 @@ const CardMobile = () => {
           className="text-iconTransCol drop-shadow-cardIcon"
         />
       </div>
-    </div>
+    </Link>
   );
 };
 

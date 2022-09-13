@@ -27,6 +27,7 @@ function App() {
           <Route path="/favorites" element={<FavMeals />}></Route>
           <Route path="/forgotPassword" element={<ForgotPassword />} />
           <Route path="/home" element={<RandomMeal />} />
+          <Route path="/" element={<RandomMeal />} />
           <Route path="/sharepage" element={<SharePage />} />
           <Route path="/signIn" element={<SignIn />} />
           <Route path="/signUp" element={<SignUp />} />

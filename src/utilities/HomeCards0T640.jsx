@@ -5,32 +5,11 @@ import Card0T640 from "./cards/Card0T640";
 
 /* 0-640px */
 
-const HomeCards0T640 = () => {
-  const [example] = useState([
-    {
-      id: 12,
-      title: "Morbi ac diam pretium",
-      imageUrl:
-        "https://images.unsplash.com/photo-1594834749740-74b3f6764be4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=782&q=80",
-    },
-    {
-      id: 123,
-      title: "Egestas nec commodo",
-      imageUrl:
-        "https://images.unsplash.com/photo-1606756790138-261d2b21cd75?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1065&q=80",
-    },
-    {
-      id: 1234,
-      title: "Mattis imperdiet blandit aenean ",
-      imageUrl:
-        "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
-    },
-  ]);
-
+const HomeCards0T640 = ({exampleData}) => {
   return (
     <div className="w-full max-w-[640px] flex items-center flex-col xl:hidden 500:gap-y-[10px] 500:py-[20px]">
       {/* meals */}
-      {example.map((mealCard) => (
+      {exampleData.map((mealCard) => (
         <Card0T640
           key={mealCard.id}
           id={mealCard.id}

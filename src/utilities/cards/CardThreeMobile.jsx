@@ -1,5 +1,6 @@
 import React from "react";
 import { FaHeart, FaShoppingCart } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import BreakfastImg from "../../assets/images/breakfastExample.jpg";
 import DinnerImg from "../../assets/images/dinnerExample.jpg";
 import LunchImg from "../../assets/images/lunchExample.jpg";
@@ -73,7 +74,9 @@ const CardThreeMobile = ({ lock }) => {
       </div>
 
       {/* under 600px */}
-      <div className="flex 600:hidden flex-col gap-y-2  w-full">
+      <Link
+        to={"/mealdetails/123"}
+        className="flex 600:hidden flex-col gap-y-2  w-full">
         <div
           className="relative w-full h-[100px] rounded-xl bg-red-400 bg-center bg-cover overflow-hidden DayMealsShadow z-10"
           style={{ backgroundImage: `url(${BreakfastImg})` }}
@@ -140,7 +143,7 @@ const CardThreeMobile = ({ lock }) => {
             />
           </div>
         </div>
-      </div>
+      </Link>
     </div>
   );
 };
