@@ -14,6 +14,7 @@ import styles from "../styles";
 import { useLocation } from 'react-router-dom'
 import {Link} from "react-router-dom"
 import { useEffect } from "react";
+import ODonutLogo from "../assets/images/ODonut.png";
 
 const Navbar = () => {
   const location = useLocation();
@@ -40,7 +41,7 @@ const Navbar = () => {
         <div className="w-full h-fit flex flex-col items-center gap-y-[24px]">
           {/* Logo */}
           <div className={`w-[80px] h-[80px] ${styles.flexCenter}`}>
-            <img src={Logo} alt="Logo" className="w-[54px] h-[54px]" />
+            <img src={ODonutLogo} alt="Logo" className="w-[54px] h-[54px]" />
           </div>
 
           {/* Items */}

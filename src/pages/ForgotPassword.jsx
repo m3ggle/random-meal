@@ -1,21 +1,26 @@
-import React from "react";
-import {
-  FaAt,
-  FaCircleNotch,
-  FaExclamationCircle,
-  FaExclamationTriangle,
-  FaGoogle,
-  // FaCheck,
-  // FaTimes,
-  FaLock,
-} from "react-icons/fa";
+import React, { useState } from "react";
 import BgImage from "../assets/images/InImage.webp";
+import Input from "../components/Input";
+import SignButtons from "../components/SignButtons";
 import styles from "../styles";
 
 const ForgotPassword = () => {
-  // FaCircleNotch default
-  // FaCheck if input is correct
-  // FaTimes if input is incorrect
+  const [formData, setFormData] = useState({
+    email: {
+      id: "email",
+      displayName: "E-Mail Address",
+      placeholder: "marry.jane@gmail.com",
+      type: "text",
+      inputValue: "",
+      active: false,
+      state: "default",
+      errorMessage: "",
+      icon: "fa-solid fa-at",
+    },
+    userInformaiton: false,
+  });
+  const { email } = formData;
+  const handleCallBack = (cb) => setFormData(cb);
 
   return (
     <div
@@ -39,70 +44,17 @@ const ForgotPassword = () => {
 
         {/* inputs and stuff */}
         <div className="w-full flex flex-col gap-[10px] p-[10px]">
-          {/* inputs */}
-          <div className="flex flex-col py-[10px] gap-y-[10px]">
-            {/* Email Input */}
-            <div className="w-full flex flex-col gap-y-[8px] ">
-              {/* Label */}
-              <label className={`text-inputCol ${styles.paragraph14} hidden`}>
-                Search
-              </label>
-              <div className="text-inputCol w-full border-solid border-[1px] flex items-center rounded-xl px-[10px] gap-[8px] py-[12px]">
-                {/* icon */}
-                <div className={`w-[20px] h-[20px]  ${styles.flexCenter}`}>
-                  <FaAt className="text-inputCol" size="15px" />
-                </div>
-                {/* text */}
-                <input
-                  type="text"
-                  className={`bg-transparent w-full h-[20px] focus:outline-none text-lightTextCol ${styles.paragraph14} placeholder:text-inputCol`}
-                  placeholder="Email-Address"
-                />
-                {/* icon */}
-                <div className={`w-[20px] h-[20px]  ${styles.flexCenter}`}>
-                  <FaCircleNotch className="text-inputCol" size="15px" />
-                </div>
-              </div>
-              <div
-                className={`text-inputCol ${styles.paragraph14} flex items-center gap-x-[8px] hidden`}
-              >
-                <FaExclamationTriangle className="pb-[2px] text-failure hidden" />
-                <FaExclamationCircle className="pb-[2px] text-warning hidden" />
-                Please Enter The Correct Password
-              </div>
-            </div>
-          </div>
-
-          {/* buttons */}
-          <div className="flex flex-col py-[10px] gap-y-[10px]">
-            {/* Login */}
-            <div
-              className={`${styles.flexCenter} w-full py-[10px] rounded-xl text-lightTextCol font-semibold text-[14px] btnPrimaryCol hover:bg-[#293D2B]`}
-            >
-              Send E-Mail
-            </div>
-            {/* Google */}
-            <div
-              className={`${styles.flexCenter} w-full py-[10px] rounded-xl text-lightTextCol font-semibold text-[14px] border-solid border-[1px] gap-x-1`}
-            >
-              <div className={`${styles.flexCenter} w-5 h-5 pb-[2px]`}>
-                <FaGoogle size="15px" />
-              </div>
-              Sign In with Google
-            </div>
-          </div>
-
-          {/* Instead */}
-          <div className="flex gap-x-[4px]">
-            <p className={`${styles.paragraph12} text-lightTextCol`}>
-              Don't Have An Account?
-            </p>
-            <p
-              className={`${styles.paragraph12} underline underline-offset-2 text-lightTextCol cursor-pointer`}
-            >
-              Sign Up Instead
-            </p>
-          </div>
+          <Input
+            callbackFct={handleCallBack}
+            formData={formData}
+            stateArray={[email.state]}
+            specificInputObject={email}
+            label={true}
+          />
+          <SignButtons
+            formData={formData}
+            stateArray={[formData.email.state]}
+          />
         </div>
       </div>
     </div>

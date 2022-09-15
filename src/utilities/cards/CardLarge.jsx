@@ -1,9 +1,6 @@
 import React from "react";
 import { FaHeart, FaLock, FaShoppingCart } from "react-icons/fa";
 import BreakfastImg from "../../assets/images/breakfastExample.jpg";
-import DinnerImg from "../../assets/images/dinnerExample.jpg";
-import LunchImg from "../../assets/images/lunchExample.jpg";
-import ProfilePic from "../../assets/images/ProfilePic.webp";
 import styles from "../../styles";
 
 const CardLarge = () => {

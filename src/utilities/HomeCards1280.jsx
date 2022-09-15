@@ -1,17 +1,11 @@
 import React from "react";
-import { FaHeart, FaLock, FaShoppingCart } from "react-icons/fa";
-import BreakfastImg from "../assets/images/breakfastExample.jpg";
-import DinnerImg from "../assets/images/dinnerExample.jpg";
-import LunchImg from "../assets/images/lunchExample.jpg";
+import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import styles from "../styles";
 import Card1280 from "./cards/Card1280";
-// import RealBreakfastImg from "../assets/images/breakfast2.jpg";
-// import RealLunchImg from "../assets/images/lunch2.jpg";
-// import RealDinnerImg from "../assets/images/dinner2.jpg";
 
 /* 1280px-...px */
 
-const HomeCards1280 = ({exampleData}) => {
+const HomeCards1280 = ({ exampleData }) => {
   return (
     <div
       className={`hidden xl:flex w-full h-screen items-center justify-center`}

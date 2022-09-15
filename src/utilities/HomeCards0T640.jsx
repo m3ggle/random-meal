@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import styles from "../styles";
 import Card0T640 from "./cards/Card0T640";
 
 /* 0-640px */
 
-const HomeCards0T640 = ({exampleData}) => {
+const HomeCards0T640 = ({ exampleData }) => {
   return (
     <div className="w-full max-w-[640px] flex items-center flex-col xl:hidden 500:gap-y-[10px] 500:py-[20px]">
       {/* meals */}

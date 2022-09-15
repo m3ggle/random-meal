@@ -1,3 +1,4 @@
+import { getAuth } from "firebase/auth";
 import React, { useState } from "react";
 import {
   FaAt,
@@ -11,10 +12,13 @@ import {
   FaTwitter,
   FaUserAlt,
 } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import ProfilePic from "../assets/images/ProfilePic.webp";
 import styles from "../styles";
 
 const Profile = () => {
+      const auth = getAuth();
+      const navigate = useNavigate();
 
   // Todo: Save Button is only available if all the inputs are change and in a state of default 
       //  ? how about, default is going to be "def" and the change defaults going to be "defaultChange" => check: fullName.state.includes("default") && ...
@@ -148,6 +152,12 @@ const Profile = () => {
       bioSocial: checkInputCorrectness("bioSocial", ""),
     }));
   };
+
+  const handleLogOut = () => {
+        auth.signOut();
+    navigate("/signIn");
+    
+  }
 
   return (
     <div className="w-full h-screen xl:h-screen bg-bgPrimaryCol flex flex-col overflow-auto pt-8 md:pt-0">
@@ -620,6 +630,7 @@ const Profile = () => {
           <div className="w-full flex flex-col">
             <div className="w-full flex flex-col">
               <button
+                onClick={handleLogOut}
                 type="button"
                 className={`w-full h-[40px] text-lightTextCol text-[14px] font-semibold btnPrimaryCol buttonShadow rounded-xl`}
               >

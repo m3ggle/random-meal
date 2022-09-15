@@ -7,7 +7,6 @@ import {
   FaSearch,
   FaTimes,
 } from "react-icons/fa";
-import useWindowDimensions from "../hooks/useWindowDimensions";
 import styles from "../styles";
 import CardsSamples from "../utilities/cards/CardsSamples";
 
@@ -21,8 +20,6 @@ const SharePage = () => {
     Vegetarian: false,
     Vegan: false,
   });
-  const { width, height } = useWindowDimensions();
-
   // filter
   const handleSelectedFilterChange = (e) => {
     setSelectedFilter({
