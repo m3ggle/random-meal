@@ -48,6 +48,7 @@ const ForgotPassword = () => {
             callbackFct={handleCallBack}
             formData={formData}
             stateArray={[email.state]}
+            condition={"all"}
             specificInputObject={email}
             label={true}
           />

@@ -63,6 +63,7 @@ const SignIn = () => {
               callbackFct={handleCallBack}
               formData={formData}
               stateArray={[email.state, password.state]}
+              condition={"all"}
               specificInputObject={email}
               label={true}
             />
@@ -70,6 +71,7 @@ const SignIn = () => {
               callbackFct={handleCallBack}
               formData={formData}
               stateArray={[email.state, password.state]}
+              condition={"all"}
               specificInputObject={password}
               label={true}
             />

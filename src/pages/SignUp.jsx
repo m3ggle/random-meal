@@ -73,37 +73,25 @@ const SignUp = () => {
             <Input
               callbackFct={handleCallBack}
               formData={formData}
-              stateArray={[
-                formData.username.state,
-                formData.email.state,
-                formData.password.state,
-              ]}
+              stateArray={[username.state, email.state, password.state]}
               condition={"all"}
-              specificInputObject={formData.username}
+              specificInputObject={username}
               label={true}
             />
             <Input
               callbackFct={handleCallBack}
               formData={formData}
-              stateArray={[
-                formData.username.state,
-                formData.email.state,
-                formData.password.state,
-              ]}
+              stateArray={[username.state, email.state, password.state]}
               condition={"all"}
-              specificInputObject={formData.email}
+              specificInputObject={email}
               label={true}
             />
             <Input
               callbackFct={handleCallBack}
               formData={formData}
-              stateArray={[
-                formData.username.state,
-                formData.email.state,
-                formData.password.state,
-              ]}
+              stateArray={[username.state, email.state, password.state]}
               condition={"all"}
-              specificInputObject={formData.password}
+              specificInputObject={password}
               label={true}
             />
             {/* Forget Password Text */}

@@ -7,20 +7,21 @@ import {
 import useHandleInput from "../hooks/useHandleInput";
 import styles from "../styles";
 
-const Input = ({...take}) => {
+const Input = ({ ...take }) => {
   const {
-  callbackFct,
-  formData,
-  specificInputObject,
-  label,
+    callbackFct,
+    formData,
+    specificInputObject,
+    label,
     stateArray,
-  condition
-} = take 
+    condition,
+  } = take;
 
   const { handleInputFocus, handleInputChange, handleInputBlur } =
     useHandleInput();
 
   const handleFocus = (e) => {
+    console.log("hallo")
     callbackFct(handleInputFocus({ e, formData }));
   };
   const handelChange = (e) => {

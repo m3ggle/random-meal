@@ -1,6 +1,8 @@
 export default function useValidation() {
   const distributor = ({ id, condition, values }) => {
     switch (id) {
+      case "fullName": 
+        return validateFullName(values)
       case "username":
         return validateUsername(values);
       case "email":
@@ -18,6 +20,13 @@ export default function useValidation() {
       default:
     }
   };
+
+  const validateFullName = (fullName) => {
+    return {
+      result: fullName.length >= 6,
+      errorMsg: "Please Enter Your Full Name With At Least 6 Characters"
+    }
+  }
 
   const validateUsername = (username) => {
     return {
@@ -53,15 +62,24 @@ export default function useValidation() {
   };
 
   const validatePinterest = (link) => {
-    return link.includes("pinterest");
+    return {
+      result: link.includes("pinterest"),
+      errorMsg: "Word Pinterest Has To Be Included",
+    };
   };
 
   const validateTwitter = (link) => {
-    return link.includes("twitter");
+    return {
+      result: link.includes("twitter"),
+      errorMsg: "Word Twitter Has To Be Included"
+    }
   };
 
   const validateInstagram = (link) => {
-    return link.includes("instagram");
+    return {
+      result: link.includes("instagram"),
+      errorMsg: "Word Instagram Has To Be Included"
+    }
   };
 
   return {
@@ -75,3 +93,8 @@ export default function useValidation() {
     distributor,
   };
 }
+
+/*
+Full Name
+  Err: Please Enter Your Full Name With At Least 6 Characters
+*/
