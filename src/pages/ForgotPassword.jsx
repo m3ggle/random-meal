@@ -14,10 +14,12 @@ const ForgotPassword = () => {
       inputValue: "",
       active: false,
       state: "default",
+      validation: "email",
+      overallValidation: "userInformation",
       errorMessage: "",
       icon: "fa-solid fa-at",
     },
-    userInformaiton: false,
+    userInformation: false,
   });
   const { email } = formData;
   const handleCallBack = (cb) => setFormData(cb);
@@ -49,6 +51,7 @@ const ForgotPassword = () => {
             formData={formData}
             stateArray={[email.state]}
             condition={"all"}
+            validation={email.validation}
             specificInputObject={email}
             label={true}
           />

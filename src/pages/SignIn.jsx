@@ -15,6 +15,8 @@ const SignIn = () => {
       inputValue: "",
       active: false,
       state: "default",
+      validation: "email",
+      overallValidation: "userInformation",
       errorMessage: "",
       icon: "fa-solid fa-at",
     },
@@ -26,10 +28,12 @@ const SignIn = () => {
       inputValue: "",
       active: false,
       state: "default",
+      validation: "password",
+      overallValidation: "userInformation",
       errorMessage: "",
       icon: "fa-solid fa-lock",
     },
-    userInformaiton: false,
+    userInformation: false,
   });
   const { email, password } = formData;
 
@@ -64,6 +68,7 @@ const SignIn = () => {
               formData={formData}
               stateArray={[email.state, password.state]}
               condition={"all"}
+              validation={email.validation}
               specificInputObject={email}
               label={true}
             />
@@ -72,6 +77,7 @@ const SignIn = () => {
               formData={formData}
               stateArray={[email.state, password.state]}
               condition={"all"}
+              validation={password.validation}
               specificInputObject={password}
               label={true}
             />

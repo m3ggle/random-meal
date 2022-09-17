@@ -9,8 +9,13 @@ import {
 import LunchImg from "../assets/images/lunchExample.jpg";
 import styles from "../styles";
 import Button from "../utilities/Buttons";
+import SpoonacularContext from "../context/SpoonacularContext";
+import { useContext } from "react";
 
 const BuyingList = () => {
+  const { user } = useContext(SpoonacularContext);
+  console.log(user)
+
   const [newIngredientText, setNewIngredientText] = useState("")
   const [buyinglistIngredients, setBuyinglistIngredients] = useState([
     {

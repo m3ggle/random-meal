@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FaHome,
   FaPinterestP,
@@ -8,16 +8,19 @@ import {
   FaUserAlt,
   FaUsers,
 } from "react-icons/fa";
-import InstagramIcon from "../assets/svg/instagramIcon.svg";
-import Logo from "../assets/svg/Logo.svg";
-import styles from "../styles";
-import { useLocation } from 'react-router-dom'
-import {Link} from "react-router-dom"
-import { useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import ODonutLogo from "../assets/images/ODonut.png";
+import InstagramIcon from "../assets/svg/instagramIcon.svg";
+import styles from "../styles";
 
 const Navbar = () => {
   const location = useLocation();
+
+  const pathMatchRoute = (route) => {
+    if (route === location.pathname) {
+      return true;
+    }
+  };
 
   const [activeSite, setActiveSite] = useState({
     site: useLocation().pathname,
@@ -26,11 +29,17 @@ const Navbar = () => {
       location.pathname.includes("/signUp") ||
       location.pathname.includes("/forgotPassword"),
   });
-  const { site, hidden } = activeSite
-  
+  const { site, hidden } = activeSite;
+
   // mainly for rerender otherwise the ui will not update if clicked on a navbar btn
   useEffect(() => {
-    setActiveSite(prevState => ({...prevState, site: location.pathname}))
+    const activeSiteCopy = {
+      site: location.pathname,
+      hidden: location.pathname.includes("/signIn") ||
+        location.pathname.includes("/signUp") ||
+        location.pathname.includes("/forgotPassword")
+    }
+    setActiveSite({ ...activeSiteCopy });
   }, [location]);
 
   return (
@@ -88,7 +97,7 @@ const Navbar = () => {
                   : "bg-navCol"
               }
                 ${site === "/profile" ? "rounded-tr-[50px]" : ""} 
-                ${site === "/home" ? "rounded-br-[50px]" : ""} 
+                ${site === "/home" || site === "/" ? "rounded-br-[50px]" : ""} 
               `}
               >
                 <FaShoppingCart
@@ -102,13 +111,17 @@ const Navbar = () => {
             <Link
               to={"/home"}
               className={`w-[80px] h-[80px] ${styles.flexCenter}  cursor-pointer
-            ${site === "/home" ? "bg-navCol" : "bg-bgPrimaryCol"}            
+            ${
+              site === "/home" || site === "/"
+                ? "bg-navCol"
+                : "bg-bgPrimaryCol"
+            }            
             `}
             >
               <div
                 className={`w-[80px] h-[80px] ${styles.flexCenter} 
               ${
-                site === "/home"
+                site === "/home" || site === "/"
                   ? "bg-bgPrimaryCol rounded-l-[50px]"
                   : "bg-navCol"
               }
@@ -139,7 +152,7 @@ const Navbar = () => {
                   ? "bg-bgPrimaryCol rounded-l-[50px]"
                   : "bg-navCol"
               }
-                ${site === "/home" ? "rounded-tr-[50px]" : ""} 
+                ${site === "/home" || site === "/" ? "rounded-tr-[50px]" : ""} 
                 ${site === "/sharepage" ? "rounded-br-[50px]" : ""} 
               `}
               >

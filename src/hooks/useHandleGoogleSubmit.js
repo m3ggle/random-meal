@@ -18,12 +18,20 @@ export default function useHandleGoogleSubmit() {
 
       // if user doesnt exist create user
       if (!docSnap.exists()) {
-        // second parameter of setDoc is the data we wanna add to the database
-        await setDoc(doc(db, "users", user.uid), {
-          name: user.displayName,
+        const data = {
+          fullName: "",
+          username: user.displayName,
           email: user.email,
+          bio: "",
+          pinterest: "",
+          twitter: "",
+          instagram: "",
+          photoUrl: "",
+          buyinglist: [],
+          favMeals: [],
           timestamp: serverTimestamp(),
-        });
+        };
+        await setDoc(doc(db, "users", user.uid), data);
       }
       navigate("/");
     } catch (error) {

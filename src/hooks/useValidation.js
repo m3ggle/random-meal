@@ -1,6 +1,6 @@
 export default function useValidation() {
-  const distributor = ({ id, condition, values }) => {
-    switch (id) {
+  const distributor = ({ id, condition, values, validation }) => {
+    switch (validation) {
       case "fullName": 
         return validateFullName(values)
       case "username":
@@ -9,14 +9,14 @@ export default function useValidation() {
         return validateEmail(values);
       case "password":
         return validatePassword(values);
-      case "pinterest":
-        return validatePinterest(values);
-      case "twitter":
-        return validateTwitter(values);
-      case "instagram":
-        return validateInstagram(values);
+      case "wordInIt":
+        return validateWordInIt({id, values});
       case "userInformation":
-        return validateUserInformation({condition, values});
+        return validateUserInformation({ condition, values });
+      case "noValidation": 
+        return { result: true, errorMsg: "Invalid value" }
+      case "symbols400": 
+        return validateCharacterCount(values)
       default:
     }
   };
@@ -58,28 +58,43 @@ export default function useValidation() {
 
   const validateUserInformation = ({ condition, values }) => {
     // condition: to check if only have to be in the state success/defaultSuccess or all
-    return values.every((item) => item.includes("uccess"));
+    console.log(condition)
+    if (condition === "all") {
+      return values.every((item) => item.includes("uccess"));
+    } else if (condition === "one") {
+      console.log(values)
+      if (values.filter((item) => item.includes("uccess")).length >= 1) {
+        if (
+          values.filter(
+            (item) => (item.includes("warning") || item.includes("failure"))
+          ).length >= 1
+        ) {
+          return false;
+        } else {
+          return true
+        }
+      } else {
+        return false
+      }
+    }
   };
 
-  const validatePinterest = (link) => {
+  const validateWordInIt = ({id, values}) => {
     return {
-      result: link.includes("pinterest"),
-      errorMsg: "Word Pinterest Has To Be Included",
+      result: values.length === 0 ? true : values.includes(id),
+      errorMsg:
+        "Word " +
+        id.charAt(0).toUpperCase() +
+        id.slice(1) +
+        " Has To Be Included",
     };
-  };
+  }
 
-  const validateTwitter = (link) => {
+  const validateCharacterCount = (characters) => {
     return {
-      result: link.includes("twitter"),
-      errorMsg: "Word Twitter Has To Be Included"
-    }
-  };
-
-  const validateInstagram = (link) => {
-    return {
-      result: link.includes("instagram"),
-      errorMsg: "Word Instagram Has To Be Included"
-    }
+      result: characters.length < 400,
+      errorMsg: "Too Much Information",
+    };
   };
 
   return {
@@ -87,10 +102,8 @@ export default function useValidation() {
     validateEmail,
     validatePassword,
     validateUserInformation,
-    validatePinterest,
-    validateTwitter,
-    validateInstagram,
     distributor,
+    validateCharacterCount,
   };
 }
 

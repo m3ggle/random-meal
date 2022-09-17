@@ -15,20 +15,22 @@ const Input = ({ ...take }) => {
     label,
     stateArray,
     condition,
+    validation,
   } = take;
 
   const { handleInputFocus, handleInputChange, handleInputBlur } =
     useHandleInput();
 
   const handleFocus = (e) => {
-    console.log("hallo")
-    callbackFct(handleInputFocus({ e, formData }));
+    callbackFct(handleInputFocus({ e, formData, validation }));
   };
   const handelChange = (e) => {
-    callbackFct(handleInputChange({ e, formData }));
+    callbackFct(
+      handleInputChange({ e, formData, validation })
+    );
   };
   const handleBlur = (e) => {
-    callbackFct(handleInputBlur({ e, formData, stateArray, condition }));
+    callbackFct(handleInputBlur({ e, formData, stateArray, condition, validation }));
   };
 
   return (

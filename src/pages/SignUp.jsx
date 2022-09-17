@@ -15,6 +15,8 @@ const SignUp = () => {
       inputValue: "",
       active: false,
       state: "default",
+      validation: "username",
+      overallValidation: "userInformation",
       errorMessage: "",
       icon: "fa-solid fa-user",
     },
@@ -26,6 +28,8 @@ const SignUp = () => {
       inputValue: "",
       active: false,
       state: "default",
+      validation: "email",
+      overallValidation: "userInformation",
       errorMessage: "",
       icon: "fa-solid fa-at",
     },
@@ -37,10 +41,12 @@ const SignUp = () => {
       inputValue: "",
       active: false,
       state: "default",
+      validation: "password",
+      overallValidation: "userInformation",
       errorMessage: "",
       icon: "fa-solid fa-lock",
     },
-    userInformaiton: false,
+    userInformation: false,
   });
   const { username, email, password } = formData;
   const handleCallBack = (cb) => setFormData(cb);
@@ -75,6 +81,7 @@ const SignUp = () => {
               formData={formData}
               stateArray={[username.state, email.state, password.state]}
               condition={"all"}
+              validation={username.validation}
               specificInputObject={username}
               label={true}
             />
@@ -83,6 +90,7 @@ const SignUp = () => {
               formData={formData}
               stateArray={[username.state, email.state, password.state]}
               condition={"all"}
+              validation={email.validation}
               specificInputObject={email}
               label={true}
             />
@@ -91,6 +99,7 @@ const SignUp = () => {
               formData={formData}
               stateArray={[username.state, email.state, password.state]}
               condition={"all"}
+              validation={password.validation}
               specificInputObject={password}
               label={true}
             />

@@ -42,7 +42,7 @@ const SignButtons = ({ formData, stateArray }) => {
     },
   });
   const { handleGoogle } = useHandleGoogleSubmit();
-  const { username, email, password, userInformaiton } = formData;
+  const { username, email, password, userInformation } = formData;
 
   const handleSubmit = async () => {
     if (distributor({id: "userInformation", values: stateArray, condition: "all"})) {
@@ -90,6 +90,14 @@ const SignButtons = ({ formData, stateArray }) => {
     const formDataCopy = {
       username: username.inputValue,
       email: email.inputValue,
+      fullName: "",
+      bio: "",
+      pinterest: "",
+      twitter: "",
+      instagram: "",
+      photoUrl: "",
+      buyinglist: [],
+      favMeals: [],
       timestamp: serverTimestamp(),
     };
 
@@ -116,7 +124,7 @@ const SignButtons = ({ formData, stateArray }) => {
         className={`${
           styles.flexCenter
         } w-full py-[10px] rounded-xl text-lightTextCol font-semibold text-[14px] ${
-          userInformaiton
+          userInformation
             ? "btnPrimaryCol buttonShadow hover:bg-[#293D2B] cursor-pointer"
             : "bg-transparent border-[1px] border-solid cursor-default"
         } `}
