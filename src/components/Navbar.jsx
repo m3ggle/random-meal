@@ -12,6 +12,8 @@ import { Link, useLocation } from "react-router-dom";
 import ODonutLogo from "../assets/images/ODonut.png";
 import InstagramIcon from "../assets/svg/instagramIcon.svg";
 import styles from "../styles";
+import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore";
+import { db } from "../firebase.config";
 
 const Navbar = () => {
   const location = useLocation();
@@ -42,6 +44,74 @@ const Navbar = () => {
     setActiveSite({ ...activeSiteCopy });
   }, [location]);
 
+
+
+
+  useEffect(() => {
+    const aFunction = async () => {
+      try {
+        const singleId = 1234;
+        const ids = [1234, 4321];
+        let promises = [];
+
+        // Problem: get data out of promises that is stored in a variable
+        const docRef = doc(db, "meals", "1234");
+        const docSnap = await getDoc(doc(db, "meals", "1234"));
+
+        // if (docSnap.exists()) {
+        //   console.log("Yes Sir")
+        // }
+
+        // ids.map((id) => {
+        //   let tryResult
+        //   tryResult.push((await getDoc(doc(db, "meals", singleId.toString()))).data());
+        //   console.log()
+        // })
+
+        // const testResult = (await getDoc(doc(db, "meals", singleId.toString()))).data();
+        // console.log(testResult)
+        // console.log(testResult.data());
+
+        // ids.map((item) => {
+        //   promises.push(getDoc(doc(db, "meals", item.toString())));
+        // })
+        
+        // console.log(promises)
+
+        // let result = Promise.all(promises)
+        // // console.log(result.data())
+        // if (result[0].exists()) {
+        //   console.log("Hey");
+        // }
+        
+        // try two
+        // const q = query(collection(db, "meals"));
+
+        // const querySnapshot = await getDocs(q);
+        // querySnapshot.forEach((doc) => {
+        //   // doc.data() is never undefined for query doc snapshots
+        //   console.log(doc.id, " => ", doc.data());
+        // });
+        // console.log(querySnapshot)
+
+        // ids.map((id) => {
+        //   var docRef = collection(db, "meals");
+        //   docRef.where("id", "==", id)
+        // })
+        
+        // ids.map((id) => {
+
+        // })
+
+
+      } catch (error) {
+        console.log(error)        
+      }
+    };
+
+    aFunction()
+  }, [])
+  
   return (
     <div className={`${hidden ? "hidden" : "flex"} w-0px md:w-[80px]`}>
       {/* desktop Navbar */}

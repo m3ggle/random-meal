@@ -2,8 +2,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from "./components/Navbar";
-import { SpoonacularProvider } from "./context/SpoonacularContext";
-import { useAuthObserver } from "./hooks/useAuthObserver";
+import PrivateRoute from "./components/PrivateRoute";
 import BuyingList from "./pages/BuyingList";
 import Creation from "./pages/Creation";
 import FavMeals from "./pages/FavMeals";
@@ -14,13 +13,16 @@ import RandomMeal from "./pages/RandomMeal";
 import SharePage from "./pages/SharePage";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
+import styles from "./styles";
 
 function App() {
-  useAuthObserver();
+  // const userInformation = useAuthObserver()
+  // const { user, dispatch } = useContext(SpoonacularContext);
+  // dispatch({type: "UPDATE_USER_INFORMATION", payload: {...userInformation}})
   return (
-    <SpoonacularProvider>
+    <div className={`w-full h-screen ${styles.flexCenter} bg-navCol`}>
       <div
-        className={`relative w-full flex md:flex-row bg-bgPrimaryCol overflow-hidden`}
+        className={`realative max-w-[1440px] w-full flex bg-bgPrimaryCol overflow-hidden`}
       >
         <Router>
           <Navbar />
@@ -36,14 +38,14 @@ function App() {
             <Route path="/signIn" element={<SignIn />} />
             <Route path="/signUp" element={<SignUp />} />
             <Route path="/creation" element={<Creation />} />
-            {/* <Route path="/profile" element={<PrivateRoute />}> */}
-            <Route path="/profile" element={<Profile />} />
-            {/* </Route> */}
+            <Route path="/profile" element={<PrivateRoute />}>
+              <Route path="/profile" element={<Profile />} />
+            </Route>
           </Routes>
         </Router>
         <ToastContainer />
       </div>
-    </SpoonacularProvider>
+    </div>
     //</SpoonacularProvider>
   );
 }

@@ -53,7 +53,7 @@ const SignUp = () => {
 
   return (
     <div
-      className="fixed w-full h-screen bg-cover bg-center"
+      className="relative w-full h-screen bg-cover bg-center"
       style={{ backgroundImage: `url(${BgImage})` }}
     >
       <div
