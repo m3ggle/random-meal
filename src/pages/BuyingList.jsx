@@ -14,7 +14,7 @@ import { useContext } from "react";
 
 const BuyingList = () => {
   const { user } = useContext(SpoonacularContext);
-  console.log(user)
+  // console.log(user)
 
   const [newIngredientText, setNewIngredientText] = useState("")
   const [buyinglistIngredients, setBuyinglistIngredients] = useState([
@@ -51,7 +51,6 @@ const BuyingList = () => {
   ]);
 
   const handleAdd = () => {
-    console.log('hallo')
     let copyIngredients = buyinglistIngredients;
     copyIngredients[copyIngredients.length - 1].ingredients.push(newIngredientText)
     setBuyinglistIngredients(() => [...copyIngredients]);

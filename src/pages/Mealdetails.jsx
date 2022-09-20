@@ -1,13 +1,19 @@
 import React from "react";
 import { FaShare, FaShoppingCart, FaTimes } from "react-icons/fa";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import DinnerImg from "../assets/images/dinnerExample.jpg";
 import styles from "../styles";
 
 const Mealdetails = () => {
+  // Todo: anhand der params id herausnehmen und in firestore meal holen (wenn in data nichts drin ist)
+
   const params = useParams();
   const navigate = useNavigate();
   console.log(navigate);
+  const location = useLocation();
+  const data = location.state;
+  const { mealinformation, ingredients, nutrients, instructions} = data
+  console.log(mealinformation);
 
   return (
     <div className="fixed top-0 left-0 w-full h-screen z-[100] bg-bgPrimaryCol">
@@ -42,16 +48,22 @@ const Mealdetails = () => {
               <p
                 className={`${styles.heading32} text-lightTextCol flex flex-row gap-x-2 items-center w-fit cursor-pointer`}
               >
-                Sed sodales convallis ut {params.id}
-                <FaShare size="25px" />
+                {mealinformation.title}
+                <a
+                  href={mealinformation.sourceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FaShare size="25px" />
+                </a>
               </p>
               {/* servings */}
               <div>
                 <p className={`${styles.paragraph20} text-lightTextCol`}>
-                  Servings: 4
+                  Servings: {mealinformation.servings}
                 </p>
                 <p className={`${styles.paragraph20} text-lightTextCol`}>
-                  Healthscore: 4
+                  Healthscore: {mealinformation.healthScore}
                 </p>
               </div>
               {/* tags */}
@@ -72,21 +84,21 @@ const Mealdetails = () => {
                   Vegetarian
                 </div>
               </div>
-              <p
+              {/* <p
                 className={`${styles.paragraph16} text-lightTextCol 900:w-6/12`}
               >
                 Est duis non, senectus metus. Facilisis nibh pellentesque eget
                 eget felis blandit. Aliquam, sem pulvinar nisl duis augue
                 volutpat. Vitae massa tellus sagittis eu aenean ultrices etiam
                 at....
-              </p>
+              </p> */}
             </div>
             {/* instructions + ingredients */}
             <div className="w-full flex flex-col-reverse gap-y-8 900:gap-x-10 900:py-4">
               {/* instructions */}
               <div className="w-full flex flex-col gap-y-2">
                 <p className={`${styles.heading24} text-lightTextCol`}>
-                  How its done
+                  How it's done
                 </p>
                 {/* Steps */}
                 <div className="flex lg:grid grid-cols-2 flex-col gap-3">

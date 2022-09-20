@@ -65,9 +65,13 @@ export default function useCleanUp (data) {
     };
   };
 
-  if (data !== undefined) {
-    return data.map((singleRecipe) => recipeCondensor(singleRecipe));
+  const cleanUpMeals = (data) => {
+      if (data !== undefined) {
+        return data.map((singleRecipe) => recipeCondensor(singleRecipe));
+      }
   }
+
+  return {cleanUpMeals}
 };
 
 

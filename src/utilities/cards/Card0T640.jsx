@@ -3,10 +3,11 @@ import { FaHeart, FaLock, FaShoppingCart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import styles from "../../styles";
 
-const Card0T640 = ({ id, title, image }) => {
+const Card0T640 = ({ id, title, image, fullMealInfo }) => {
   return (
     <Link
       to={`/mealdetails/${id}`}
+      state={fullMealInfo}
       className="relative mt-[-10px] 500:mt-0 w-full 500:w-[90%] h-[25%] md:h-[30%] rounded-t-[20px] 500:rounded-[20px] bg-red-400 bg-center bg-cover overflow-hidden DayMealsShadow z-20"
       style={{ backgroundImage: `url(${image})` }}
     >

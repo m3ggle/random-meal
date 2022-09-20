@@ -1,35 +1,70 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import Card0T640 from "../utilities/HomeCards0T640";
 // import Card640T1280 from "../utilities/HomeCards640T1280"
+import { doc, setDoc } from "firebase/firestore";
+import { useContext } from "react";
+import { getRandomDayMeal } from "../context/SpoonacularAction";
+import SpoonacularContext from "../context/SpoonacularContext";
+import { db } from "../firebase.config";
+import useCleanUp from "../hooks/useCleanUp";
 import Card1280 from "../utilities/HomeCards1280";
 
 const RandomMeal = () => {
-    const [example] = useState([
-      {
-        id: 12,
-        title: "Morbi ac diam pretium",
-        imageUrl:
-          "https://images.unsplash.com/photo-1594834749740-74b3f6764be4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=782&q=80",
-      },
-      {
-        id: 123,
-        title: "Egestas nec commodo",
-        imageUrl:
-          "https://images.unsplash.com/photo-1606756790138-261d2b21cd75?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1065&q=80",
-      },
-      {
-        id: 1234,
-        title: "Mattis imperdiet blandit aenean ",
-        imageUrl:
-          "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
-      },
-    ]);
-  
+  const { cleanUpMeals } = useCleanUp();
+  const { dispatch, allMealIds, spoonacularResult } =
+    useContext(SpoonacularContext);
+
+  const storeInDb = async (result) => {
+    try {
+      let missingIds = [];
+      const missingMeals = result.filter((meal) => {
+        if (!allMealIds.includes(meal.mealinformation.id)) {
+          missingIds.push(meal.mealinformation.id);
+          return meal;
+        }
+      });
+      missingIds.push(...allMealIds);
+
+      if (missingMeals.length > 0) {
+        await Promise.all([
+          missingMeals.map((meal) => {
+            return setDoc(
+              doc(db, "meals", meal.mealinformation.id.toString()),
+              { ...meal }
+            );
+          }),
+          setDoc(
+            doc(db, "meals", "ids"),
+            { allMealIds: [...missingIds] },
+            { merge: true }
+          ),
+        ]);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const callbackClickedButton = async () => {
+    const fetchResult = await getRandomDayMeal();
+    const cleanedUpMeals = cleanUpMeals(fetchResult);
+    dispatch({
+      type: "UPDATE_RANDOM_MEALS",
+      payload: [ ...cleanedUpMeals ],
+    });
+    storeInDb(cleanedUpMeals);
+  };
+
   return (
     <div className="w-full h-screen bg-bgPrimaryCol flex justify-evenly ">
-      <Card0T640 exampleData={example} />
-      <Card1280 exampleData={example} />
+      <Card0T640
+        data={spoonacularResult}
+        callbackButton={callbackClickedButton}
+      />
+      <Card1280
+        data={spoonacularResult}
+        callbackButton={callbackClickedButton}
+      />
     </div>
   );
 };
