@@ -1,68 +1,160 @@
-import React, { useState } from "react";
-import {
-  FaChevronRight,
-  FaExclamationCircle,
-  FaExclamationTriangle,
-  FaPlus,
-  FaTimes,
-} from "react-icons/fa";
+import { getAuth } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
+import React, { useContext, useEffect, useState } from "react";
+import { FaTimes } from "react-icons/fa";
+import { toast } from "react-toastify";
+import { v4 as uuidv4 } from "uuid";
 import LunchImg from "../assets/images/lunchExample.jpg";
+import SpoonacularContext from "../context/SpoonacularContext";
+import { db } from "../firebase.config";
 import styles from "../styles";
 import Button from "../utilities/Buttons";
-import SpoonacularContext from "../context/SpoonacularContext";
-import { useContext } from "react";
+import { motion } from "framer-motion";
 
 const BuyingList = () => {
-  const { user } = useContext(SpoonacularContext);
-  // console.log(user)
+  // Todo: clean up fromData mess
+  const { buyinglist, dispatch } = useContext(SpoonacularContext);
 
-  const [newIngredientText, setNewIngredientText] = useState("")
-  const [buyinglistIngredients, setBuyinglistIngredients] = useState([
-    {
-      title: "Sit at neque, mattis nunc, ut bibendum",
-      ingredients: [
-        "Semper mi praesent",
-        "Lacus sed pulvinar curabitur ut pulvinar massa",
-        "Scelerisque mollis fringilla",
-        "Id massa cursus adipiscing",
-        "Vitae condimentum tortor posuere amet",
-      ],
+  const [newIngredient, setNewIngredient] = useState({
+    ingredient: {
+      text: "",
+      correctness: false,
+      errorMsg: "Ingredient Name has to at least 2 characters long",
     },
-    {
-      title: "Ridiculus eros id sed ornare",
-      ingredients: [
-        "Semper mi praesent",
-        "Lacus sed pulvinar curabitur ut pulvinar massa",
-        "Scelerisque mollis fringilla",
-        "Id massa cursus adipiscing",
-        "Vitae condimentum tortor posuere amet",
-      ],
+    amount: {
+      text: 0,
+      correctness: false,
+      errorMsg: "Amount has to be only Numbers",
     },
-    {
-      title: "Others",
-      ingredients: [
-        "Sed elementum elementum",
-        "Mattis imperdiet",
-        "Blandit aenean rhoncus",
-        "Ridiculus eros id sed ornare.",
-        "Nulla ut amet pellentesque",
-      ],
+    unit: {
+      text: "",
+      correctness: false,
+      errorMsg: "Unit has to be at least more than one Character",
     },
-  ]);
+    errorMsg: "",
+    correctness: false,
+  });
+  const handleInputChange = (e, proprety) => {
+    let tempCorrectness = false;
+    let tempErrorMsg = "";
+    if (proprety === "ingredient") {
+      tempCorrectness = e.target.value.length >= 2;
+      tempErrorMsg = newIngredient[proprety].errorMsg;
+    } else if (proprety === "amount") {
+      const reg = new RegExp("^[0-9]+$");
+      tempCorrectness = reg.test(e.target.value);
+      tempErrorMsg = newIngredient[proprety].errorMsg;
+    } else if (proprety === "unit") {
+      tempCorrectness = e.target.value.length >= 1;
+      tempErrorMsg = newIngredient[proprety].errorMsg;
+    }
 
-  const handleAdd = () => {
-    let copyIngredients = buyinglistIngredients;
-    copyIngredients[copyIngredients.length - 1].ingredients.push(newIngredientText)
-    setBuyinglistIngredients(() => [...copyIngredients]);
+    setNewIngredient((prevState) => ({
+      ...prevState,
+      [proprety]: {
+        text: e.target.value,
+        correctness: tempCorrectness,
+        errorMsg: prevState[proprety].errorMsg,
+      },
+      errorMsg: tempCorrectness ? false : tempErrorMsg,
+      correctness:
+        prevState.ingredient.correctness &&
+        prevState.amount.correctness &&
+        prevState.unit.correctness &&
+        tempCorrectness,
+    }));
   };
 
-  const handleDelete = (idIngredient, idMeal, type) => {
-    let copyIngredients = buyinglistIngredients
-    type === "ingredient"
-      ? copyIngredients[idMeal].ingredients.splice(idIngredient, 1)
-      : copyIngredients.splice(idMeal, 1);
-    setBuyinglistIngredients(() => [...copyIngredients]);
-  }
+  const uploadUpdate = async (buyinglist) => {
+    try {
+      const auth = getAuth();
+      if (auth.currentUser) {
+        await setDoc(
+          doc(db, "users", auth.currentUser.uid),
+          {
+            buyinglist: buyinglist,
+          },
+          { merge: true }
+        );
+      } else {
+        toast.error("😤 Not logged in");
+      }
+    } catch (error) {
+      toast.error("🍅 Could not upload the Update");
+    }
+  };
+
+  const handleAdd = (ingName, ingAmount, ingUnit) => {
+    let created = false;
+    const ingredientObj = {
+      name: ingName,
+      amount: parseInt(ingAmount),
+      unitShort: ingUnit,
+    };
+    if (newIngredient.correctness) {
+      if (buyinglist.length <= 5) {
+        buyinglist.some((meal, index) => {
+          if (meal["Others"]) {
+            // others exist
+            buyinglist[index][Object.keys(meal)].push(ingredientObj);
+            created = true;
+          }
+        });
+        if (!created) {
+          buyinglist.push({
+            Others: [ingredientObj],
+          });
+          created = true;
+        }
+      } else {
+        toast.info(
+          "🍓 You reached the maximum number of Meals in your Buyinglist"
+        );
+      }
+    }
+
+    if (created) {
+      dispatch({ type: "UPDATE_BUYINGLIST", payload: buyinglist });
+      uploadUpdate(buyinglist);
+      // setNewIngredient((prevState) => ({
+      //   ...prevState,
+      //   ingredient: { ...prevState.ingredient, text: "", correctness: false },
+      //   amount: { ...prevState.amount, text: "", correctness: false },
+      //   unit: { ...prevState.unit, text: "", correctness: false },
+      // }));
+    }
+  };
+
+  const handleDelete = ({ mealName, ingredientName }) => {
+    let updatedMeal;
+    const newBuyinglist = buyinglist.filter((meal) => {
+      if (Object.keys(meal)[0] === mealName) {
+        if (ingredientName !== undefined) {
+          // delete ingredient
+          let ings = meal[Object.keys(meal)[0]].filter((ingredient) => {
+            if (ingredient.name === ingredientName) {
+              return false;
+            } else if (ingredient.name !== ingredientName) {
+              return true;
+            }
+          });
+          updatedMeal = { [Object.keys(meal)[0]]: [...ings] };
+          return false;
+        } else if (ingredientName === undefined) {
+          // delete meal
+          return false;
+        }
+      } else {
+        return true;
+      }
+    });
+    if (ingredientName !== undefined) {
+      newBuyinglist.push(updatedMeal);
+    }
+
+    dispatch({ type: "UPDATE_BUYINGLIST", payload: newBuyinglist });
+    uploadUpdate(newBuyinglist);
+  };
 
   return (
     <div className="w-full h-screen flex">
@@ -74,41 +166,59 @@ const BuyingList = () => {
               Your Buyinglist
             </p>
           </div>
+
           {/* cards */}
           <div className="flex flex-col gap-y-4 p-5 overflow-auto">
-            {buyinglistIngredients.map((meal, index1) => (
+            {buyinglist.map((meal) => (
               <div
-                key={index1}
+                key={uuidv4()}
                 className="flex flex-col py-5 px-8 gap-4 bg-bgPrimaryCol rounded-[20px] buyinglistMealShadow"
               >
                 {/* mealname */}
                 <div className="flex justify-between items-center py-1 border-b-2 text-lightTextCol">
-                  <p className={`${styles.paragraph16}`}>{meal.title}</p>
+                  <p className={`${styles.paragraph16}`}>
+                    {Object.keys(meal)[0]}
+                  </p>
                   <div
-                    onClick={() => handleDelete("", index1, "meal")}
+                    onClick={() =>
+                      handleDelete({ mealName: Object.keys(meal)[0] })
+                    }
                     className="w-12 flex items-center justify-center cursor-pointer"
                   >
                     <FaTimes size="14px" />
                   </div>
                 </div>
-                {/* meals */}
                 <div className="flex flex-col pl-6 gap-[5px]">
-                  {meal.ingredients.map((ingredient, index2) => (
+                  {meal[Object.keys(meal)[0]].map((ingredient) => (
                     <div
-                      key={index2}
+                      key={uuidv4()}
                       className="flex items-center justify-between text-lightTextCol"
                     >
-                      <p className={`${styles.paragraph14}`}>{ingredient}</p>
                       <div
-                        id={index2}
+                        className={`w-full ${styles.paragraph14} flex flex-wrap gap-x-2`}
+                      >
+                        <p className={`${styles.paragraph14} w-8/12`}>
+                          {ingredient.name}
+                        </p>
+                        <p className={`${styles.paragraph14}`}>
+                          {ingredient.amount.toFixed(1)}
+                          {ingredient.unitShort}
+                        </p>
+                      </div>
+                      <motion.div
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
                         value="smt"
                         onClick={() =>
-                          handleDelete(index2, index1, "ingredient")
+                          handleDelete({
+                            mealName: Object.keys(meal)[0],
+                            ingredientName: ingredient.name,
+                          })
                         }
                         className="w-12 flex items-center justify-center cursor-pointer"
                       >
                         <FaTimes size="12px" />
-                      </div>
+                      </motion.div>
                     </div>
                   ))}
                 </div>
@@ -116,39 +226,85 @@ const BuyingList = () => {
             ))}
 
             <div className="w-full flex flex-col gap-y-[8px] mt-3">
-              {/* Label */}
-              <label className={`text-inputCol ${styles.paragraph14} hidden`}>
-                Search
-              </label>
               <div className="w-full flex gap-x-[10px]">
-                <div className="text-inputCol w-full border-solid border-[1px] flex items-center rounded-xl px-[10px] gap-[8px] py-[12px]">
+                {/* ingredient */}
+                <div className="text-inputCol flex-grow border-solid border-[1px] flex items-center rounded-xl px-[10px] gap-[8px] py-[12px]">
                   {/* icon */}
                   <div className={`w-[20px] h-[20px]  ${styles.flexCenter}`}>
-                    <FaPlus className="text-inputCol" size="15px" />
+                    <i className="fa-solid fa-plus text-[15px] text-inputCol"></i>
                   </div>
                   {/* text */}
                   <input
                     type="text"
-                    value={newIngredientText}
-                    onChange={(e) => setNewIngredientText(e.target.value)}
-                    className={`bg-transparent w-full h-[20px] focus:outline-none text-lightTextCol ${styles.paragraph14} placeholder:text-inputCol`}
+                    value={newIngredient.ingredient.text}
+                    onChange={(e) => handleInputChange(e, "ingredient")}
+                    className={`bg-transparent w-full h-[20px] focus:outline-none text-lightTextCol ${styles.paragraph14} placeholder:text-inputPlaceholderCol`}
                     placeholder="Add a new Ingredient..."
                   />
                 </div>
-                <button
+                {/* amount */}
+                <div className="text-inputCol w-3/12 sm:w-2/12 border-solid border-[1px] flex items-center rounded-xl px-[10px] gap-[8px] py-[12px]">
+                  {/* icon */}
+                  <div className={`w-[20px] h-[20px]  ${styles.flexCenter}`}>
+                    <i className="fa-solid fa-ruler text-[15px] text-inputCol"></i>
+                  </div>
+                  {/* text */}
+                  <input
+                    type="number"
+                    value={newIngredient.amount.text}
+                    onChange={(e) => handleInputChange(e, "amount")}
+                    className={`bg-transparent w-full h-[20px] focus:outline-none text-lightTextCol ${styles.paragraph14} placeholder:text-inputPlaceholderCol`}
+                    placeholder="52"
+                  />
+                </div>
+                {/* unit */}
+                <div className="text-inputCol w-3/12 sm:w-2/12 border-solid border-[1px] flex items-center rounded-xl px-[10px] gap-[8px] py-[12px]">
+                  {/* icon */}
+                  <div className={`w-[20px] h-[20px]  ${styles.flexCenter}`}>
+                    <i className="fa-solid fa-ruler-combined text-[15px] text-inputCol"></i>
+                  </div>
+                  {/* text */}
+                  <input
+                    type="text"
+                    value={newIngredient.unit.text}
+                    onChange={(e) => handleInputChange(e, "unit")}
+                    className={`bg-transparent w-full h-[20px] focus:outline-none text-lightTextCol ${styles.paragraph14} placeholder:text-inputPlaceholderCol`}
+                    placeholder="unit"
+                  />
+                </div>
+                <motion.button
+                  whileHover={
+                    newIngredient.correctness ? { scale: 1.02 } : { scale: 1 }
+                  }
+                  whileTap={
+                    newIngredient.correctness ? { scale: 0.98 } : { scale: 1 }
+                  }
                   type="button"
-                  onClick={handleAdd}
-                  className={`w-[50px] h-[46px] border-[1px] rounded-xl ${styles.flexCenter} text-lightTextCol cursor-pointer hover:border-none buyinglistBtnHover`}
+                  onClick={() =>
+                    handleAdd(
+                      newIngredient.ingredient.text,
+                      newIngredient.amount.text,
+                      newIngredient.unit.text
+                    )
+                  }
+                  className={`min-w-[50px] min-h-[46px] rounded-xl ${
+                    styles.flexCenter
+                  } text-lightTextCol ${
+                    newIngredient.correctness
+                      ? "btnPrimaryCol cursor-pointer"
+                      : "cursor-default border-[1px]"
+                  }`}
                 >
-                  <FaChevronRight size="14px" />
-                </button>
+                  <i className="fa-solid fa-chevron-right text-[15px] text-inputCol"></i>
+                </motion.button>
               </div>
               <div
-                className={`text-inputCol ${styles.paragraph14} flex items-center gap-x-[8px] hidden`}
+                className={`text-inputCol ${styles.paragraph14} ${
+                  newIngredient.errorMsg ? "flex" : "hidden"
+                } items-center gap-x-1`}
               >
-                <FaExclamationTriangle className="pb-[2px] text-failure hidden" />
-                <FaExclamationCircle className="pb-[2px] text-warning hidden" />
-                Please Enter The Correct Password
+                <i className="fa-solid fa-circle-info"></i>
+                {newIngredient.errorMsg}
               </div>
               <Button text="Export your Shopping List" />
             </div>

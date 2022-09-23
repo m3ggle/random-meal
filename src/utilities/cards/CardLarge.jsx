@@ -1,11 +1,17 @@
 import React from "react";
 import { FaHeart, FaLock, FaShoppingCart } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import BreakfastImg from "../../assets/images/breakfastExample.jpg";
 import styles from "../../styles";
+import { motion } from "framer-motion";
 
 const CardLarge = () => {
+  const navigate = useNavigate();
   return (
-    <div
+    <motion.div
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+      onClick={() => navigate(`/mealdetails/123`)}
       className="w-[308px] min-h-[423px] max-h-[423px] bg-cover bg-center flex justify-center rounded-xl relative cardShadow"
       style={{ backgroundImage: `url(${BreakfastImg})` }}
     >
@@ -36,7 +42,7 @@ const CardLarge = () => {
           className="text-iconTransCol drop-shadow-cardIcon cursor-pointer"
         />
       </div>
-    </div>
+    </motion.div>
   );
 };
 

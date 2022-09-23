@@ -6,9 +6,10 @@ const SpoonacularContext = createContext();
 export const SpoonacularProvider = ({ children }) => {
   const initialState = {
     user: {},
-    favoriteMeals: [],
+    buyinglist: [],
     spoonacularResult: [
       {
+        liked: true,
         mealinformation: {
           id: 580283,
           title: "Homemade Bisquick Mix: Breakfast Made Easy (Example)",
@@ -23,7 +24,7 @@ export const SpoonacularProvider = ({ children }) => {
           preparationMinutes: 5,
           cookingMinutes: 0,
           healthScore: 9,
-          dishTypes: ["morning meal", "brunch", "breakfast"],
+          dishTypes: ["morning meal", "brunch", "Breakfast"],
         },
         ingredients: [
           {
@@ -178,6 +179,7 @@ export const SpoonacularProvider = ({ children }) => {
         },
       },
       {
+        liked: false,
         mealinformation: {
           id: 77188,
           title: "Rustic Rigatoni (Example)",
@@ -192,7 +194,7 @@ export const SpoonacularProvider = ({ children }) => {
           preparationMinutes: 10,
           cookingMinutes: 8,
           healthScore: 25,
-          dishTypes: ["lunch", "main course", "main dish", "dinner"],
+          dishTypes: ["Lunch", "main course", "main dish", "Dinner"],
         },
         ingredients: [
           {
@@ -512,6 +514,7 @@ export const SpoonacularProvider = ({ children }) => {
         },
       },
       {
+        liked: false,
         mealinformation: {
           id: 596149,
           title: "Mung Bean Fettuchini (Example)",
@@ -525,7 +528,7 @@ export const SpoonacularProvider = ({ children }) => {
           preparationMinutes: -1,
           cookingMinutes: -1,
           healthScore: 7,
-          dishTypes: ["lunch", "main course", "main dish", "dinner"],
+          dishTypes: ["Lunch", "main course", "main dish", "Dinner"],
         },
         ingredients: [
           {

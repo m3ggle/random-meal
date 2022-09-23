@@ -26,6 +26,7 @@ module.exports = {
         darkTextCol: "#282933",
 
         bgPrimaryCol: "#282933",
+        btnHover: "#334D35",
         bgSecondaryCol: "#F2F3F4",
         bgSecondaryDarkCol: "#1C1D24",
         navCol: "#353646",
@@ -45,6 +46,9 @@ module.exports = {
       },
       dropShadow: {
         cardIcon: "0px 8px 24px #000000",
+      },
+      animation: {
+        spin: "spin 2s linear infinite",
       },
     },
   },

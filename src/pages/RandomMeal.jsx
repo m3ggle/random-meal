@@ -8,12 +8,15 @@ import SpoonacularContext from "../context/SpoonacularContext";
 import { db } from "../firebase.config";
 import useCleanUp from "../hooks/useCleanUp";
 import Card1280 from "../utilities/HomeCards1280";
+import { getAuth } from "firebase/auth";
+import { useGetMeals } from "../hooks/useGetMeals";
 
 const RandomMeal = () => {
   const { cleanUpMeals } = useCleanUp();
-  const { dispatch, allMealIds, spoonacularResult } =
+  const { user, dispatch, allMealIds, spoonacularResult } =
     useContext(SpoonacularContext);
-
+  const auth = getAuth();
+  
   const storeInDb = async (result) => {
     try {
       let missingIds = [];
@@ -45,15 +48,39 @@ const RandomMeal = () => {
     }
   };
 
+  const checkFav = (meals) => {
+    if (auth.currentUser) {
+      meals.map(meal => {
+        user.favMeals.includes(meal.mealinformation.id)
+          ? (meal.liked = true)
+          : (meal.liked = false);
+      })
+      console.log(meals)
+    } 
+    return meals
+  }
+
   const callbackClickedButton = async () => {
     const fetchResult = await getRandomDayMeal();
     const cleanedUpMeals = cleanUpMeals(fetchResult);
+    const internalMeals = checkFav(cleanedUpMeals);
+    console.log(internalMeals)
     dispatch({
       type: "UPDATE_RANDOM_MEALS",
-      payload: [ ...cleanedUpMeals ],
+      payload: [...internalMeals],
     });
-    storeInDb(cleanedUpMeals);
+    if (auth.currentUser) {
+      storeInDb(cleanedUpMeals);
+    }
   };
+
+  const handleAddFavMeal = () => {
+
+  }
+
+  const handleRemoveFavMeal = () => {
+
+  }
 
   return (
     <div className="w-full h-screen bg-bgPrimaryCol flex justify-evenly ">
@@ -65,6 +92,13 @@ const RandomMeal = () => {
         data={spoonacularResult}
         callbackButton={callbackClickedButton}
       />
+      {/* <button
+        onClick={handleClick}
+        className="px-6 py-6 max-h-fit bg-bgSecondaryCol rounded-xl"
+        type="button"
+      >
+        Click Me
+      </button> */}
     </div>
   );
 };

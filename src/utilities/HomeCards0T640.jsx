@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import React from "react";
 import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import styles from "../styles";
@@ -21,19 +22,31 @@ const HomeCards0T640 = ({ data, callbackButton }) => {
 
       {/* button */}
       <div className="w-full h-[14%] 500:h-[60px] flex justify-center items-center gap-x-[24px] z-40 600:mt-[12px]">
-        <FaShoppingCart
-          size="25px"
-          className="text-lightTextCol cursor-pointer"
-        />
-        <div
+        <motion.div
+          whileTap={{ scale: 0.94 }}
+          className={`w-[24px] h-[24px] ${styles.flexCenter}`}
+        >
+          <FaShoppingCart
+            size="24px"
+            className="text-lightTextCol cursor-pointer"
+          />
+        </motion.div>
+        <motion.div
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
           className={`py-4 px-4 rounded-xl ${styles.flexCenter} buttonShadow btnPrimaryCol hover:bg-[#293D2B] cursor-pointer`}
           onClick={callbackButton}
         >
           <p className={`${styles.heading14} text-lightTextCol`}>
             New Combination
           </p>
-        </div>
-        <FaHeart size="25px" className="text-lightTextCol cursor-pointer" />
+        </motion.div>
+        <motion.div
+          whileTap={{ scale: 0.94 }}
+          className={`w-[24px] h-[24px] ${styles.flexCenter}`}
+        >
+          <FaHeart size="24px" className="text-lightTextCol cursor-pointer" />
+        </motion.div>
       </div>
     </div>
   );

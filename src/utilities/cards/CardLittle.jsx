@@ -3,11 +3,16 @@ import { FaHeart, FaLock, FaShoppingCart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import LunchImg from "../../assets/images/lunchExample.jpg";
 import styles from "../../styles";
+import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 const CardLittle = ({ lock }) => {
+  const navigate = useNavigate();
   return (
-    <Link
-      to={"/mealdetails/123"}
+    <motion.div
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+      onClick={() => navigate(`/mealdetails/123`)}
       className="w-[193px] h-[264px] bg-cover bg-center flex justify-center rounded-xl relative cardShadow"
       style={{ backgroundImage: `url(${LunchImg})` }}
     >
@@ -38,7 +43,7 @@ const CardLittle = ({ lock }) => {
           />
         )}
       </div>
-    </Link>
+    </motion.div>
   );
 };
 

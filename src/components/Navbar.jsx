@@ -12,17 +12,9 @@ import { Link, useLocation } from "react-router-dom";
 import ODonutLogo from "../assets/images/ODonut.png";
 import InstagramIcon from "../assets/svg/instagramIcon.svg";
 import styles from "../styles";
-import { collection, query, where, getDocs, doc, getDoc, limit } from "firebase/firestore";
-import { db } from "../firebase.config";
 
 const Navbar = () => {
   const location = useLocation();
-
-  const pathMatchRoute = (route) => {
-    if (route === location.pathname) {
-      return true;
-    }
-  };
 
   const [activeSite, setActiveSite] = useState({
     site: useLocation().pathname,
@@ -37,10 +29,11 @@ const Navbar = () => {
   useEffect(() => {
     const activeSiteCopy = {
       site: location.pathname,
-      hidden: location.pathname.includes("/signIn") ||
+      hidden:
+        location.pathname.includes("/signIn") ||
         location.pathname.includes("/signUp") ||
-        location.pathname.includes("/forgotPassword")
-    }
+        location.pathname.includes("/forgotPassword"),
+    };
     setActiveSite({ ...activeSiteCopy });
   }, [location]);
 
@@ -67,13 +60,13 @@ const Navbar = () => {
   //       console.log(meals)
 
   //     } catch (error) {
-  //       console.log(error)        
+  //       console.log(error)
   //     }
   //   };
 
   //   aFunction()
   // }, [])
-  
+
   return (
     <div className={`${hidden ? "hidden" : "flex"} w-0px md:w-[80px]`}>
       {/* desktop Navbar */}
@@ -144,9 +137,7 @@ const Navbar = () => {
               to={"/home"}
               className={`w-[80px] h-[80px] ${styles.flexCenter}  cursor-pointer
             ${
-              site === "/home" || site === "/"
-                ? "bg-navCol"
-                : "bg-bgPrimaryCol"
+              site === "/home" || site === "/" ? "bg-navCol" : "bg-bgPrimaryCol"
             }            
             `}
             >

@@ -1,5 +1,5 @@
 // error catching is missing
-export default function useCleanUp (data) {
+export default function useCleanUp () {
   // mealinformation
   const getMealinformation = (originalRecipe) => {
     return {
@@ -14,7 +14,9 @@ export default function useCleanUp (data) {
       preparationMinutes: originalRecipe.preparationMinutes,
       cookingMinutes: originalRecipe.cookingMinutes,
       healthScore: originalRecipe.healthScore,
-      dishTypes: originalRecipe.dishTypes,
+      dishTypes: originalRecipe.dishTypes.map((dish) => {
+        return dish.charAt(0).toUpperCase() + dish.slice(1);
+      }),
     };
   };
 

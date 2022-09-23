@@ -1,12 +1,16 @@
+import { motion } from "framer-motion";
 import React from "react";
 import { FaHeart, FaLock, FaShoppingCart } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import DinnerImg from "../../assets/images/dinnerExample.jpg";
-import {Link} from "react-router-dom"
 
 const CardMobile = () => {
+  const navigate = useNavigate();
   return (
-    <Link
-      to={`/mealdetails/123`}
+    <motion.div
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+      onClick={() => navigate(`/mealdetails/123`)}
       className="w-[122px] h-[167px] bg-cover bg-center flex justify-center rounded-xl relative cardShadow"
       style={{ backgroundImage: `url(${DinnerImg})` }}
     >
@@ -32,7 +36,7 @@ const CardMobile = () => {
           className="text-iconTransCol drop-shadow-cardIcon"
         />
       </div>
-    </Link>
+    </motion.div>
   );
 };
 

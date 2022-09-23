@@ -9,6 +9,8 @@ import ProfilePic from "../assets/images/ProfilePic.webp";
 import Input from "../components/Input";
 import { db } from "../firebase.config";
 import styles from "../styles";
+import ODonutLogo from "../assets/images/ODonut.png";
+import { motion } from "framer-motion";
 
 const Profile = () => {
   const auth = getAuth();
@@ -261,11 +263,11 @@ const Profile = () => {
       {/* top */}
       <div className={`${styles.flexCenter} w-full h-[300px]`}>
         <div
-          className="w-[207px] h-[207px] bg-cover bg-center cursor-pointer"
-          style={{ backgroundImage: `url(${ProfilePic})` }}
+          className="w-[180px] h-[180px] bg-cover bg-center"
+          style={{ backgroundImage: `url(${ODonutLogo})` }}
           onClick={handleProfilePicClick}
         >
-          <div
+          {/* <div
             className={`w-full h-full bg-[#28293380] opacity-0 hover:opacity-100 ${styles.flexCenter}`}
           >
             <FaCamera size="20%" className="text-inputCol" />
@@ -276,7 +278,7 @@ const Profile = () => {
               className="cursor-pointer absolute block py-2 px-4 w-full opacity-0 pin-r pin-t"
               accept="image/*"
             />
-          </div>
+          </div> */}
         </div>
       </div>
 
@@ -345,18 +347,20 @@ const Profile = () => {
             specificInputObject={bio}
             label={true}
           />
-          <div
+          <motion.div
+            whileHover={userInformation ? { scale: 1.02 } : { scale: 1 }}
+            whileTap={userInformation ? { scale: 0.98 } : { scale: 1 }}
             className={`${
               styles.flexCenter
             } w-full py-[10px] rounded-xl text-lightTextCol font-semibold text-[14px] ${
               userInformation
-                ? "btnPrimaryCol buttonShadow hover:bg-[#293D2B] cursor-pointer"
+                ? "btnPrimaryCol buttonShadow hover:bg-btnHover cursor-pointer"
                 : "bg-transparent border-[1px] border-solid cursor-default"
             } `}
             onClick={() => handleSubmit("userInformation")}
           >
             Save Changes
-          </div>
+          </motion.div>
         </div>
 
         {/* Second Column */}
@@ -391,18 +395,20 @@ const Profile = () => {
             specificInputObject={instagram}
             label={true}
           />
-          <div
+          <motion.div
+            whileHover={social ? { scale: 1.02 } : { scale: 1 }}
+            whileTap={social ? { scale: 0.98 } : { scale: 1 }}
             className={`${
               styles.flexCenter
             } w-full py-[10px] rounded-xl text-lightTextCol font-semibold text-[14px] ${
               social
-                ? "btnPrimaryCol buttonShadow hover:bg-[#293D2B] cursor-pointer"
+                ? "btnPrimaryCol buttonShadow hover:bg-btnHover cursor-pointer"
                 : "bg-transparent border-[1px] border-solid cursor-default"
             } `}
             onClick={() => handleSubmit("social")}
           >
             Save Changes
-          </div>
+          </motion.div>
         </div>
         <div className="w-full sm:w-[400px] flex flex-col p-[10px] gap-y-[16px]">
           <p className={`w-full ${styles.paragraph14} text-lightTextCol`}>
@@ -436,13 +442,15 @@ const Profile = () => {
           {/* Button */}
           <div className="w-full flex flex-col">
             <div className="w-full flex flex-col">
-              <button
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 onClick={handleLogOut}
                 type="button"
-                className={`w-full h-[40px] text-lightTextCol text-[14px] font-semibold btnPrimaryCol buttonShadow rounded-xl`}
+                className={`w-full h-[40px] text-lightTextCol text-[14px] font-semibold btnPrimaryCol hover:bg-btnHover buyinglistBtnHover buttonShadow rounded-xl`}
               >
                 Logout
-              </button>
+              </motion.button>
             </div>
           </div>
 

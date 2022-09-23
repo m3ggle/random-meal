@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import useWindowDimensions from "../hooks/useWindowDimensions";
 import styles from "../styles";
 import CardsSamples from "../utilities/cards/CardsSamples";
+import { motion } from "framer-motion";
 
 const FavMeals = () => {
   const [filterState, setFilterState] = useState(false);
@@ -58,7 +59,8 @@ const FavMeals = () => {
               />
             </div>
             {/* Filter */}
-            <div
+            <motion.div
+              whileTap={{ scale: 0.98 }}
               className={`relative w-[50px] h-[46px] border-[1px] rounded-xl ${styles.flexCenter} text-lightTextCol z-[60] cursor-pointer`}
               onClick={() => setFilterState((prevState) => !prevState)}
             >
@@ -76,7 +78,8 @@ const FavMeals = () => {
                 {/* content */}
                 <div className="flex flex-col">
                   {Object.keys(selectedFilter).map((key, index) => (
-                    <div
+                    <motion.div
+                      whileTap={{ scale: 0.98 }}
                       key={index}
                       onClick={() => handleSelectedFilterChange(key)}
                       className="flex items-center hover:bg-[#3E4150] rounded-[4px] py-2 cursor-pointer hover:px-2"
@@ -98,11 +101,11 @@ const FavMeals = () => {
                           {selectedFilter[key] ? <FaCheck /> : <FaTimes />}
                         </div>
                       </div>
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
           <div
             className={`text-inputCol ${styles.paragraph14} flex items-center gap-x-[8px] hidden`}
@@ -140,7 +143,8 @@ const FavMeals = () => {
 
       {/* 1 vs 3 */}
       <div className={`${styles.flexCenter} mb-4`}>
-        <div
+        <motion.div
+          whileTap={{ scale: 0.98 }}
           onClick={() => setSelectedCount("1 Meal")}
           className={`${styles.flexCenter} w-[120px] h-6 border-b-2 ${
             selectedCount !== "1 Meal" && "border-[#626476]"
@@ -155,8 +159,9 @@ const FavMeals = () => {
           >
             1 Meal
           </p>
-        </div>
-        <div
+        </motion.div>
+        <motion.div
+          whileTap={{ scale: 0.98 }}
           onClick={() => setSelectedCount("3 Meals")}
           className={`${styles.flexCenter} w-[120px] h-6 border-b-2 ${
             selectedCount !== "3 Meals" && "border-[#626476]"
@@ -171,7 +176,7 @@ const FavMeals = () => {
           >
             3 Meals
           </p>
-        </div>
+        </motion.div>
       </div>
       {/* meals (1 meal and 3 meals are actually not seperate, just without the logic behind it there is no other choice otherwise put it in one div) */}
       {/* 1 meal */}

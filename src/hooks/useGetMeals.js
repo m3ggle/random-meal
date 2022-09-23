@@ -1,6 +1,7 @@
 import { collection, getDocs, limit, query, where } from "firebase/firestore";
 import { db } from "../firebase.config";
 
+// get all favorite meals from firestore
 export const useGetMeals = () => {
   const handleGetMeals = async (mealsIds) => {
     try {
@@ -10,7 +11,7 @@ export const useGetMeals = () => {
       // console.log(docSnap)
       const getTenMeals = query(
         collection(db, "meals"),
-        where("id", "in", mealsIds),
+        where("mealinformation.id", "in", mealsIds),
         limit(10)
       );
       const querySnapshot = await getDocs(getTenMeals);

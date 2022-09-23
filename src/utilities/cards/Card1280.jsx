@@ -1,12 +1,17 @@
+import { motion } from "framer-motion";
 import React from "react";
 import { FaHeart, FaLock, FaShoppingCart } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styles from "../../styles";
 
-const Card1280 = ({ id, title, image }) => {
+const Card1280 = ({ id, title, image, fullMealInfo }) => {
+  const navigate = useNavigate();
   return (
-    <Link
-      to={`/mealdetails/${id}`}
+    <motion.div
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+      onClick={() => navigate(`/mealdetails/${id}`)}
+      state={fullMealInfo}
       className="w-[308px] min-h-[423px] max-h-[423px] bg-cover bg-center flex justify-center rounded-xl relative cardShadow"
       style={{ backgroundImage: `url(${image})` }}
     >
@@ -24,20 +29,29 @@ const Card1280 = ({ id, title, image }) => {
 
       {/* icons */}
       <div className="w-fit h-fit flex flex-col gap-y-[10px] absolute top-[4%] left-[86%] ">
-        <FaHeart
-          size="24px"
-          className="text-iconTransCol drop-shadow-cardIcon cursor-pointer"
-        />
-        <FaShoppingCart
-          size="24px"
-          className="text-iconTransCol drop-shadow-cardIcon cursor-pointer"
-        />
-        <FaLock
-          size="24px"
-          className="text-iconTransCol drop-shadow-cardIcon cursor-pointer"
-        />
+        <motion.div
+          whileTap={{ scale: 0.94 }}
+          className={`w-[24px] h-[24px] ${styles.flexCenter}`}
+        >
+          <FaHeart size="24px" className="text-iconTransCol cursor-pointer" />
+        </motion.div>
+        <motion.div
+          whileTap={{ scale: 0.94 }}
+          className={`w-[24px] h-[24px] ${styles.flexCenter}`}
+        >
+          <FaShoppingCart
+            size="24px"
+            className="text-iconTransCol cursor-pointer"
+          />
+        </motion.div>
+        <motion.div
+          whileTap={{ scale: 0.94 }}
+          className={`w-[24px] h-[24px] ${styles.flexCenter}`}
+        >
+          <FaLock size="24px" className="text-iconTransCol cursor-pointer" />
+        </motion.div>
       </div>
-    </Link>
+    </motion.div>
   );
 };
 
