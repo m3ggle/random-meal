@@ -7,7 +7,6 @@ const spoonacularReducer = (state, action) => {
         buyinglist: action.payload.buyinglist,
       };
     case "UPDATE_RANDOM_MEALS": 
-      console.log("new arrivals")
       return {
         ...state,
         spoonacularResult: action.payload,

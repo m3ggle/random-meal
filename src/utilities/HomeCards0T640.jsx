@@ -6,7 +6,13 @@ import Card0T640 from "./cards/Card0T640";
 
 /* 0-640px */
 
-const HomeCards0T640 = ({ data, callbackButton }) => {
+const HomeCards0T640 = ({
+  data,
+  callbackButton,
+  callbackAddFavMeal,
+  callbackRemoveFavMeal,
+  callbackBuylist,
+}) => {
   return (
     <div className="w-full max-w-[640px] flex items-center flex-col xl:hidden 500:gap-y-[10px] 500:py-[20px]">
       {/* meals */}
@@ -17,6 +23,9 @@ const HomeCards0T640 = ({ data, callbackButton }) => {
           title={mealCard.mealinformation.title}
           image={mealCard.mealinformation.image}
           fullMealInfo={mealCard}
+          callbackAddFavMeal={callbackAddFavMeal}
+          callbackRemoveFavMeal={callbackRemoveFavMeal}
+          callbackBuylist={callbackBuylist}
         />
       ))}
 
