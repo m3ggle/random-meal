@@ -23,7 +23,7 @@ import styles from "../styles";
 import CardsSamples from "../utilities/cards/CardsSamples";
 
 const FavMeals = () => {
-  const { user, dispatch, buyinglist, spoonacularResult } =
+  const { user, dispatch, buyinglist } =
     useContext(SpoonacularContext);
   const [filterState, setFilterState] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState({
@@ -42,63 +42,62 @@ const FavMeals = () => {
 
   // check signed in
   useEffect(() => {
-    const auth = getAuth()
+    const auth = getAuth();
     if (!auth.currentUser) {
-      navigate("/signIn")
+      navigate("/signIn");
     }
-  }, [])
+  }, []);
 
   // setFilteredMeals
   useEffect(() => {
     setFilteredMeals(user.favoriteMeals);
   }, [user.favoriteMeals]);
 
-  // Search + Filter filter
+  // when changes call search + tag filter function
   useEffect(() => {
     if (user.favoriteMeals) {
-      const searchFilter = () => {
-        let searchFilteredMeals;
-        let re = new RegExp(searchText, "i");
-        searchFilteredMeals = user.favoriteMeals.filter((meal) =>
-          meal.mealinformation.title.match(re)
-        );
-        return searchFilteredMeals;
-      };
-
-      const filterFilter = (filteredBySearch) => {
-        // get all active filter tags
-        let activeFilters;
-        activeFilters = Object.entries(selectedFilter).filter(
-          (pair) => pair[1]
-        );
-        activeFilters = activeFilters.map((fil) => {
-          return fil[0];
-        });
-
-        // fill with meals that have one of the active filter tags
-        let fullFiltered = [];
-        filteredBySearch.map((meal) => {
-          activeFilters.some((fil) => {
-            if (meal.mealinformation.dishTypes.includes(fil)) {
-              fullFiltered.push(meal);
-              return meal;
-            }
-          });
-        });
-
-        if (fullFiltered.length > 0) {
-          return fullFiltered;
-        } else {
-          return filteredBySearch;
-        }
-      };
-
-      const fullFilteredMeals = filterFilter(searchFilter());
-      setFilteredMeals(fullFilteredMeals);
+      setFilteredMeals(tagfilter(searchFilter()));
     }
   }, [searchText, selectedFilter, user.favoriteMeals]);
 
-  // filter
+  // functionality of search filter
+  const searchFilter = () => {
+    let searchFilteredMeals;
+    let re = new RegExp(searchText, "i");
+    searchFilteredMeals = user.favoriteMeals.filter((meal) =>
+      meal.mealinformation.title.match(re)
+    );
+    return searchFilteredMeals;
+  };
+
+  // functionality of tags filter
+  const tagfilter = (filteredBySearch) => {
+    // get all active filter tags
+    let activeFilters;
+    activeFilters = Object.entries(selectedFilter).filter((pair) => pair[1]);
+    activeFilters = activeFilters.map((fil) => {
+      return fil[0];
+    });
+
+    // fill with meals that have one of the active filter tags
+    let fullFiltered = [];
+    filteredBySearch.map((meal) => {
+      activeFilters.some((fil) => {
+        if (meal.mealinformation.dishTypes.includes(fil)) {
+          fullFiltered.push(meal);
+          return meal;
+        }
+      });
+    });
+
+    if (fullFiltered.length > 0) {
+      return fullFiltered;
+    } else {
+      return filteredBySearch;
+    }
+  };
+
+  // when change tag filter
   const handleSelectedFilterChange = (e) => {
     setSelectedFilter({
       ...selectedFilter,
@@ -121,7 +120,7 @@ const FavMeals = () => {
     uploadUserInfo(user);
   };
 
-  // buyinglist
+  // upload buyinglist
   const uploadBuyinglist = async (buyinglist) => {
     try {
       const auth = getAuth();
@@ -141,6 +140,7 @@ const FavMeals = () => {
     }
   };
 
+  // upload userinfo
   const uploadUserInfo = async (userInfo) => {
     try {
       const auth = getAuth();

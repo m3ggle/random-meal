@@ -45,7 +45,15 @@ const SignButtons = ({ formData, stateArray }) => {
   const { username, email, password, userInformation } = formData;
 
   const handleSubmit = async () => {
-    if (distributor({id: "userInformation", values: stateArray, condition: "all"})) {
+    console.log(
+      distributor({
+        validation: "userInformation",
+        values: stateArray,
+        condition: "all",
+      })
+    );
+    console.log(stateArray)
+    if (distributor({validation: "userInformation", values: stateArray, condition: "all"})) {
       const auth = getAuth();
       if (location.pathname === "/signUp") {
         handleSignUp(auth);
