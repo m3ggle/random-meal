@@ -1,8 +1,7 @@
 import { getAuth } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { motion } from "framer-motion";
-import React, { useContext, useState } from "react";
-import { useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   FaCheck,
   FaExclamationCircle,
@@ -36,42 +35,68 @@ const FavMeals = () => {
   });
   const [selectedCount, setSelectedCount] = useState("1 Meal");
   const { width, height } = useWindowDimensions();
-  const [searchText, setSearchText] = useState("")
-  const [filteredMeals, setFilteredMeals] = useState()
+  const [searchText, setSearchText] = useState("");
+  const [filteredMeals, setFilteredMeals] = useState();
 
   const navigate = useNavigate();
-  
-  // search
-  // const handleSearchChange = (e) => {
-  //   setSearchText(e.target.value)
-  // }
-  // useEffect(() => {
-  //   if (user.favoriteMeals) {
-  //     setFilteredMeals([user.favoriteMeals]);
-  //   }
-  // }, [user.favoriteMeals])
 
+  // check signed in
+  useEffect(() => {
+    const auth = getAuth()
+    if (!auth.currentUser) {
+      navigate("/signIn")
+    }
+  }, [])
+
+  // setFilteredMeals
+  useEffect(() => {
+    setFilteredMeals(user.favoriteMeals);
+  }, [user.favoriteMeals]);
+
+  // Search + Filter filter
   useEffect(() => {
     if (user.favoriteMeals) {
-      let searchFilteredMeals;
-      const re = new RegExp(searchText, "i");
-      searchFilteredMeals = user.favoriteMeals.filter((meal) =>
-        meal.mealinformation.title.match(re)
-      );
-      setFilteredMeals(searchFilteredMeals);
+      const searchFilter = () => {
+        let searchFilteredMeals;
+        let re = new RegExp(searchText, "i");
+        searchFilteredMeals = user.favoriteMeals.filter((meal) =>
+          meal.mealinformation.title.match(re)
+        );
+        return searchFilteredMeals;
+      };
+
+      const filterFilter = (filteredBySearch) => {
+        // get all active filter tags
+        let activeFilters;
+        activeFilters = Object.entries(selectedFilter).filter(
+          (pair) => pair[1]
+        );
+        activeFilters = activeFilters.map((fil) => {
+          return fil[0];
+        });
+
+        // fill with meals that have one of the active filter tags
+        let fullFiltered = [];
+        filteredBySearch.map((meal) => {
+          activeFilters.some((fil) => {
+            if (meal.mealinformation.dishTypes.includes(fil)) {
+              fullFiltered.push(meal);
+              return meal;
+            }
+          });
+        });
+
+        if (fullFiltered.length > 0) {
+          return fullFiltered;
+        } else {
+          return filteredBySearch;
+        }
+      };
+
+      const fullFilteredMeals = filterFilter(searchFilter());
+      setFilteredMeals(fullFilteredMeals);
     }
-  }, [searchText, user.favoriteMeals]);
-
-  // versuch nach tags zu filtern
-  // useEffect(() => {
-  //   if (user.favoriteMeals) {
-  //     let activeFilters 
-  //     activeFilters = Object.entries(selectedFilter).filter(pair => pair[1])
-  //     activeFilters = activeFilters.map(fil => {return fil[0]})
-
-  //     console.log();
-  //   }
-  // }, [selectedFilter]);
+  }, [searchText, selectedFilter, user.favoriteMeals]);
 
   // filter
   const handleSelectedFilterChange = (e) => {
