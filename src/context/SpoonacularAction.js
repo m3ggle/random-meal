@@ -31,7 +31,6 @@ export const getRandomDayMeal = async () => {
       .then((json) => {
         return json;
       });
-      console.log(result)
     return result;
   } catch (error) {
     console.log(error);

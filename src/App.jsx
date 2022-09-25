@@ -45,7 +45,7 @@ function App() {
       let favoriteMeals = await handleGetMeals(userInfo.favMeals);
       userInfo.favoriteMeals = addLikedProperty(favoriteMeals);
       dispatch({
-        type: "UPDATE_USER_INFORMATION",
+        type: "UPDATE_USER_INFORMATION_INIT",
         payload: { ...userInfo },
       });
     } else {
@@ -80,7 +80,7 @@ function App() {
   return (
     <div className={`w-full h-screen ${styles.flexCenter} bg-navCol`}>
       <div
-        className={`realative max-w-[1440px] w-full flex bg-bgPrimaryCol overflow-hidden`}
+        className={`realative h-full max-w-[1440px] w-full flex bg-bgPrimaryCol overflow-hidden`}
       >
         <Router>
           <Navbar />

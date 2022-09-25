@@ -3,28 +3,20 @@ import Card0T640 from "../utilities/HomeCards0T640";
 // import Card640T1280 from "../utilities/HomeCards640T1280"
 import { getAuth } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { toast } from "react-toastify";
 import { getRandomDayMeal } from "../context/SpoonacularAction";
 import SpoonacularContext from "../context/SpoonacularContext";
 import { db } from "../firebase.config";
 import useCleanUp from "../hooks/useCleanUp";
-import Card1280 from "../utilities/HomeCards1280";
-import { useEffect } from "react";
-import { useState } from "react";
 
 const RandomMeal = () => {
   const { cleanUpMeals } = useCleanUp();
   const { user, dispatch, allMealIds, spoonacularResult, buyinglist } =
     useContext(SpoonacularContext);
   const auth = getAuth();
-  const [internalResults, setInternalResults] = useState({
 
-  })
-
-  useEffect(() => {
-
-  }, [spoonacularResult])
+  useEffect(() => {}, [spoonacularResult]);
 
   const storeInDb = async (result) => {
     try {
@@ -81,13 +73,22 @@ const RandomMeal = () => {
     }
   };
 
-  const handleAddFavMeal = (id) => {
+  const handleAddFavMeal = (id, meal) => {
     spoonacularResult.map((meals) => {
       if (meals.mealinformation.id === id) {
         meals.liked = true;
       }
     });
     dispatch({ type: "UPDATE_RANDOM_MEALS", payload: [...spoonacularResult] });
+
+    // updating favMeals
+    user.favMeals.push(id);
+    user.favoriteMeals.push(meal);
+    dispatch({
+      type: "UPDATE_USER_INFORMATION",
+      payload: { ...user },
+    });
+    uploadUserInfo(user);
   };
 
   const handleRemoveFavMeal = (id) => {
@@ -97,8 +98,20 @@ const RandomMeal = () => {
       }
     });
     dispatch({ type: "UPDATE_RANDOM_MEALS", payload: [...spoonacularResult] });
+
+    // updating favMeals
+    user.favoriteMeals = user.favoriteMeals.filter(
+      (meal) => meal.mealinformation.id !== id
+    );
+    user.favMeals = user.favMeals.filter((mealId) => mealId !== id);
+    dispatch({
+      type: "UPDATE_USER_INFORMATION",
+      payload: { ...user },
+    });
+    uploadUserInfo(user);
   };
 
+  // buyinglist
   const uploadUpdate = async (buyinglist) => {
     try {
       const auth = getAuth();
@@ -110,6 +123,21 @@ const RandomMeal = () => {
           },
           { merge: true }
         );
+      } else {
+        toast.error("😤 Not logged in");
+      }
+    } catch (error) {
+      toast.error("🍅 Could not upload the Update");
+    }
+  };
+
+  const uploadUserInfo = async (userInfo) => {
+    try {
+      const auth = getAuth();
+      if (auth.currentUser) {
+        await setDoc(doc(db, "users", auth.currentUser.uid), {
+          ...userInfo,
+        });
       } else {
         toast.error("😤 Not logged in");
       }
@@ -160,17 +188,6 @@ const RandomMeal = () => {
         callbackButton={callbackClickedButton}
         callbackBuylist={handleBuyinglist}
       />
-      <Card1280
-        data={spoonacularResult}
-        callbackButton={callbackClickedButton}
-      />
-      {/* <button
-        onClick={handleClick}
-        className="px-6 py-6 max-h-fit bg-bgSecondaryCol rounded-xl"
-        type="button"
-      >
-        Click Me
-      </button> */}
     </div>
   );
 };

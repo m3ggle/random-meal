@@ -1,12 +1,11 @@
+import { motion } from "framer-motion";
 import React from "react";
-import { FaHeart, FaLock, FaShoppingCart } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { FaHeart, FaShoppingCart } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import LunchImg from "../../assets/images/lunchExample.jpg";
 import styles from "../../styles";
-import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
 
-const CardLittle = ({ lock }) => {
+const CardLittle = () => {
   const navigate = useNavigate();
   return (
     <motion.div
@@ -36,12 +35,6 @@ const CardLittle = ({ lock }) => {
           size="18px"
           className="text-iconTransCol drop-shadow-cardIcon"
         />
-        {lock !== undefined && (
-          <FaLock
-            size="18px"
-            className="text-iconTransCol drop-shadow-cardIcon"
-          />
-        )}
       </div>
     </motion.div>
   );

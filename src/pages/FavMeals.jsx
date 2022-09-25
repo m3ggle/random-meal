@@ -1,4 +1,8 @@
-import React, { useState } from "react";
+import { getAuth } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
+import { motion } from "framer-motion";
+import React, { useContext, useState } from "react";
+import { useEffect } from "react";
 import {
   FaCheck,
   FaExclamationCircle,
@@ -9,12 +13,19 @@ import {
   FaTimes,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { v4 as uuidv4 } from "uuid";
+import FavMealsOne from "../components/FavMealsOne";
+import Loading from "../components/Loading";
+import SpoonacularContext from "../context/SpoonacularContext";
+import { db } from "../firebase.config";
 import useWindowDimensions from "../hooks/useWindowDimensions";
 import styles from "../styles";
 import CardsSamples from "../utilities/cards/CardsSamples";
-import { motion } from "framer-motion";
 
 const FavMeals = () => {
+  const { user, dispatch, buyinglist, spoonacularResult } =
+    useContext(SpoonacularContext);
   const [filterState, setFilterState] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState({
     Breakfast: false,
@@ -25,8 +36,42 @@ const FavMeals = () => {
   });
   const [selectedCount, setSelectedCount] = useState("1 Meal");
   const { width, height } = useWindowDimensions();
+  const [searchText, setSearchText] = useState("")
+  const [filteredMeals, setFilteredMeals] = useState()
 
   const navigate = useNavigate();
+  
+  // search
+  // const handleSearchChange = (e) => {
+  //   setSearchText(e.target.value)
+  // }
+  // useEffect(() => {
+  //   if (user.favoriteMeals) {
+  //     setFilteredMeals([user.favoriteMeals]);
+  //   }
+  // }, [user.favoriteMeals])
+
+  useEffect(() => {
+    if (user.favoriteMeals) {
+      let searchFilteredMeals;
+      const re = new RegExp(searchText, "i");
+      searchFilteredMeals = user.favoriteMeals.filter((meal) =>
+        meal.mealinformation.title.match(re)
+      );
+      setFilteredMeals(searchFilteredMeals);
+    }
+  }, [searchText, user.favoriteMeals]);
+
+  // versuch nach tags zu filtern
+  // useEffect(() => {
+  //   if (user.favoriteMeals) {
+  //     let activeFilters 
+  //     activeFilters = Object.entries(selectedFilter).filter(pair => pair[1])
+  //     activeFilters = activeFilters.map(fil => {return fil[0]})
+
+  //     console.log();
+  //   }
+  // }, [selectedFilter]);
 
   // filter
   const handleSelectedFilterChange = (e) => {
@@ -36,8 +81,91 @@ const FavMeals = () => {
     });
   };
 
+  // random meal import
+  const handleRemoveFavMeal = (id) => {
+    // favoriteMeals for local update (shortterm)
+    // favMeals for global update (longterm)
+    user.favoriteMeals = user.favoriteMeals.filter(
+      (meal) => meal.mealinformation.id !== id
+    );
+    user.favMeals = user.favMeals.filter((mealId) => mealId !== id);
+    dispatch({
+      type: "UPDATE_USER_INFORMATION",
+      payload: { ...user },
+    });
+    uploadUserInfo(user);
+  };
+
+  // buyinglist
+  const uploadBuyinglist = async (buyinglist) => {
+    try {
+      const auth = getAuth();
+      if (auth.currentUser) {
+        await setDoc(
+          doc(db, "users", auth.currentUser.uid),
+          {
+            buyinglist: buyinglist,
+          },
+          { merge: true }
+        );
+      } else {
+        toast.error("😤 Not logged in");
+      }
+    } catch (error) {
+      toast.error("🍅 Could not upload the Update");
+    }
+  };
+
+  const uploadUserInfo = async (userInfo) => {
+    try {
+      const auth = getAuth();
+      if (auth.currentUser) {
+        await setDoc(doc(db, "users", auth.currentUser.uid), {
+          ...userInfo,
+        });
+      } else {
+        toast.error("😤 Not logged in");
+      }
+    } catch (error) {
+      toast.error("🍅 Could not upload the Update");
+    }
+  };
+
+  // console.log(buyinglist)
+  const handleBuyinglist = (id, fullMealInfo) => {
+    const alreadyExists = buyinglist.filter((meal) =>
+      Object.keys(meal).includes(fullMealInfo.mealinformation.title)
+    ).length;
+
+    if (buyinglist.length < 6) {
+      if (alreadyExists === 0) {
+        const buyinglistIngredients = {
+          [fullMealInfo.mealinformation.title]: fullMealInfo.ingredients.map(
+            (ing) => {
+              return {
+                name: ing.name,
+                amount: ing.measures.amount,
+                unitShort: ing.measures.unitShort,
+              };
+            }
+          ),
+        };
+        buyinglist.push(buyinglistIngredients);
+        dispatch({ type: "UPDATE_BUYINGLIST", payload: buyinglist });
+        uploadBuyinglist(buyinglist);
+        toast.success("🍕 New Meal and Ingredient added to buyinglist");
+      } else {
+        toast.info("🍔 Meal already exists");
+      }
+    } else {
+      toast.info(
+        "🍓 You reached the maximum number of Meals in your Buyinglist"
+      );
+    }
+  };
+
   return (
-    <div className="w-full h-screen flex flex-col gap-y-3">
+    <div className="w-full h-full overflow-scroll flex flex-col gap-y-3">
       {/* header */}
       <div className="flex justify-center h-[120px] pt-8">
         <div className="w-full max-w-[325px] flex flex-col gap-y-[8px] ">
@@ -54,6 +182,8 @@ const FavMeals = () => {
               {/* text */}
               <input
                 type="text"
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
                 className={`bg-transparent w-full h-[20px] focus:outline-none text-lightTextCol ${styles.paragraph14} placeholder:text-inputCol`}
                 placeholder="Search For Meals..."
               />
@@ -183,41 +313,41 @@ const FavMeals = () => {
       <div
         className={`${
           selectedCount === "1 Meal" ? "flex" : "hidden"
-        } gap-2 flex-wrap w-full px-10 overflow-scroll 600:gap-6 justify-center max-w-[1350px]`}
+        } gap-2 flex-col md:flex-row md:flex-wrap w-full px-10 md:gap-6 justify-center max-w-[1350px]`}
       >
-        {width < 600 ? (
-          <CardsSamples type="mobile" />
+        {filteredMeals ? (
+          <>
+            {filteredMeals.map((favMeal) => (
+              <FavMealsOne
+                key={uuidv4()}
+                meal={favMeal}
+                callbackRemoveFavMeal={handleRemoveFavMeal}
+                callbackBuylist={handleBuyinglist}
+              />
+            ))}
+            <div className="w-full h-24 600:h-28"></div>
+          </>
         ) : (
-          <CardsSamples type="little" />
+          <Loading />
         )}
-        {width < 600 ? (
-          <CardsSamples type="mobile" />
+        {/* {user.favoriteMeals ? (
+          <>
+            {user.favoriteMeals.map((favMeal) => (
+              <FavMealsOne
+                key={uuidv4()}
+                meal={favMeal}
+                callbackRemoveFavMeal={handleRemoveFavMeal}
+                callbackBuylist={handleBuyinglist}
+              />
+            ))}
+            <div className="w-full h-24 600:h-28"></div>
+          </>
         ) : (
-          <CardsSamples type="little" />
-        )}
-        {width < 600 ? (
-          <CardsSamples type="mobile" />
-        ) : (
-          <CardsSamples type="little" />
-        )}
-        {width < 600 ? (
-          <CardsSamples type="mobile" />
-        ) : (
-          <CardsSamples type="little" />
-        )}
-        {width < 600 ? (
-          <CardsSamples type="mobile" />
-        ) : (
-          <CardsSamples type="little" />
-        )}
-        {width < 600 ? (
-          <CardsSamples type="mobile" />
-        ) : (
-          <CardsSamples type="little" />
-        )}
+          <Loading />
+        )} */}
 
         {/* puffer */}
-        <div className="h-[20%] md:h-[5%] w-full"></div>
+        {/* <div className="h-[20%] md:h-[5%] w-full"></div> */}
       </div>
 
       {/* 3 Meals */}

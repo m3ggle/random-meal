@@ -1,12 +1,11 @@
 import { motion } from "framer-motion";
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
-import { FaHeart, FaLock, FaShoppingCart } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { useIcons } from "../../hooks/useIcons";
-import useWindowDimensions from "../../hooks/useWindowDimensions";
 import styles from "../../styles";
+import { v4 as uuidv4 } from "uuid";
+import { getAuth } from "firebase/auth";
+import { toast } from "react-toastify";
 
 const Card0T640 = ({
   id,
@@ -17,9 +16,7 @@ const Card0T640 = ({
   callbackRemoveFavMeal,
   callbackBuylist,
 }) => {
-  const { width } = useWindowDimensions();
   const navigate = useNavigate();
-  // const { handleLike } = useIcons();
   const [likeState, setLikeState] = useState(false);
 
   useEffect(() => {
@@ -30,12 +27,15 @@ const Card0T640 = ({
     if (msg === "card") {
       navigate(`/mealdetails/${id}`);
     } else if (msg === "heart") {
-      likeState ? callbackRemoveFavMeal(id) : callbackAddFavMeal(id);
-      setLikeState((prevState) => !prevState);
+      const auth = getAuth()
+      if (auth.currentUser) {
+        likeState ? callbackRemoveFavMeal(id) : callbackAddFavMeal(id, fullMealInfo);
+        setLikeState((prevState) => !prevState);
+      } else {
+        toast.error("😤 Not logged in");
+      }
     } else if (msg === "buy") {
-      callbackBuylist(id, fullMealInfo)
-    } else if (msg === "lock") {
-      console.log("lock");
+      callbackBuylist(id, fullMealInfo);
     }
   };
 
@@ -44,10 +44,8 @@ const Card0T640 = ({
       id="card"
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.99 }}
-      // onClick={() => handleClick("Card")}
-      // onClick={() => navigate(`/mealdetails/${id}`)}
       state={fullMealInfo}
-      className="relative mt-[-10px] 500:mt-0 w-full 500:w-[90%] h-[25%] md:h-[30%] rounded-t-[20px] 500:rounded-[20px] bg-red-400 bg-center bg-cover overflow-hidden DayMealsShadow z-20 cursor-pointer"
+      className="relative w-[90%] h-[30%] md:h-[30%] rounded-[20px] bg-bgPrimaryCol bg-center bg-cover overflow-hidden DayMealsShadow cursor-pointer xl:w-[308px] xl:min-h-[423px] xl:max-h-[423px] xl:flex xl:justify-center py-0"
       style={{ backgroundImage: `url(${image})` }}
     >
       <div
@@ -55,18 +53,47 @@ const Card0T640 = ({
         onClick={() => handleClick("card")}
         className="absolute top-0 left-0 w-full h-full imgOverlayRandomMeal z-10"
       ></div>
-      <p
-        onClick={() => handleClick("card")}
-        className={`absolute bottom-[5%] left-[5%] right-[5%] ${
-          width > 768 ? styles.heading24 : styles.heading20
-        }  text-lightTextCol z-20`}
-      >
-        {title}
-      </p>
+
+      <div className="w-full xl:w-[280px] xl:bg-lightTextCol rounded-xl absolute bottom-[0%] xl:bottom-[3%] flex flex-start px-4 xl:px-4 pt-8 pb-3 xl:py-3 flex-col gap-y-[6px] xl:cardNameShadow z-20">
+        <p
+          className={`${styles.paragraph20} whitespace-nowrap truncate text-lightTextCol xl:text-darkTextCol`}
+        >
+          {title}
+        </p>
+        <div
+          className={`hidden xl:flex gap-2 w-full flex-wrap`}
+        >
+          {fullMealInfo.mealinformation.dishTypes.map((type) => {
+            if (
+              type === "Breakfast" ||
+              type === "Lunch" ||
+              type === "Dinner" ||
+              type === "Vegeterian" ||
+              type === "Vegan"
+            ) {
+              return (
+                <div
+                  key={uuidv4()}
+                  className={`px-4 py-1 w-fit ${
+                    type === "Dinner"
+                      ? "tagDinner"
+                      : type === "Lunch"
+                      ? "tagLunch"
+                      : "tagBreakfast"
+                  } rounded-full ${styles.tag12}`}
+                >
+                  {type}
+                </div>
+              );
+            }
+          })}
+        </div>
+      </div>
+
       {/* icons */}
       <div
         id="icons"
-        className="w-fit h-fit flex flex-col absolute top-[8%] left-[90%] 500:top-[12%] 500:left-[92%]"
+        className="w-fit h-fit flex flex-col absolute top-[8%] left-[86%] 500:top-[12%] 500:left-[90%]  xl:top-[6%] xl:left-[82%]"
       >
         <motion.div
           id="heart"
@@ -85,14 +112,6 @@ const Card0T640 = ({
           className={`w-[34px] h-[34px] ${styles.flexCenter} z-20 text-iconTransCol cursor-pointer active:text-[#2B598C]`}
         >
           <FaShoppingCart size="24px" />
-        </motion.div>
-        <motion.div
-          id="lock"
-          onClick={() => handleClick("lock")}
-          whileTap={{ scale: 0.94 }}
-          className={`w-[34px] h-[34px] ${styles.flexCenter} z-20 text-iconTransCol cursor-pointer`}
-        >
-          <FaLock size="24px" />
         </motion.div>
       </div>
     </motion.div>

@@ -4,16 +4,16 @@ import CardLittle from "./CardLittle";
 import CardMobile from "./CardMobile";
 import CardThreeMobile from "./CardThreeMobile";
 
-const Cards = ({ type, lock }) => {
+const Cards = ({ type }) => {
   switch (type) {
     case "large":
-      return <CardLarge lock={lock} />;
+      return <CardLarge />;
     case "little":
-      return <CardLittle lock={lock} />;
+      return <CardLittle />;
     case "mobile":
-      return <CardMobile lock={lock} />;
+      return <CardMobile />;
     case "three":
-      return <CardThreeMobile lock={lock} />;
+      return <CardThreeMobile />;
     default:
       return "";
   }

@@ -1,12 +1,17 @@
 const spoonacularReducer = (state, action) => {
   switch (action.type) {
-      case "UPDATE_USER_INFORMATION":
+    case "UPDATE_USER_INFORMATION_INIT":
       return {
         ...state,
         user: action.payload,
         buyinglist: action.payload.buyinglist,
       };
-    case "UPDATE_RANDOM_MEALS": 
+    case "UPDATE_USER_INFORMATION": 
+      return {
+        ...state,
+        user: action.payload
+      }
+    case "UPDATE_RANDOM_MEALS":
       return {
         ...state,
         spoonacularResult: action.payload,
@@ -16,11 +21,11 @@ const spoonacularReducer = (state, action) => {
         ...state,
         allMealIds: action.payload,
       };
-    case "UPDATE_BUYINGLIST": 
+    case "UPDATE_BUYINGLIST":
       return {
         ...state,
         buyinglist: action.payload,
-      }
+      };
     default:
       return "";
   }

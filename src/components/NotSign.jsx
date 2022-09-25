@@ -14,7 +14,7 @@ const NotSign = () => {
           backgroundImage: `url(${BgImage})`,
         }}
       >
-        <div className="bg-transparent p-4">
+        <div className="bg-transparent xl:p-4">
           <div className="flex h-[350px] w-[350px] flex-col items-center justify-center gap-6 pb-6 px-6 pt-4 rounded-xl signBg">
             <p className={`${styles.heading24} text-lightTextCol`}>
               You Are not Signed In
@@ -75,7 +75,7 @@ const NotSign = () => {
             </div>
           </div>
         </div>
-        <div className="h-[350px] w-[350px] bg-transparent"></div>
+        <div className="h-[350px] w-[350px] hidden xl:flex bg-transparent"></div>
       </div>
     </div>
   );

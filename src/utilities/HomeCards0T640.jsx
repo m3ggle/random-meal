@@ -14,23 +14,28 @@ const HomeCards0T640 = ({
   callbackBuylist,
 }) => {
   return (
-    <div className="w-full max-w-[640px] flex items-center flex-col xl:hidden 500:gap-y-[10px] 500:py-[20px]">
+    <div className="w-full max-w-[640px] xl:max-w-full flex items-center xl:justify-center flex-col py-[20px] md:py-10">
       {/* meals */}
-      {data.map((mealCard) => (
-        <Card0T640
-          key={mealCard.mealinformation.id}
-          id={mealCard.mealinformation.id}
-          title={mealCard.mealinformation.title}
-          image={mealCard.mealinformation.image}
-          fullMealInfo={mealCard}
-          callbackAddFavMeal={callbackAddFavMeal}
-          callbackRemoveFavMeal={callbackRemoveFavMeal}
-          callbackBuylist={callbackBuylist}
-        />
-      ))}
+      <div className="w-full flex flex-col xl:flex-row flex-grow xl:flex-grow-0 items-center xl:justify-center gap-y-[3%] xl:gap-x-[48px]">
+        {data.map((mealCard) => (
+          <Card0T640
+            key={mealCard.mealinformation.id}
+            id={mealCard.mealinformation.id}
+            title={mealCard.mealinformation.title}
+            image={mealCard.mealinformation.image}
+            fullMealInfo={mealCard}
+            callbackAddFavMeal={callbackAddFavMeal}
+            callbackRemoveFavMeal={callbackRemoveFavMeal}
+            callbackBuylist={callbackBuylist}
+          />
+        ))}
+      </div>
+
+      {/* Puffer */}
+      <div className="w-full h-[202px] 600:h-[172px] md:h-[132px] md:hidden"></div>
 
       {/* button */}
-      <div className="w-full h-[14%] 500:h-[60px] flex justify-center items-center gap-x-[24px] z-40 600:mt-[12px]">
+      <div className="w-full h-[60px] flex justify-center items-center gap-x-6 z-40 600:mt-3 xl:mt-8 absolute bottom-[92px] 600:bottom-[120px] md:static ">
         <motion.div
           whileTap={{ scale: 0.94 }}
           className={`w-[24px] h-[24px] ${styles.flexCenter}`}

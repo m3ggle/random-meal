@@ -37,36 +37,6 @@ const Navbar = () => {
     setActiveSite({ ...activeSiteCopy });
   }, [location]);
 
-  // useEffect(() => {
-  //   const aFunction = async () => {
-  //     try {
-  //       const ids = [1234, 4321];
-  //       let meals = [];
-
-  //       // const docSnap = (await getDoc(doc(db, "meals", ids[0].toString()))).data();
-  //       // console.log(docSnap)
-
-  //       const getTenMeals = query(
-  //         collection(db, "meals"),
-  //         where("id", "in", ids),
-  //         limit(10)
-  //       );
-
-  //       const querySnapshot = await getDocs(getTenMeals);
-  //       console.log(querySnapshot.docs);
-  //       querySnapshot.forEach((doc) => {
-  //         meals.push(doc.data());
-  //       });
-  //       console.log(meals)
-
-  //     } catch (error) {
-  //       console.log(error)
-  //     }
-  //   };
-
-  //   aFunction()
-  // }, [])
-
   return (
     <div className={`${hidden ? "hidden" : "flex"} w-0px md:w-[80px]`}>
       {/* desktop Navbar */}
@@ -242,9 +212,9 @@ const Navbar = () => {
 
       {/* mobile Navbar */}
       <div
-        className={`md:hidden absolute top-[86%] w-full h-[14%] max-h-[190px] flex justify-center z-[60] bg-bgPrimaryCol pt-3 rounded-t-[20px]`}
+        className={`md:hidden absolute bottom-0 w-full h-24 600:h-28 max-h-[112px] flex justify-center z-[60] bg-bgPrimaryCol py-3 600:pb-0 rounded-t-[20px]`}
       >
-        <div className="flex justify-between py-[10px] px-[20px] min-w-[320px] w-9/12 max-w-[450px] h-20 rounded-xl bg-bgSecondaryDarkCol">
+        <div className="flex justify-between py-[10px] px-[20px] min-w-[340px] w-[90%] max-w-[450px] h-20 rounded-xl bg-bgSecondaryDarkCol">
           <Link
             to={"/sharepage"}
             className={`w-[60px] h-[60px] ${styles.flexCenter} ${
@@ -253,7 +223,7 @@ const Navbar = () => {
           >
             <FaUsers
               size="25px"
-              className="text-lightTextCol hover:text-[#3b593e]"
+              className="text-lightTextCol 600:hover:text-[#3b593e]"
             />
           </Link>
           <Link
@@ -264,7 +234,7 @@ const Navbar = () => {
           >
             <FaStar
               size="25px"
-              className="text-lightTextCol hover:text-[#3b593e]"
+              className="text-lightTextCol 600:hover:text-[#3b593e]"
             />
           </Link>
           <Link
@@ -275,7 +245,7 @@ const Navbar = () => {
           >
             <FaHome
               size="25px"
-              className="text-lightTextCol hover:text-[#3b593e]"
+              className="text-lightTextCol 600:hover:text-[#3b593e]"
             />
           </Link>
           <Link
@@ -286,7 +256,7 @@ const Navbar = () => {
           >
             <FaShoppingCart
               size="25px"
-              className="text-lightTextCol hover:text-[#3b593e]"
+              className="text-lightTextCol 600:hover:text-[#3b593e]"
             />
           </Link>
           <Link
@@ -297,7 +267,7 @@ const Navbar = () => {
           >
             <FaUserAlt
               size="25px"
-              className="text-lightTextCol hover:text-[#3b593e]"
+              className="text-lightTextCol 600:hover:text-[#3b593e]"
             />
           </Link>
         </div>
