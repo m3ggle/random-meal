@@ -106,6 +106,9 @@ const SignButtons = ({ formData, stateArray }) => {
       photoUrl: "",
       buyinglist: [],
       favMeals: [],
+      favCombos: [],
+      favoriteMeals: [],
+      favoriteCombos: [],
       timestamp: serverTimestamp(),
     };
 

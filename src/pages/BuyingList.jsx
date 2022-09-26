@@ -1,6 +1,7 @@
 import { getAuth } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
-import React, { useContext, useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import React, { useContext, useState } from "react";
 import { FaTimes } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
@@ -9,7 +10,6 @@ import SpoonacularContext from "../context/SpoonacularContext";
 import { db } from "../firebase.config";
 import styles from "../styles";
 import Button from "../utilities/Buttons";
-import { motion } from "framer-motion";
 
 const BuyingList = () => {
   // Todo: clean up fromData mess
@@ -65,6 +65,7 @@ const BuyingList = () => {
     }));
   };
 
+  // buyinglist
   const uploadUpdate = async (buyinglist) => {
     try {
       const auth = getAuth();

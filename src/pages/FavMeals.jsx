@@ -112,12 +112,12 @@ const FavMeals = () => {
     user.favoriteMeals = user.favoriteMeals.filter(
       (meal) => meal.mealinformation.id !== id
     );
-    user.favMeals = user.favMeals.filter((mealId) => mealId !== id);
+    const favMeals = user.favMeals.filter((mealId) => mealId !== id);
     dispatch({
-      type: "UPDATE_USER_INFORMATION",
-      payload: { ...user },
+      type: "UPDATE_FAVMEALS",
+      payload: [ ...favMeals ],
     });
-    uploadUserInfo(user);
+    uploadUserInfo(favMeals);
   };
 
   // upload buyinglist
@@ -141,13 +141,17 @@ const FavMeals = () => {
   };
 
   // upload userinfo
-  const uploadUserInfo = async (userInfo) => {
+  const uploadUserInfo = async (favMeals) => {
     try {
       const auth = getAuth();
       if (auth.currentUser) {
-        await setDoc(doc(db, "users", auth.currentUser.uid), {
-          ...userInfo,
-        });
+        await setDoc(
+          doc(db, "users", auth.currentUser.uid),
+          {
+            favMeals: favMeals,
+          },
+          { merge: true }
+        );
       } else {
         toast.error("😤 Not logged in");
       }

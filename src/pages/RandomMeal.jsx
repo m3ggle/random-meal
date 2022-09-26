@@ -88,7 +88,7 @@ const RandomMeal = () => {
       type: "UPDATE_USER_INFORMATION",
       payload: { ...user },
     });
-    uploadUserInfo(user);
+    uploadFavMeals(user.favMeals);
   };
 
   const handleRemoveFavMeal = (id) => {
@@ -108,7 +108,7 @@ const RandomMeal = () => {
       type: "UPDATE_USER_INFORMATION",
       payload: { ...user },
     });
-    uploadUserInfo(user);
+    uploadFavMeals(user.favMeals);
   };
 
   // buyinglist
@@ -131,12 +131,12 @@ const RandomMeal = () => {
     }
   };
 
-  const uploadUserInfo = async (userInfo) => {
+  const uploadFavMeals = async (favMeals) => {
     try {
       const auth = getAuth();
       if (auth.currentUser) {
         await setDoc(doc(db, "users", auth.currentUser.uid), {
-          ...userInfo,
+          favMeals: favMeals,
         });
       } else {
         toast.error("😤 Not logged in");

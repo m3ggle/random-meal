@@ -29,6 +29,9 @@ export default function useHandleGoogleSubmit() {
           photoUrl: "",
           buyinglist: [],
           favMeals: [],
+          favCombos: [],
+          favoriteMeals: [],
+          favoriteCombos: [],
           timestamp: serverTimestamp(),
         };
         await setDoc(doc(db, "users", user.uid), data);

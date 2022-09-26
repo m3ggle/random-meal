@@ -26,6 +26,11 @@ const spoonacularReducer = (state, action) => {
         ...state,
         buyinglist: action.payload,
       };
+    case "UPDATE_FAVMEALS": 
+      return {
+        ...state,
+        favMeals: action.payload,
+      }
     default:
       return "";
   }

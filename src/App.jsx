@@ -28,7 +28,7 @@ function App() {
   // Todo: outsource
   const { user, dispatch } = useContext(SpoonacularContext);
   const { loggedIn, checkingStatus } = useAuthStatus();
-  const { handleGetMeals } = useGetMeals();
+  const { handleGetMeals, handleGetCombos } = useGetMeals();
 
   const addLikedProperty = (meals) => {
     return  meals.map((meal) => {
@@ -43,7 +43,9 @@ function App() {
     if (docSnapFavMeals.exists()) {
       let userInfo = docSnapFavMeals.data();
       let favoriteMeals = await handleGetMeals(userInfo.favMeals);
+      let favoriteCombos = await handleGetCombos(userInfo.favCombos)
       userInfo.favoriteMeals = addLikedProperty(favoriteMeals);
+      userInfo.favoriteCombos = addLikedProperty(favoriteCombos);
       dispatch({
         type: "UPDATE_USER_INFORMATION_INIT",
         payload: { ...userInfo },
