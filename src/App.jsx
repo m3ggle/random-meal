@@ -11,6 +11,7 @@ import SpoonacularContext from "./context/SpoonacularContext";
 import { db } from "./firebase.config";
 import { useAuthStatus } from "./hooks/useAuthStatus";
 import { useGetMeals } from "./hooks/useGetMeals";
+import { useLikeStatus } from "./hooks/useLikeStatus";
 import BuyingList from "./pages/BuyingList";
 import Creation from "./pages/Creation";
 import FavMeals from "./pages/FavMeals";
@@ -29,13 +30,7 @@ function App() {
   const { user, dispatch } = useContext(SpoonacularContext);
   const { loggedIn, checkingStatus } = useAuthStatus();
   const { handleGetMeals, handleGetCombos } = useGetMeals();
-
-  const addLikedProperty = (meals) => {
-    return  meals.map((meal) => {
-      meal.liked = true;
-      return meal
-    });
-  };
+  const { singleFavMeals, comboFavMeals } = useLikeStatus();
 
   // set global context
   const getUserInformation = async (user) => {
@@ -44,8 +39,8 @@ function App() {
       let userInfo = docSnapFavMeals.data();
       let favoriteMeals = await handleGetMeals(userInfo.favMeals);
       let favoriteCombos = await handleGetCombos(userInfo.favCombos)
-      userInfo.favoriteMeals = addLikedProperty(favoriteMeals);
-      userInfo.favoriteCombos = addLikedProperty(favoriteCombos);
+      userInfo.favoriteMeals = singleFavMeals(favoriteMeals);
+      userInfo.favoriteCombos = comboFavMeals(favoriteCombos);
       dispatch({
         type: "UPDATE_USER_INFORMATION_INIT",
         payload: { ...userInfo },
