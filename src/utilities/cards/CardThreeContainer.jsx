@@ -9,9 +9,10 @@ import useWindowDimensions from "../../hooks/useWindowDimensions";
 import styles from "../../styles";
 import CardLittle from "./CardLittle";
 import CardMobile from "./CardMobile";
+import CardThree from "./CardThree";
 
-const CardThreeMobile = ({ lock }) => {
-  const { width } = useWindowDimensions();
+const CardThreeContainer = () => {
+    const { width } = useWindowDimensions();
   return (
     <div className="flex flex-col px-6 pt-4 pb-6 h-fit rounded-[24px] combinationBg">
       {/* header */}
@@ -31,7 +32,9 @@ const CardThreeMobile = ({ lock }) => {
             src={ProfilePic}
             alt="Profile"
             className={`${
-              width > 700 ? "w-[44px] h-[44px] cursor-pointer" : "w-[24px] h-[24px] cursor-pointer"
+              width > 700
+                ? "w-[44px] h-[44px] cursor-pointer"
+                : "w-[24px] h-[24px] cursor-pointer"
             }`}
           />
         </div>
@@ -46,8 +49,14 @@ const CardThreeMobile = ({ lock }) => {
           >
             134
           </p>
-          <FaHeart size={width > 700 ? "16px" : "14px"} className="cursor-pointer"/>
-          <FaShoppingCart size={width > 700 ? "16px" : "14px"} className="cursor-pointer"/>
+          <FaHeart
+            size={width > 700 ? "16px" : "14px"}
+            className="cursor-pointer"
+          />
+          <FaShoppingCart
+            size={width > 700 ? "16px" : "14px"}
+            className="cursor-pointer"
+          />
         </div>
       </div>
       {/* info */}
@@ -68,18 +77,20 @@ const CardThreeMobile = ({ lock }) => {
       {/* cards */}
       {/* over 600px */}
       <div className="hidden 600:flex gap-x-2">
-        {width > 700 ? <CardLittle lock={lock} /> : <CardMobile />}
-        {width > 700 ? <CardLittle lock={lock} /> : <CardMobile />}
-        {width > 700 ? <CardLittle lock={lock} /> : <CardMobile />}
-        {/* { <CardMobile />}
-        { <CardMobile />}
-        { <CardMobile />} */}
+        {/* {width > 700 ? <CardLittle /> : <CardMobile />}
+        {width > 700 ? <CardLittle /> : <CardMobile />}
+              {width > 700 ? <CardLittle /> : <CardMobile />} */}
+              {/* cardlittle is the bigger one */}
+              <CardThree />
+              <CardThree />
+              <CardThree />
       </div>
 
       {/* under 600px */}
       <Link
         to={"/mealdetails/123"}
-        className="flex 600:hidden flex-col gap-y-2  w-full">
+        className="flex 600:hidden flex-col gap-y-2  w-full"
+      >
         <div
           className="relative w-full h-[100px] rounded-xl bg-red-400 bg-center bg-cover overflow-hidden DayMealsShadow z-10"
           style={{ backgroundImage: `url(${BreakfastImg})` }}
@@ -151,4 +162,4 @@ const CardThreeMobile = ({ lock }) => {
   );
 };
 
-export default CardThreeMobile;
+export default CardThreeContainer;

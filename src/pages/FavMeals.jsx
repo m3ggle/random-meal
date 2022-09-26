@@ -6,23 +6,18 @@ import {
   FaExclamationCircle,
   FaExclamationTriangle,
   FaFilter,
-  FaPlus,
   FaSearch,
   FaTimes,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import FavMealsOne from "../components/FavMealsOne";
+import FavMealsThree from "../components/FavMealsThree";
 import TwoChoice from "../components/TwoChoice";
 import SpoonacularContext from "../context/SpoonacularContext";
-import { useUploadToFirestore } from "../firestoreHooks/useUpload";
-import useWindowDimensions from "../hooks/useWindowDimensions";
 import styles from "../styles";
-import CardsSamples from "../utilities/cards/CardsSamples";
 
 const FavMeals = () => {
-  const { uploadFavMeals, uploadBuyinglist } = useUploadToFirestore();
-  const { user, dispatch, buyinglist } = useContext(SpoonacularContext);
+  const { user } = useContext(SpoonacularContext);
   const [filterState, setFilterState] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState({
     Breakfast: false,
@@ -31,8 +26,6 @@ const FavMeals = () => {
     Vegetarian: false,
     Vegan: false,
   });
-  const [selectedCount, setSelectedCount] = useState("1 Meal");
-  const { width, height } = useWindowDimensions();
   const [searchText, setSearchText] = useState("");
   const [filteredMeals, setFilteredMeals] = useState();
   const [twoChoice, setTwoChoice] = useState("first");
@@ -102,54 +95,6 @@ const FavMeals = () => {
       ...selectedFilter,
       [e]: !selectedFilter[e],
     });
-  };
-
-  // random meal import
-  const handleRemoveFavMeal = (id) => {
-    // favoriteMeals for local update (shortterm)
-    // favMeals for global update (longterm)
-    user.favoriteMeals = user.favoriteMeals.filter(
-      (meal) => meal.mealinformation.id !== id
-    );
-    const favMeals = user.favMeals.filter((mealId) => mealId !== id);
-    dispatch({
-      type: "UPDATE_FAVMEALS",
-      payload: [...favMeals],
-    });
-    uploadFavMeals(favMeals);
-  };
-
-  // console.log(buyinglist)
-  const handleBuyinglist = (id, fullMealInfo) => {
-    const alreadyExists = buyinglist.filter((meal) =>
-      Object.keys(meal).includes(fullMealInfo.mealinformation.title)
-    ).length;
-
-    if (buyinglist.length < 6) {
-      if (alreadyExists === 0) {
-        const buyinglistIngredients = {
-          [fullMealInfo.mealinformation.title]: fullMealInfo.ingredients.map(
-            (ing) => {
-              return {
-                name: ing.name,
-                amount: ing.measures.amount,
-                unitShort: ing.measures.unitShort,
-              };
-            }
-          ),
-        };
-        buyinglist.push(buyinglistIngredients);
-        dispatch({ type: "UPDATE_BUYINGLIST", payload: buyinglist });
-        uploadBuyinglist(buyinglist);
-        toast.success("🍕 New Meal and Ingredient added to buyinglist");
-      } else {
-        toast.info("🍔 Meal already exists");
-      }
-    } else {
-      toast.info(
-        "🍓 You reached the maximum number of Meals in your Buyinglist"
-      );
-    }
   };
 
   const handleTwoChoice = (msg) => setTwoChoice(msg);
@@ -261,8 +206,7 @@ const FavMeals = () => {
         </div>
       </div>
 
-      {/* 1 vs 3 */}
-
+      {/* 1 Meal vs 3 Meals */}
       <TwoChoice
         callbackTwoChoice={handleTwoChoice}
         firstChoice="1 Meal"
@@ -270,41 +214,10 @@ const FavMeals = () => {
       />
 
       {twoChoice === "first" ? (
-        <FavMealsOne
-          filteredMeals={filteredMeals}
-          callbackRemoveFavMeal={handleRemoveFavMeal}
-          callbackBuyinglist={handleBuyinglist}
-        />
+        <FavMealsOne filteredMeals={filteredMeals} />
       ) : (
-        "3 Meals"
+        <FavMealsThree />
       )}
-
-      {/* 3 Meals */}
-      <div
-        className={`${
-          selectedCount === "3 Meals" ? "1400:grid flex" : "hidden"
-        } gap-2 grid-cols-2 flex-wrap w-full px-6 500:px-10 overflow-scroll 300:gap-5 600:gap-6 justify-center max-w-[1350px]`}
-      >
-        <CardsSamples type="three" />
-        <CardsSamples type="three" />
-        <CardsSamples type="three" />
-        <CardsSamples type="three" />
-        <div
-          onClick={() => navigate("/creation")}
-          className={`absolute  ${
-            height > 600 && width > 767 ? "top-[88%]" : "top-[78%]"
-          } left-[74%] 600:left-[84%] btnPrimaryCol buttonShadow hover:bg-[#293D2B] w-14 h-14 600:w-20 600:h-20 z-30 rounded-full ${
-            styles.flexCenter
-          } z-[80] cursor-pointer`}
-        >
-          <FaPlus
-            size={width > 600 ? "25px" : "20px"}
-            className="text-lightTextCol"
-          />
-        </div>
-        {/* puffer */}
-        <div className="h-24 600:h-28 w-full"></div>
-      </div>
     </div>
   );
 };

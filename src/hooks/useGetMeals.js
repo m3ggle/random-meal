@@ -18,6 +18,7 @@ export const useGetMeals = () => {
           meals.push(doc.data());
         });
       }
+
       return meals;
     } catch (error) {
       console.log(error);
