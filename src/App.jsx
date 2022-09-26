@@ -40,7 +40,10 @@ function App() {
       let favoriteMeals = await handleGetMeals(userInfo.favMeals);
       let favoriteCombos = await handleGetCombos(userInfo.favCombos)
       userInfo.favoriteMeals = singleFavMeals(favoriteMeals);
-      userInfo.favoriteCombos = comboFavMeals(favoriteCombos);
+      userInfo.favoriteCombos = comboFavMeals(
+        favoriteCombos,
+        userInfo.favMeals
+      );
       dispatch({
         type: "UPDATE_USER_INFORMATION_INIT",
         payload: { ...userInfo },

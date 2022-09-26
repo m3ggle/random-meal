@@ -15,6 +15,7 @@ const BuyingList = () => {
   // Todo: clean up fromData mess
   const { buyinglist, dispatch } = useContext(SpoonacularContext);
 
+
   const [newIngredient, setNewIngredient] = useState({
     ingredient: {
       text: "",

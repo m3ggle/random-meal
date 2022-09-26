@@ -28,6 +28,7 @@ const FavMeals = () => {
   });
   const [searchText, setSearchText] = useState("");
   const [filteredMeals, setFilteredMeals] = useState();
+  const [filteredCombos, setFilteredCombos] = useState();
   const [twoChoice, setTwoChoice] = useState("first");
 
   const navigate = useNavigate();
@@ -45,20 +46,43 @@ const FavMeals = () => {
     setFilteredMeals(user.favoriteMeals);
   }, [user.favoriteMeals]);
 
-  // when changes call search + tag filter function
   useEffect(() => {
-    if (user.favoriteMeals) {
-      setFilteredMeals(tagfilter(searchFilter()));
+    setFilteredCombos(user.favoriteCombos);
+  }, [user.favoriteCombos]);
+
+  // favMeals: when changes call search + tag filter function
+  useEffect(() => {
+    if (user.favoriteMeals && twoChoice === "first") {
+      setFilteredMeals(tagfilter(searchFilter("1 Meal")));
     }
-  }, [searchText, selectedFilter, user.favoriteMeals]);
+  }, [searchText, selectedFilter, user.favoriteMeals, twoChoice]);
+
+  // favCombos: when changes call search + tag filter function
+  useEffect(() => {
+    if (user.favoriteCombos && twoChoice === "second") {
+      setFilteredCombos(searchFilter("3 Meals"));
+    }
+  }, [searchText, user.favoriteCombos, twoChoice]);
 
   // functionality of search filter
-  const searchFilter = () => {
+  const searchFilter = (type) => {
     let searchFilteredMeals;
     let re = new RegExp(searchText, "i");
-    searchFilteredMeals = user.favoriteMeals.filter((meal) =>
-      meal.mealinformation.title.match(re)
-    );
+    switch (type) {
+      case "1 Meal":
+        searchFilteredMeals = user.favoriteMeals.filter((meal) =>
+          meal.mealinformation.title.match(re)
+        );
+        break;
+      case "3 Meals":
+        searchFilteredMeals = user.favoriteCombos.filter((combo) =>
+          combo.title.match(re)
+        );
+        break;
+      default:
+        break;
+    }
+    console.log(searchFilteredMeals);
     return searchFilteredMeals;
   };
 
@@ -126,7 +150,11 @@ const FavMeals = () => {
             {/* Filter */}
             <motion.div
               whileTap={{ scale: 0.98 }}
-              className={`relative w-[50px] h-[46px] border-[1px] rounded-xl ${styles.flexCenter} text-lightTextCol z-[60] cursor-pointer`}
+              className={`${
+                twoChoice === "first" ? "flex" : "hidden"
+              } relative w-[50px] h-[46px] border-[1px] rounded-xl ${
+                styles.flexCenter
+              } text-lightTextCol z-[60] cursor-pointer`}
               onClick={() => setFilterState((prevState) => !prevState)}
             >
               <FaFilter size="14px" />
@@ -180,7 +208,11 @@ const FavMeals = () => {
             Please Enter The Correct Password
           </div>
           {/* Tags from filter */}
-          <div className="flex flex-row gap-2">
+          <div
+            className={`flex flex-row gap-2 ${
+              twoChoice === "first" ? "opacity-100" : "opacity-0"
+            }`}
+          >
             <p className={`text-lightTextCol ${styles.paragraph16} mr-1`}>
               Filter:
             </p>
@@ -216,7 +248,7 @@ const FavMeals = () => {
       {twoChoice === "first" ? (
         <FavMealsOne filteredMeals={filteredMeals} />
       ) : (
-        <FavMealsThree />
+        <FavMealsThree filteredCombos={filteredCombos} />
       )}
     </div>
   );
