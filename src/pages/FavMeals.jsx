@@ -1,5 +1,4 @@
 import { getAuth } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
 import { motion } from "framer-motion";
 import React, { useContext, useEffect, useState } from "react";
 import {
@@ -13,18 +12,17 @@ import {
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { v4 as uuidv4 } from "uuid";
 import FavMealsOne from "../components/FavMealsOne";
-import Loading from "../components/Loading";
+import TwoChoice from "../components/TwoChoice";
 import SpoonacularContext from "../context/SpoonacularContext";
-import { db } from "../firebase.config";
+import { useUploadToFirestore } from "../firestoreHooks/useUpload";
 import useWindowDimensions from "../hooks/useWindowDimensions";
 import styles from "../styles";
 import CardsSamples from "../utilities/cards/CardsSamples";
 
 const FavMeals = () => {
-  const { user, dispatch, buyinglist } =
-    useContext(SpoonacularContext);
+  const { uploadFavMeals, uploadBuyinglist } = useUploadToFirestore();
+  const { user, dispatch, buyinglist } = useContext(SpoonacularContext);
   const [filterState, setFilterState] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState({
     Breakfast: false,
@@ -37,6 +35,7 @@ const FavMeals = () => {
   const { width, height } = useWindowDimensions();
   const [searchText, setSearchText] = useState("");
   const [filteredMeals, setFilteredMeals] = useState();
+  const [twoChoice, setTwoChoice] = useState("first");
 
   const navigate = useNavigate();
 
@@ -115,49 +114,9 @@ const FavMeals = () => {
     const favMeals = user.favMeals.filter((mealId) => mealId !== id);
     dispatch({
       type: "UPDATE_FAVMEALS",
-      payload: [ ...favMeals ],
+      payload: [...favMeals],
     });
-    uploadUserInfo(favMeals);
-  };
-
-  // upload buyinglist
-  const uploadBuyinglist = async (buyinglist) => {
-    try {
-      const auth = getAuth();
-      if (auth.currentUser) {
-        await setDoc(
-          doc(db, "users", auth.currentUser.uid),
-          {
-            buyinglist: buyinglist,
-          },
-          { merge: true }
-        );
-      } else {
-        toast.error("😤 Not logged in");
-      }
-    } catch (error) {
-      toast.error("🍅 Could not upload the Update");
-    }
-  };
-
-  // upload userinfo
-  const uploadUserInfo = async (favMeals) => {
-    try {
-      const auth = getAuth();
-      if (auth.currentUser) {
-        await setDoc(
-          doc(db, "users", auth.currentUser.uid),
-          {
-            favMeals: favMeals,
-          },
-          { merge: true }
-        );
-      } else {
-        toast.error("😤 Not logged in");
-      }
-    } catch (error) {
-      toast.error("🍅 Could not upload the Update");
-    }
+    uploadFavMeals(favMeals);
   };
 
   // console.log(buyinglist)
@@ -192,6 +151,8 @@ const FavMeals = () => {
       );
     }
   };
+
+  const handleTwoChoice = (msg) => setTwoChoice(msg);
 
   return (
     <div className="w-full h-full overflow-scroll flex flex-col gap-y-3">
@@ -301,83 +262,22 @@ const FavMeals = () => {
       </div>
 
       {/* 1 vs 3 */}
-      <div className={`${styles.flexCenter} mb-4`}>
-        <motion.div
-          whileTap={{ scale: 0.98 }}
-          onClick={() => setSelectedCount("1 Meal")}
-          className={`${styles.flexCenter} w-[120px] h-6 border-b-2 ${
-            selectedCount !== "1 Meal" && "border-[#626476]"
-          } cursor-pointer`}
-        >
-          <p
-            className={`text-[16px] ${
-              selectedCount === "1 Meal"
-                ? "text-lightTextCol font-semibold"
-                : "text-[#626476] font-normal"
-            }`}
-          >
-            1 Meal
-          </p>
-        </motion.div>
-        <motion.div
-          whileTap={{ scale: 0.98 }}
-          onClick={() => setSelectedCount("3 Meals")}
-          className={`${styles.flexCenter} w-[120px] h-6 border-b-2 ${
-            selectedCount !== "3 Meals" && "border-[#626476]"
-          } cursor-pointer`}
-        >
-          <p
-            className={`text-[16px] ${
-              selectedCount === "3 Meals"
-                ? "text-lightTextCol font-semibold"
-                : "text-[#626476] font-normal"
-            }`}
-          >
-            3 Meals
-          </p>
-        </motion.div>
-      </div>
-      {/* meals (1 meal and 3 meals are actually not seperate, just without the logic behind it there is no other choice otherwise put it in one div) */}
-      {/* 1 meal */}
-      <div
-        className={`${
-          selectedCount === "1 Meal" ? "flex" : "hidden"
-        } gap-2 flex-col md:flex-row md:flex-wrap w-full px-10 md:gap-6 justify-center max-w-[1350px]`}
-      >
-        {filteredMeals ? (
-          <>
-            {filteredMeals.map((favMeal) => (
-              <FavMealsOne
-                key={uuidv4()}
-                meal={favMeal}
-                callbackRemoveFavMeal={handleRemoveFavMeal}
-                callbackBuylist={handleBuyinglist}
-              />
-            ))}
-            <div className="w-full h-24 600:h-28"></div>
-          </>
-        ) : (
-          <Loading />
-        )}
-        {/* {user.favoriteMeals ? (
-          <>
-            {user.favoriteMeals.map((favMeal) => (
-              <FavMealsOne
-                key={uuidv4()}
-                meal={favMeal}
-                callbackRemoveFavMeal={handleRemoveFavMeal}
-                callbackBuylist={handleBuyinglist}
-              />
-            ))}
-            <div className="w-full h-24 600:h-28"></div>
-          </>
-        ) : (
-          <Loading />
-        )} */}
 
-        {/* puffer */}
-        {/* <div className="h-[20%] md:h-[5%] w-full"></div> */}
-      </div>
+      <TwoChoice
+        callbackTwoChoice={handleTwoChoice}
+        firstChoice="1 Meal"
+        secondChoice="3 Meals"
+      />
+
+      {twoChoice === "first" ? (
+        <FavMealsOne
+          filteredMeals={filteredMeals}
+          callbackRemoveFavMeal={handleRemoveFavMeal}
+          callbackBuyinglist={handleBuyinglist}
+        />
+      ) : (
+        "3 Meals"
+      )}
 
       {/* 3 Meals */}
       <div
@@ -403,7 +303,7 @@ const FavMeals = () => {
           />
         </div>
         {/* puffer */}
-        <div className="h-[20%] md:h-[5%] w-full"></div>
+        <div className="h-24 600:h-28 w-full"></div>
       </div>
     </div>
   );

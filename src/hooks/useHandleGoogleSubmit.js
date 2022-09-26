@@ -1,6 +1,7 @@
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { db } from "../firebase.config";
 
 export default function useHandleGoogleSubmit() {
@@ -39,7 +40,7 @@ export default function useHandleGoogleSubmit() {
       navigate("/");
     } catch (error) {
       console.log(error)
-      console.log("Could not authorize with Google");
+      toast.error("😔 Could not authorize with Google")
     }
   };
 

@@ -9,12 +9,14 @@ import { getRandomDayMeal } from "../context/SpoonacularAction";
 import SpoonacularContext from "../context/SpoonacularContext";
 import { db } from "../firebase.config";
 import useCleanUp from "../hooks/useCleanUp";
+import { useUploadToFirestore } from "../firestoreHooks/useUpload";
 
 const RandomMeal = () => {
   const { cleanUpMeals } = useCleanUp();
   const { user, dispatch, allMealIds, spoonacularResult, buyinglist } =
     useContext(SpoonacularContext);
   const auth = getAuth();
+  const { uploadFavMeals, uploadBuyinglist } = useUploadToFirestore();
 
   useEffect(() => {}, [spoonacularResult]);
 
@@ -111,41 +113,6 @@ const RandomMeal = () => {
     uploadFavMeals(user.favMeals);
   };
 
-  // buyinglist
-  const uploadUpdate = async (buyinglist) => {
-    try {
-      const auth = getAuth();
-      if (auth.currentUser) {
-        await setDoc(
-          doc(db, "users", auth.currentUser.uid),
-          {
-            buyinglist: buyinglist,
-          },
-          { merge: true }
-        );
-      } else {
-        toast.error("😤 Not logged in");
-      }
-    } catch (error) {
-      toast.error("🍅 Could not upload the Update");
-    }
-  };
-
-  const uploadFavMeals = async (favMeals) => {
-    try {
-      const auth = getAuth();
-      if (auth.currentUser) {
-        await setDoc(doc(db, "users", auth.currentUser.uid), {
-          favMeals: favMeals,
-        });
-      } else {
-        toast.error("😤 Not logged in");
-      }
-    } catch (error) {
-      toast.error("🍅 Could not upload the Update");
-    }
-  };
-
   // console.log(buyinglist)
   const handleBuyinglist = (id, fullMealInfo) => {
     const alreadyExists = buyinglist.filter((meal) =>
@@ -167,7 +134,7 @@ const RandomMeal = () => {
         };
         buyinglist.push(buyinglistIngredients);
         dispatch({ type: "UPDATE_BUYINGLIST", payload: buyinglist });
-        uploadUpdate(buyinglist);
+        uploadBuyinglist(buyinglist);
         toast.success("🍕 New Meal and Ingredient added to buyinglist");
       } else {
         toast.info("🍔 Meal already exists");

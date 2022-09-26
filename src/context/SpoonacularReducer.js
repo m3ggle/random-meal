@@ -31,6 +31,11 @@ const spoonacularReducer = (state, action) => {
         ...state,
         favMeals: action.payload,
       }
+    case "UPDATE_FAVCOMBOS": 
+      return {
+        ...state,
+        favCombos: action.payload,
+      }
     default:
       return "";
   }
