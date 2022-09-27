@@ -19,6 +19,7 @@ export const useUploadToFirestore = () => {
         toast.error("😤 Not logged in");
       }
     } catch (error) {
+      console.log(error)
       toast.error("🍅 Could not upload the Update");
     }
   };

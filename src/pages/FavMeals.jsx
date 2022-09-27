@@ -43,6 +43,7 @@ const FavMeals = () => {
 
   // setFilteredMeals
   useEffect(() => {
+    console.log(user.favoriteMeals);
     setFilteredMeals(user.favoriteMeals);
   }, [user.favoriteMeals]);
 
@@ -82,7 +83,6 @@ const FavMeals = () => {
       default:
         break;
     }
-    console.log(searchFilteredMeals);
     return searchFilteredMeals;
   };
 

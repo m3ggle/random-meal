@@ -4,6 +4,7 @@ import React from "react";
 import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { v4 as uuidv4 } from "uuid";
 import styles from "../../styles";
 
 const FavMealsOneCard = ({ meal, callbackRemoveFavMeal, callbackBuylist }) => {
@@ -39,12 +40,40 @@ const FavMealsOneCard = ({ meal, callbackRemoveFavMeal, callbackBuylist }) => {
       ></div>
 
       {/* name and tag */}
-      <div className="w-full md:w-[170px] md:bg-lightTextCol rounded-xl absolute top-[69.5%] md:top-[77%] flex flex-start px-[10px] py-3 flex-col gap-y-[2px] md:cardNameShadow z-20">
+      <div className="w-full md:w-[170px] md:bg-lightTextCol rounded-xl absolute top-[69.5%] md:top-[68%] flex flex-start px-[10px] py-3 flex-col gap-y-[2px] md:cardNameShadow z-20">
         <p
           className={`text-[20px] md:text-[16px] text-lightTextCol md:text-darkTextCol font-semibold whitespace-nowrap truncate`}
         >
           {mealinformation.title}
         </p>
+        <div
+          className={`hidden 700:flex gap-1 w-full overflow-hidden flex-nowrap`}
+        >
+          {mealinformation.dishTypes.map((type) => {
+            if (
+              type === "Breakfast" ||
+              type === "Lunch" ||
+              type === "Dinner" ||
+              type === "Vegeterian" ||
+              type === "Vegan"
+            ) {
+              return (
+                <div
+                  key={uuidv4()}
+                  className={`px-4 py-1 w-fit ${
+                    type === "Dinner"
+                      ? "tagDinner"
+                      : type === "Lunch"
+                      ? "tagLunch"
+                      : "tagBreakfast"
+                  } rounded-full ${styles.tag10}`}
+                >
+                  {type}
+                </div>
+              );
+            }
+          })}
+        </div>
       </div>
 
       {/* icons */}

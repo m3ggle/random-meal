@@ -13,13 +13,16 @@ const FavMealsOne = ({ filteredMeals }) => {
   const handleRemoveFavMeal = (id) => {
     // favoriteMeals for local update (shortterm)
     // favMeals for global update (longterm)
-    user.favoriteMeals = user.favoriteMeals.filter(
+    const favoriteMeals = user.favoriteMeals.filter(
       (meal) => meal.mealinformation.id !== id
     );
     const favMeals = user.favMeals.filter((mealId) => mealId !== id);
     dispatch({
-      type: "UPDATE_FAVMEALS",
-      payload: [...favMeals],
+      type: "UPDATE_FAVMEALS_AND_FAVORITEMEALS",
+      payload: {
+        favMeals: [...favMeals],
+        favoriteMeals: [...favoriteMeals],
+      },
     });
     uploadFavMeals(favMeals);
   };

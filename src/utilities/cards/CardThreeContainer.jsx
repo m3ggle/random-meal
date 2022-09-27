@@ -12,7 +12,7 @@ const CardThreeContainer = ({ combo }) => {
   return (
     <>
       {combo ? (
-        <div className="flex flex-col px-6 pt-4 pb-6 h-fit rounded-[24px] combinationBg">
+        <div className="flex flex-col px-6 pt-4 pb-6 h-fit rounded-[24px] combinationBg 500:w-full 700:w-fit max-w-[622px]">
           {/* header */}
           <div className="flex flex-row 500:items-center justify-between gap-x-5">
             {/* left part */}
@@ -39,11 +39,11 @@ const CardThreeContainer = ({ combo }) => {
                 {combo.likeCount}
               </p>
               <FaHeart
-                size={width > 700 ? "16px" : "14px"}
+                size={width > 700 ? "22px" : "16px"}
                 className="cursor-pointer"
               />
               <FaShoppingCart
-                size={width > 700 ? "16px" : "14px"}
+                size={width > 700 ? "22px" : "16px"}
                 className="cursor-pointer"
               />
             </div>
@@ -62,15 +62,15 @@ const CardThreeContainer = ({ combo }) => {
           </div>
           {/* cards */}
           {/* over 600px */}
-          <div className="flex flex-col 600:flex-row gap-2">
+          <div className="flex flex-col 700:flex-row gap-2">
             <CardThree meal={combo.breakfast} />
-            <CardThree meal={combo.lunch}/>
-            <CardThree meal={combo.dinner}/>
+            <CardThree meal={combo.lunch} />
+            <CardThree meal={combo.dinner} />
           </div>
-        </div>) : (
-          <Loading />
-        )
-      }
+        </div>
+      ) : (
+        <Loading />
+      )}
     </>
   );
 

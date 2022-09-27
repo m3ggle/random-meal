@@ -1,6 +1,7 @@
 export const useLikeStatus = () => {
   // for favorite meals (eg. for favMeals 1 Meal)
   const singleFavMeals = (meals) => {
+    console.log(meals)
     if (meals?.length > 0) {
       meals = meals.map((meal) => {
         meal.liked = true;

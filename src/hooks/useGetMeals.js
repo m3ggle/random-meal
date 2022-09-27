@@ -7,6 +7,7 @@ export const useGetMeals = () => {
   const handleGetMeals = async (mealIds) => {
     try {
       let meals = [];
+      mealIds = mealIds.slice(0, 10)
       if (mealIds.length > 0) {
         const getTenMeals = query(
           collection(db, "meals"),

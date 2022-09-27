@@ -31,6 +31,12 @@ const spoonacularReducer = (state, action) => {
         ...state,
         favMeals: action.payload,
       }
+    case "UPDATE_FAVMEALS_AND_FAVORITEMEALS": 
+      return {
+        ...state,
+        favMeals: action.payload.favMeals,
+        favoriteMeals: action.payload.favoriteMeals,
+      }
     case "UPDATE_FAVCOMBOS": 
       return {
         ...state,
