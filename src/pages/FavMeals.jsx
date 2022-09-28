@@ -14,11 +14,13 @@ import FavMealsOne from "../components/FavMealsOne";
 import FavMealsThree from "../components/FavMealsThree";
 import TwoChoice from "../components/TwoChoice";
 import SpoonacularContext from "../context/SpoonacularContext";
+import { useGetMealsTry } from "../hooks/useGetMealsTry";
 import styles from "../styles";
 
 const FavMeals = () => {
-  const { user } = useContext(SpoonacularContext);
+  const { user, meals, combos, dispatch } = useContext(SpoonacularContext);
   const [filterState, setFilterState] = useState(false);
+  const { handleMeals, handleCombos, handleGetMealsCombos } = useGetMealsTry();
   const [selectedFilter, setSelectedFilter] = useState({
     Breakfast: false,
     Lunch: false,
@@ -29,6 +31,8 @@ const FavMeals = () => {
   const [searchText, setSearchText] = useState("");
   const [filteredMeals, setFilteredMeals] = useState();
   const [filteredCombos, setFilteredCombos] = useState();
+  const [internalFavorite, setInternalFavorite] = useState()
+  const [internalCombos, setInternalCombos] = useState()
   const [twoChoice, setTwoChoice] = useState("first");
 
   const navigate = useNavigate();
@@ -43,49 +47,46 @@ const FavMeals = () => {
 
   // setFilteredMeals
   useEffect(() => {
-    let mealsContext = {
-      1234: "haha",
-      234: "haha",
-      34: "haha",
-      4: "haha",
-      5555: "haha",
-    };
-
-    let mealIds = [1234, 5555, 34, 333];
-
-    const filterOut = (mealsContext, mealIds) => {
-      const missingMeals = mealIds.filter(
-        (mealId) => !Object.keys(mealsContext).includes(mealId.toString())
-      );
-      return missingMeals;
-    };
-
-    filterOut(mealsContext, mealIds);
-
-    // meals.map((meal) => {
-    //   let mId = meal.mealinformation.id;
-    //   // format.[meal.mealinformation.id]: meal
-    //   format.meal.mealinformation.id = mId;
-    // });
-
     setFilteredMeals(user.favoriteMeals);
   }, [user.favoriteMeals]);
 
+  // context
   useEffect(() => {
-    const testMeals = [
-      {mealId: 1233, insto: "binbang"},
-      {mealId: 1244, insto: "binbong"},
-      {mealId: 1255, insto: "binclong"},
-    ]
+    const updateContext = async () => {
+      const {formattedCollectedMeals, formattedCombos} = await handleGetMealsCombos(
+        meals,
+        combos,
+        user.favMeals,
+        user.favCombos,
+        "favorite"
+      );
+      dispatch({
+        type: "UPDATE_MEALS_AND_COMBOS",
+        payload: {
+          meals: formattedCollectedMeals,
+          combos: formattedCombos,
+        },
+      });
+    }
 
-    let format = {};
-
-    testMeals.map((meal) => {
-      format[meal.mealId.toString()] = meal
-    });
-
-    console.log(format);
+    if (user.favMeals) {
+      updateContext()
+    }
   }, []);
+
+  // set/updatefavorite Meals (internal)
+  useEffect(() => {
+    if (user.favMeals) {
+      let internalFavoriteMeals = [];
+      Object.keys(meals).map((mealId) => {
+        if (user.favMeals.includes(parseInt(mealId))) {
+          // return meals[mealId];
+          internalFavoriteMeals.push({ ...meals[mealId] });
+        }
+      });
+      setInternalFavorite(internalFavoriteMeals);
+    }
+  }, [user.favMeals])
 
   useEffect(() => {
     setFilteredCombos(user.favoriteCombos);

@@ -28,11 +28,11 @@ import styles from "./styles";
 
 function App() {
   // Todo: outsource
-  const { user, dispatch } = useContext(SpoonacularContext);
+  const { meals, dispatch } = useContext(SpoonacularContext);
   const { loggedIn, checkingStatus } = useAuthStatus();
   const { handleGetMeals, handleGetCombos } = useGetMeals();
   const { singleFavMeals, comboFavMeals } = useLikeStatus();
-  const { handleMeals, handleCombos, handleCatalogMeals, handleShareCombos } =
+  const { handleMeals, handleCombos } =
     useGetMealsTry();
 
   // set global context
@@ -48,49 +48,44 @@ function App() {
         userInfo.favMeals
       );
 
-      // favCombos
+      // Combos
       // const { formattedCombos, formattedMeals } = await handleCombos(
       //   { 1234: "haha", 290833: "haha", 630720: "haha" },
       //   {
       //     "9e8b3ac1-c20f-4aaa-be88-a8257934da52": "haha",
       //   },
-      //   userInfo.favCombos,
       //   userInfo.favMeals,
-      //   "favCombos"
+      //   userInfo.favCombos,
+      //   "collection"
       // );
       // console.log(formattedCombos, formattedMeals);
-      // dispatch({ type: "INSERT_MEALS", payload: formattedMeals });
+      // dispatch({
+      //   type: "UPDATE_MEALS_AND_COMBOS",
+      //   payload: {
+      //     meals: formattedMeals,
+      //     combos: formattedCombos,
+      //   },
+      // });
 
       // single Meals
-      const mealContext = {
-        1234: "haha",
-        290833: "haha",
-        630720: "haha",
-        100172: "haha",
-        1005954: "haha",
-        149251: "haha",
-        199358: "haha",
-        338734: "haha",
-        1047713: "haha",
-        1091888: "haha",
-      };
-      const testDrive = await handleMeals(
-        mealContext,
-        userInfo.favMeals,
-        "collection"
-      );
-      console.log(mealContext, testDrive);
-
-      // sharepage combo
-      // const testDrive = await handleShareCombos(
-      //   { 1234: "haha", 290833: "haha", 630720: "haha" },
-      //   {
-      //     "9e8b3ac1-c20f-4aaa-be88-a8257934da52": "haha",
-      //   },
-      //   userInfo.favCombos,
-      //   userInfo.favMeals
+      // const exampleMealContext = {
+      //   1234: "haha",
+      //   290833: "haha",
+      //   630720: "haha",
+      //   100172: "haha",
+      //   1005954: "haha",
+      //   149251: "haha",
+      //   199358: "haha",
+      //   338734: "haha",
+      //   1047713: "haha",
+      //   1091888: "haha",
+      // };
+      // const {formattedMeals} = await handleMeals(
+      //   meals,
+      //   userInfo.favMeals,
+      //   "collection"
       // );
-      // console.log(testDrive)
+      // dispatch({ type: "UPDATE_MEALS", payload: formattedMeals });
 
       dispatch({
         type: "UPDATE_USER_INFORMATION_INIT",

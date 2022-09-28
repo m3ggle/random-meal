@@ -10,8 +10,9 @@ export const useGetMealsTry = () => {
     getTenCombosFromCollection,
     getTenFavMeals,
     getTenMealsFromCollection,
+    getMealsById,
   } = useDownloadFromFirestore();
-  const { handleGetMeals } = useGetMeals();
+  // const { handleGetMeals } = useGetMeals();
   const [pagenation, setPagenation] = useState({
     favMealsStartAfter: 0,
     favCombosStartAfter: 0,
@@ -21,10 +22,14 @@ export const useGetMealsTry = () => {
 
   const filterOut = (mealsContext, mealIds) => {
     // mealIds can also be comboIds and mealsContext can also be comboContext
-    const missingMeals = mealIds.filter(
-      (mealId) => !Object.keys(mealsContext).includes(mealId.toString())
-    );
-    return missingMeals;
+    if (mealIds?.length > 0) {
+      const missingMeals = mealIds.filter(
+        (mealId) => !Object.keys(mealsContext).includes(mealId.toString())
+      );
+      return missingMeals;
+    } else {
+      return mealIds
+    }
   };
 
   const mealContextFormatter = (meals) => {
@@ -71,9 +76,9 @@ export const useGetMealsTry = () => {
       }
 
       // corrected format
-      meals = mealContextFormatter(meals);
+      const formattedMeals = mealContextFormatter(meals);
 
-      return meals;
+      return { formattedMeals };
     } catch (error) {
       console.log(error);
     }
@@ -82,8 +87,8 @@ export const useGetMealsTry = () => {
   const handleCombos = async (
     mealContext,
     comboContext,
-    favCombos,
     favMeals,
+    favCombos,
     type
   ) => {
     try {
@@ -106,7 +111,7 @@ export const useGetMealsTry = () => {
       const missingMealIds = filterOut(mealContext, mealIds);
 
       // get meal information
-      let missingMeals = await handleGetMeals(missingMealIds);
+      let missingMeals = await getMealsById(missingMealIds);
 
       // like stuff single Meals
       missingMeals = singleMeals(missingMeals, favMeals);
@@ -139,9 +144,45 @@ export const useGetMealsTry = () => {
     }
   };
 
+  const handleGetMealsCombos = async (meals, combos, favMeals, favCombos, type) => {
+    let typeForHandleMeals, typeForHandleCombos;
+    if (type === "favorite") {
+      typeForHandleMeals = "favMeals"
+      typeForHandleCombos = "favCombos"
+    } else if (type === "collection") {
+      typeForHandleMeals = "collection";
+      typeForHandleCombos = "collection";
+    }
+
+    // get stuff
+    const { formattedMeals: firstMeals } = await handleMeals(
+      meals,
+      favMeals,
+      typeForHandleMeals
+    );
+    const { formattedMeals: secondMeals, formattedCombos } = await handleCombos(
+      meals,
+      combos,
+      favMeals,
+      favCombos,
+      typeForHandleCombos
+    );
+    
+    // filter
+    let formattedCollectedMeals = {...firstMeals};
+    Object.keys(secondMeals).map(meal => {
+      if (formattedCollectedMeals[meal] === undefined) {
+        formattedCollectedMeals[meal] = secondMeals[meal]
+      }
+    })
+
+    return { formattedCollectedMeals, formattedCombos };
+  };
+
   return {
     handleMeals,
     handleCombos,
+    handleGetMealsCombos,
     filterOut,
     mealContextFormatter,
     comboContextFormatter,

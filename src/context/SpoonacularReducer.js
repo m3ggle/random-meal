@@ -6,11 +6,11 @@ const spoonacularReducer = (state, action) => {
         user: action.payload,
         buyinglist: action.payload.buyinglist,
       };
-    case "UPDATE_USER_INFORMATION": 
+    case "UPDATE_USER_INFORMATION":
       return {
         ...state,
-        user: action.payload
-      }
+        user: action.payload,
+      };
     case "UPDATE_RANDOM_MEALS":
       return {
         ...state,
@@ -26,27 +26,38 @@ const spoonacularReducer = (state, action) => {
         ...state,
         buyinglist: action.payload,
       };
-    case "UPDATE_FAVMEALS": 
+    case "UPDATE_FAVMEALS":
       return {
         ...state,
         favMeals: action.payload,
-      }
-    case "UPDATE_FAVMEALS_AND_FAVORITEMEALS": 
+      };
+    case "UPDATE_FAVMEALS_AND_FAVORITEMEALS":
       return {
         ...state,
         favMeals: action.payload.favMeals,
         favoriteMeals: action.payload.favoriteMeals,
-      }
-    case "UPDATE_FAVCOMBOS": 
+      };
+    case "UPDATE_FAVCOMBOS":
       return {
         ...state,
         favCombos: action.payload,
-      }
-    case "INSERT_MEALS": 
+      };
+    case "UPDATE_MEALS":
       return {
         ...state,
-        meals: {...state.meals, ...action.payload}
-      }
+        meals: { ...state.meals, ...action.payload },
+      };
+    case "UPDATE_COMBOS":
+      return {
+        ...state,
+        combos: { ...state.combos, ...action.payload },
+      };
+    case "UPDATE_MEALS_AND_COMBOS":
+      return {
+        ...state,
+        meals: { ...state.meals, ...action.payload.meals },
+        combos: { ...state.combos, ...action.payload.combos },
+      };
     default:
       return "";
   }

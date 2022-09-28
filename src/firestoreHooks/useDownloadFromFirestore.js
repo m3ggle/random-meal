@@ -1,7 +1,7 @@
 import { collection, getDocs, limit, query, where } from "firebase/firestore";
 import { db } from "../firebase.config";
 
-// Todo: caller should provide startafter 
+// Todo: caller should provide startafter
 
 export const useDownloadFromFirestore = () => {
   const getTenFavCombos = async (favCombos) => {
@@ -61,10 +61,33 @@ export const useDownloadFromFirestore = () => {
     return meals;
   };
 
+  const getMealsById = async (mealIds) => {
+    try {
+      let meals = [];
+      mealIds = mealIds.slice(0, 10);
+      if (mealIds.length > 0) {
+        const getTenMeals = query(
+          collection(db, "meals"),
+          where("mealinformation.id", "in", mealIds),
+          limit(10)
+        );
+        const querySnapshot = await getDocs(getTenMeals);
+        querySnapshot.forEach((doc) => {
+          meals.push(doc.data());
+        });
+      }
+
+      return meals;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return {
     getTenFavCombos,
     getTenCombosFromCollection,
     getTenFavMeals,
     getTenMealsFromCollection,
+    getMealsById,
   };
 };
