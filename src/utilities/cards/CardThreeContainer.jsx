@@ -45,7 +45,9 @@ const CardThreeContainer = ({ combo }) => {
               </p>
               <FaHeart
                 size={width > 700 ? "22px" : "16px"}
-                className="cursor-pointer"
+                className={`cursor-pointer ${
+                  combo.liked ? "text-failure" : "text-iconTransCol"
+                }`}
               />
               <FaShoppingCart
                 size={width > 700 ? "22px" : "16px"}

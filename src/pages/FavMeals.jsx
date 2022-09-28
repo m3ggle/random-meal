@@ -84,7 +84,6 @@ const FavMeals = () => {
           internalFavoriteMeals.push({ ...meals[mealId] });
         }
       });
-      console.log(meals[1526841]);
       setInternalFavorite(internalFavoriteMeals);
     }
   }, [user.favMeals, meals]);
@@ -115,7 +114,6 @@ const FavMeals = () => {
   // favCombos: when changes call search + tag filter function
   useEffect(() => {
     if (user.favCombos && twoChoice === "second") {
-      console.log(searchFilter("3 Meals"));
       setFilteredCombos(searchFilter("3 Meals"));
     }
   }, [searchText, user.favCombos, twoChoice]);

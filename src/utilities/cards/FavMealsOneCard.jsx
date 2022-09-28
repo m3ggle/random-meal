@@ -1,16 +1,23 @@
 import { getAuth } from "firebase/auth";
 import { motion } from "framer-motion";
-import React from "react";
+import React, { useContext } from "react";
 import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
+import SpoonacularContext from "../../context/SpoonacularContext";
+import { useBuyinglist } from "../../hooks/useBuyinglist";
+import { useLike } from "../../hooks/useLike";
 import styles from "../../styles";
 
 const FavMealsOneCard = ({ meal, callbackRemoveFavMeal, callbackBuylist }) => {
-  const { mealinformation, nutrients, ingredients, instructions, liked } = meal;
+  const { user, buyinglist, dispatch } = useContext(SpoonacularContext);
   const navigate = useNavigate();
-
+    const { mealinformation, ingredients, liked } = meal;
+    const { handleBuyinglist } = useBuyinglist();
+  const { handleHeart } = useLike();
+  
+  
   const handleClick = (msg) => {
     if (msg === "card") {
       navigate(`/mealdetails/${mealinformation.id}`);
@@ -26,6 +33,24 @@ const FavMealsOneCard = ({ meal, callbackRemoveFavMeal, callbackBuylist }) => {
     }
   };
 
+    const handleBuy = () => {
+      const newBuyinglist = handleBuyinglist({
+        buyinglist,
+        title: mealinformation.title,
+        ingredients,
+      });
+      dispatch({ type: "UPDATE_BUYINGLIST", payload: newBuyinglist });
+    };
+
+    const handleHeartClick = () => {
+      const { userInfo } = handleHeart(user, liked, meal);
+      dispatch({
+        type: "UPDATE_USER_INFORMATION",
+        payload: { ...userInfo },
+      });
+    };
+
+
   return (
     <motion.div
       whileHover={{ scale: 1.02 }}
@@ -35,7 +60,7 @@ const FavMealsOneCard = ({ meal, callbackRemoveFavMeal, callbackBuylist }) => {
     >
       <div
         id="overlay"
-        onClick={() => handleClick("card")}
+        onClick={() => navigate(`/mealdetails/${mealinformation.id}`)}
         className="absolute top-0 left-0 w-full h-full imgOverlayRandomMeal z-10"
       ></div>
 
@@ -82,8 +107,7 @@ const FavMealsOneCard = ({ meal, callbackRemoveFavMeal, callbackBuylist }) => {
         className="w-fit h-fit flex flex-col absolute top-[8%] left-[86%] 500:top-[12%] 500:left-[90%] md:left-[78%] md:top-[5%] xl:top-[6%] xl:left-[82%]"
       >
         <motion.div
-          id="heart"
-          onClick={() => handleClick("heart")}
+          onClick={() => handleHeartClick()}
           whileTap={{ scale: 0.94 }}
           className={`w-[34px] h-[34px] ${styles.flexCenter} z-20 ${
             liked ? "text-failure" : "text-iconTransCol"
@@ -92,8 +116,7 @@ const FavMealsOneCard = ({ meal, callbackRemoveFavMeal, callbackBuylist }) => {
           <FaHeart size="24px" />
         </motion.div>
         <motion.div
-          id="buy"
-          onClick={() => handleClick("buy")}
+          onClick={() => handleBuy()}
           whileTap={{ scale: 0.94 }}
           className={`w-[34px] h-[34px] ${styles.flexCenter} z-20 text-iconTransCol cursor-pointer active:text-[#2B598C]`}
         >

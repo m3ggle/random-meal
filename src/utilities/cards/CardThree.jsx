@@ -90,7 +90,6 @@ const CardThree = ({ meal }) => {
         className={`w-fit h-fit flex flex-col absolute top-[8%] left-[86%] 500:top-[8%] 500:left-[87%] 700:left-[78%] 700:top-[5%] ${styles.flexCenter}`}
       >
         <motion.div
-          id="heart"
           onClick={() => handleHeartClick()}
           whileTap={{ scale: 0.94 }}
           className={`w-[34px] h-[34px] ${styles.flexCenter} z-20 ${
@@ -100,7 +99,6 @@ const CardThree = ({ meal }) => {
           <FaHeart size={width > 700 ? "22px" : "16px"} />
         </motion.div>
         <motion.div
-          id="buy"
           onClick={() => handleBuy()}
           whileTap={{ scale: 0.94 }}
           className={`w-[34px] h-[34px] ${styles.flexCenter} z-20 text-iconTransCol cursor-pointer active:text-[#2B598C]`}
