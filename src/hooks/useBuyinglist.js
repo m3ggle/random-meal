@@ -26,7 +26,6 @@ export const useBuyinglist = () => {
         buyinglist.push(buyinglistIngredients);
         uploadBuyinglist(buyinglist);
         toast.success("🍕 New Meal and Ingredient added to buyinglist");
-        return buyinglist;
       } else {
         toast.info("🍔 Meal already exists");
       }
@@ -35,6 +34,7 @@ export const useBuyinglist = () => {
         "🍓 You reached the maximum number of Meals in your Buyinglist"
       );
     }
+    return buyinglist;
   };
 
   return { handleBuyinglist };
