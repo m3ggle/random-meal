@@ -15,18 +15,12 @@ export const useGetMealsTry = () => {
     SingleMealsStartAfter: 0,
   });
 
-  // Todo: take in full meals and give back the missing meals
   const filterOut = (mealsContext, mealIds) => {
-    // mealIds can also be comboIds
-    // mealsContext can also be comboContext
+    // mealIds can also be comboIds and mealsContext can also be comboContext
     const missingMeals = mealIds.filter(
       (mealId) => !Object.keys(mealsContext).includes(mealId.toString())
     );
     return missingMeals;
-  };
-
-  const converter = () => {
-    // takes in combos and gives back an array of mealIds
   };
 
   const mealContextFormat = (meals) => {
@@ -46,7 +40,6 @@ export const useGetMealsTry = () => {
   };
 
   // outsource of firestore stuff
-  // get ten favCombos
   const getTenFavCombos = async (favCombos) => {
     let combos = [];
     if (favCombos.length > 0) {
@@ -76,31 +69,60 @@ export const useGetMealsTry = () => {
     return combos;
   };
 
-  const handleFavMeals = async (mealsContext, mealIds) => {
+  const getTenFavMeals = async (missingMeals) => {
+    let meals = [];
+    if (missingMeals.length > 0) {
+      missingMeals = missingMeals.slice(0, 10);
+      const getTenMeals = query(
+        collection(db, "meals"),
+        where("mealinformation.id", "in", missingMeals),
+        limit(10)
+      );
+      const querySnapshot = await getDocs(getTenMeals);
+      querySnapshot.forEach((doc) => {
+        meals.push(doc.data());
+      });
+    }
+    return meals;
+  };
+
+  const getTenMealsFromCollection = async () => {
+    let meals = []
+    const collectionRef = collection(db, "meals");
+    const q = query(collectionRef, limit(10));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      meals.push(doc.data());
+    });
+    return meals
+  };
+
+  const handleMeals = async (mealContext, favMeals, type) => {
     try {
       // filter
-      let missingMeals = filterOut(mealsContext, mealIds);
-
-      // outsource the getting of meals
       let meals = [];
-      missingMeals = missingMeals.slice(0, 10);
-      if (missingMeals.length > 0) {
-        const getTenMeals = query(
-          collection(db, "meals"),
-          where("mealinformation.id", "in", missingMeals),
-          limit(10)
-        );
-        const querySnapshot = await getDocs(getTenMeals);
-        querySnapshot.forEach((doc) => {
-          meals.push(doc.data());
+      let missingMeals = [];
+
+      // get meals from firestore
+      if (type === "favMeals") {
+        missingMeals = filterOut(mealContext, favMeals);
+        meals = await getTenFavMeals(missingMeals);
+        // like
+        meals = singleFavMeals(meals);
+      } else if (type === "collection") {
+        meals = await getTenMealsFromCollection();
+        // like
+        meals = singleMeals(meals, favMeals);
+        // get all the ids
+        const mealIds = meals.map((meal) => {
+          return meal.mealinformation.id;
         });
+        // filter out
+        let missingMeals = filterOut(mealContext, mealIds);
+        meals = meals.filter((meal) =>
+          missingMeals.includes(meal.mealinformation.id)
+        );
       }
-
-      // like
-      meals = singleFavMeals(meals);
-
-      // Todo: pagenation
-      // setPagenation(9)
 
       // corrected format
       meals = mealContextFormat(meals);
@@ -283,7 +305,7 @@ export const useGetMealsTry = () => {
   };
 
   return {
-    handleFavMeals,
+    handleMeals,
     handleCombos,
     handleCatalogMeals,
     handleShareCombos,

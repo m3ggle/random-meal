@@ -33,7 +33,7 @@ function App() {
   const { handleGetMeals, handleGetCombos } = useGetMeals();
   const { singleFavMeals, comboFavMeals } = useLikeStatus();
   const {
-    handleFavMeals,
+    handleMeals,
     handleCombos,
     handleCatalogMeals,
     handleShareCombos,
@@ -53,31 +53,37 @@ function App() {
       );
 
       // favCombos
-      const { formattedCombos, formattedMeals } = await handleCombos(
-        { 1234: "haha", 290833: "haha", 630720: "haha" },
-        {
-          "9e8b3ac1-c20f-4aaa-be88-a8257934da52": "haha",
-        },
-        userInfo.favCombos,
-        userInfo.favMeals,
-        "favCombos"
-      );
-      console.log(formattedCombos, formattedMeals);
-      dispatch({ type: "INSERT_MEALS", payload: formattedMeals });
+      // const { formattedCombos, formattedMeals } = await handleCombos(
+      //   { 1234: "haha", 290833: "haha", 630720: "haha" },
+      //   {
+      //     "9e8b3ac1-c20f-4aaa-be88-a8257934da52": "haha",
+      //   },
+      //   userInfo.favCombos,
+      //   userInfo.favMeals,
+      //   "favCombos"
+      // );
+      // console.log(formattedCombos, formattedMeals);
+      // dispatch({ type: "INSERT_MEALS", payload: formattedMeals });
 
       // single Meals
-      // const mealContext = {
-      //   1234: "haha",
-      //   290833: "haha",
-      //   630720: "haha",
-      //   100172: "haha",
-      //   1005954: "haha"
-      // };
-      // const testDrive = await handleCatalogMeals(
-      //   mealContext,
-      //   userInfo.favMeals
-      // );
-      // console.log(testDrive)
+      const mealContext = {
+        1234: "haha",
+        290833: "haha",
+        630720: "haha",
+        100172: "haha",
+        1005954: "haha",
+        149251: "haha",
+        199358: "haha",
+        338734: "haha",
+        1047713: "haha",
+        1091888: "haha",
+      };
+      const testDrive = await handleMeals(
+        mealContext,
+        userInfo.favMeals,
+        "collection"
+      );
+      console.log(mealContext, testDrive);
       
       // sharepage combo
       // const testDrive = await handleShareCombos(
