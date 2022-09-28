@@ -43,9 +43,49 @@ const FavMeals = () => {
 
   // setFilteredMeals
   useEffect(() => {
-    console.log(user.favoriteMeals);
+    let mealsContext = {
+      1234: "haha",
+      234: "haha",
+      34: "haha",
+      4: "haha",
+      5555: "haha",
+    };
+
+    let mealIds = [1234, 5555, 34, 333];
+
+    const filterOut = (mealsContext, mealIds) => {
+      const missingMeals = mealIds.filter(
+        (mealId) => !Object.keys(mealsContext).includes(mealId.toString())
+      );
+      return missingMeals;
+    };
+
+    filterOut(mealsContext, mealIds);
+
+    // meals.map((meal) => {
+    //   let mId = meal.mealinformation.id;
+    //   // format.[meal.mealinformation.id]: meal
+    //   format.meal.mealinformation.id = mId;
+    // });
+
     setFilteredMeals(user.favoriteMeals);
   }, [user.favoriteMeals]);
+
+  useEffect(() => {
+    const testMeals = [
+      {mealId: 1233, insto: "binbang"},
+      {mealId: 1244, insto: "binbong"},
+      {mealId: 1255, insto: "binclong"},
+    ]
+
+    let format = {};
+
+    testMeals.map((meal) => {
+      format[meal.mealId.toString()] = meal
+    });
+
+    console.log(format);
+  }, []);
 
   useEffect(() => {
     setFilteredCombos(user.favoriteCombos);

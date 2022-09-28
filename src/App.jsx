@@ -24,6 +24,7 @@ import SharePage from "./pages/SharePage";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import styles from "./styles";
+import { useGetMealsTry } from "./hooks/useGetMealsTry";
 
 function App() {
   // Todo: outsource
@@ -31,6 +32,12 @@ function App() {
   const { loggedIn, checkingStatus } = useAuthStatus();
   const { handleGetMeals, handleGetCombos } = useGetMeals();
   const { singleFavMeals, comboFavMeals } = useLikeStatus();
+  const {
+    handleFavMeals,
+    handleFavCombos,
+    handleCatalogMeals,
+    handleShareCombos,
+  } = useGetMealsTry();
 
   // set global context
   const getUserInformation = async (user) => {
@@ -44,6 +51,45 @@ function App() {
         favoriteCombos,
         userInfo.favMeals
       );
+
+      // Combos
+      // const testDrive = await handleFavCombos(
+        // { 1234: "haha", 290833: "haha", 630720: "haha"},
+        // {
+        //   "9e8b3ac1-c20f-4aaa-be88-a8257934da52": "haha",
+        // },
+        // userInfo.favCombos,
+        // userInfo.favMeals
+      // );
+      // console.log(testDrive)
+      // dispatch({ type: "INSERT_MEALS", payload: testDrive });
+
+      // single Meals
+      // const mealContext = {
+      //   1234: "haha",
+      //   290833: "haha",
+      //   630720: "haha",
+      //   100172: "haha",
+      //   1005954: "haha"
+      // };
+      // const testDrive = await handleCatalogMeals(
+      //   mealContext,
+      //   userInfo.favMeals
+      // );
+      // console.log(testDrive)
+      
+      // sharepage combo
+      const testDrive = await handleShareCombos(
+        { 1234: "haha", 290833: "haha", 630720: "haha" },
+        {
+          "9e8b3ac1-c20f-4aaa-be88-a8257934da52": "haha",
+        },
+        userInfo.favCombos,
+        userInfo.favMeals
+      );
+      console.log(testDrive)
+
+
       dispatch({
         type: "UPDATE_USER_INFORMATION_INIT",
         payload: { ...userInfo },

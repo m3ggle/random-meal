@@ -7,6 +7,183 @@ export const SpoonacularProvider = ({ children }) => {
   const initialState = {
     user: {},
     buyinglist: [],
+    meals: {
+      580283: {
+        liked: true,
+        mealinformation: {
+          id: 580283,
+          title: "Homemade Bisquick Mix: Breakfast Made Easy (Example)",
+          readyInMinutes: 5,
+          servings: 7,
+          sourceUrl:
+            "http://www.foodfanatic.com/2013/05/homemade-bisquick-mix-breakfast-made-easy/",
+          image:
+            "https://images.unsplash.com/photo-1594834749740-74b3f6764be4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=782&q=80",
+          vegetarian: true,
+          vegan: false,
+          preparationMinutes: 5,
+          cookingMinutes: 0,
+          healthScore: 9,
+          dishTypes: ["morning meal", "brunch", "Breakfast"],
+        },
+        ingredients: [
+          {
+            id: 18371,
+            name: "baking powder",
+            nameClean: "low sodium baking powder",
+            image: "white-powder.jpg",
+            measures: {
+              amount: 3,
+              unitShort: "Tbsps",
+              unitLong: "Tbsps",
+            },
+          },
+          {
+            id: 18372,
+            name: "baking soda",
+            nameClean: "baking soda",
+            image: "white-powder.jpg",
+            measures: {
+              amount: 1.5,
+              unitShort: "tsps",
+              unitLong: "teaspoons",
+            },
+          },
+          {
+            id: 20081,
+            name: "flour",
+            nameClean: "wheat flour",
+            image: "flour.png",
+            measures: {
+              amount: 1.42,
+              unitShort: "l",
+              unitLong: "liters",
+            },
+          },
+          {
+            id: 2047,
+            name: "salt",
+            nameClean: "table salt",
+            image: "salt.jpg",
+            measures: {
+              amount: 1,
+              unitShort: "Tbsp",
+              unitLong: "Tbsp",
+            },
+          },
+          {
+            id: 19335,
+            name: "sugar",
+            nameClean: "sugar",
+            image: "sugar-in-bowl.png",
+            measures: {
+              amount: 3,
+              unitShort: "Tbsps",
+              unitLong: "Tbsps",
+            },
+          },
+          {
+            id: 1145,
+            name: "unsalted butter",
+            nameClean: "unsalted butter",
+            image: "butter-sliced.jpg",
+            measures: {
+              amount: 1.5,
+              unitShort: "sticks",
+              unitLong: "sticks",
+            },
+          },
+        ],
+        nutrients: {
+          nutrients: [
+            {
+              name: "Calories",
+              amount: 588.41,
+              unit: "kcal",
+              percentOfDailyNeeds: 29.42,
+            },
+            {
+              name: "Fat",
+              amount: 20.73,
+              unit: "g",
+              percentOfDailyNeeds: 31.89,
+            },
+            {
+              name: "Sugar",
+              amount: 5.44,
+              unit: "g",
+              percentOfDailyNeeds: 6.04,
+            },
+            {
+              name: "Protein",
+              amount: 11.28,
+              unit: "g",
+              percentOfDailyNeeds: 22.56,
+            },
+          ],
+          caloricBreakdown: {
+            percentProtein: 7.66,
+            percentFat: 31.68,
+            percentCarbs: 60.66,
+          },
+        },
+        instructions: {
+          summary:
+            "In the largest bowl you have, whisk together everything except the butter.Using a pastry blender, cut the butter into the flour mixture until the butter is in very small pieces and the mixture resembles Bisquick mix in texture (you’re essentially looking for a coarse meal, with no big pieces of butter remaining). This is going to take a few minutes and some elbow grease, but have patience – it will get there.Store in an airtight container in the refrigerator for up to two months.Use cup for cup in place of Bisquick mix in recipes.",
+          steps: [
+            {
+              number: 1,
+              step: "In the largest bowl you have, whisk together everything except the butter.Using a pastry blender, cut the butter into the flour mixture until the butter is in very small pieces and the mixture resembles Bisquick mix in texture (you’re essentially looking for a coarse meal, with no big pieces of butter remaining). This is going to take a few minutes and some elbow grease, but have patience – it will get there.Store in an airtight container in the refrigerator for up to two months.Use cup for cup in place of Bisquick mix in recipes.",
+              ingredients: [
+                {
+                  id: 18010,
+                  name: "baking mix",
+                  localizedName: "baking mix",
+                  image: "brown-flour.jpg",
+                },
+                {
+                  id: 1001,
+                  name: "butter",
+                  localizedName: "butter",
+                  image: "butter-sliced.jpg",
+                },
+                {
+                  id: 20081,
+                  name: "all purpose flour",
+                  localizedName: "all purpose flour",
+                  image: "flour.png",
+                },
+              ],
+              equipment: [
+                {
+                  id: 404726,
+                  name: "blender",
+                  localizedName: "blender",
+                  image: "blender.png",
+                },
+                {
+                  id: 404661,
+                  name: "whisk",
+                  localizedName: "whisk",
+                  image: "whisk.png",
+                },
+                {
+                  id: 404783,
+                  name: "bowl",
+                  localizedName: "bowl",
+                  image: "bowl.jpg",
+                },
+              ],
+            },
+          ],
+        },
+      },
+    },
+    combos: {},
+    favoriteMeals: [],
+    favortieCombos: [],
+    catalogMeals: [],
+    shareCombos: [],
     spoonacularResult: [
       {
         liked: true,

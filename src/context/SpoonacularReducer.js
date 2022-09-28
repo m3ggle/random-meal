@@ -42,6 +42,11 @@ const spoonacularReducer = (state, action) => {
         ...state,
         favCombos: action.payload,
       }
+    case "INSERT_MEALS": 
+      return {
+        ...state,
+        meals: {...state.meals, ...action.payload}
+      }
     default:
       return "";
   }

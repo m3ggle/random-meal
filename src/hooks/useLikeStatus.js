@@ -1,7 +1,6 @@
 export const useLikeStatus = () => {
   // for favorite meals (eg. for favMeals 1 Meal)
   const singleFavMeals = (meals) => {
-    console.log(meals)
     if (meals?.length > 0) {
       meals = meals.map((meal) => {
         meal.liked = true;
@@ -12,7 +11,19 @@ export const useLikeStatus = () => {
   };
 
   // for meals which are not necessary favorite meals (eg. for catalog)
-  const singleMeals = (meals) => {};
+  const singleMeals = (meals, favMeals) => {
+    if (meals?.length > 0) {
+      meals = meals.map(meal => {
+        if (favMeals.includes(meal.mealinformation.id)) {
+          meal.liked = true
+        } else {
+          meal.liked = false 
+        }
+        return meal
+      })
+    } 
+    return meals
+  };
 
   // for favorite combos (eg. for favMeals 3 Meals)
   const comboFavMeals = (combos, usersFavMeals) => {
