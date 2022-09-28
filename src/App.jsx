@@ -34,7 +34,7 @@ function App() {
   const { singleFavMeals, comboFavMeals } = useLikeStatus();
   const {
     handleFavMeals,
-    handleFavCombos,
+    handleCombos,
     handleCatalogMeals,
     handleShareCombos,
   } = useGetMealsTry();
@@ -52,17 +52,18 @@ function App() {
         userInfo.favMeals
       );
 
-      // Combos
-      const {missingCombos, missingMeals} = await handleFavCombos(
-        { 1234: "haha", 290833: "haha", 630720: "haha"},
+      // favCombos
+      const { formattedCombos, formattedMeals } = await handleCombos(
+        { 1234: "haha", 290833: "haha", 630720: "haha" },
         {
           "9e8b3ac1-c20f-4aaa-be88-a8257934da52": "haha",
         },
         userInfo.favCombos,
-        userInfo.favMeals
+        userInfo.favMeals,
+        "favCombos"
       );
-      console.log(missingCombos, missingMeals);
-      dispatch({ type: "INSERT_MEALS", payload: missingMeals });
+      console.log(formattedCombos, formattedMeals);
+      dispatch({ type: "INSERT_MEALS", payload: formattedMeals });
 
       // single Meals
       // const mealContext = {

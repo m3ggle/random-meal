@@ -7,22 +7,22 @@ export const useLikeStatus = () => {
         return meal;
       });
     }
-    return meals    
+    return meals;
   };
 
   // for meals which are not necessary favorite meals (eg. for catalog)
   const singleMeals = (meals, favMeals) => {
     if (meals?.length > 0) {
-      meals = meals.map(meal => {
+      meals = meals.map((meal) => {
         if (favMeals.includes(meal.mealinformation.id)) {
-          meal.liked = true
+          meal.liked = true;
         } else {
-          meal.liked = false 
+          meal.liked = false;
         }
-        return meal
-      })
-    } 
-    return meals
+        return meal;
+      });
+    }
+    return meals;
   };
 
   // for favorite combos (eg. for favMeals 3 Meals)
@@ -52,11 +52,20 @@ export const useLikeStatus = () => {
       });
     }
 
-    return combos
+    return combos;
   };
 
   // for combos which are not necessary favorite combos (eg. for sharepage)
-  const comboMeals = (combos) => {};
+  const comboMeals = (combos, favCombos) => {
+    combos.map((combo) => {
+      if (favCombos.includes(combo.comboId)) {
+        combo.liked = true;
+      } else {
+        combo.liked = false;
+      }
+    });
+    return combos;
+  };
 
   return { singleFavMeals, singleMeals, comboFavMeals, comboMeals };
 };
