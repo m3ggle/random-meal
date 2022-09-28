@@ -1,17 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import { v4 as uuidv4 } from "uuid";
 import Loading from "../../components/Loading";
+import SpoonacularContext from "../../context/SpoonacularContext";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import styles from "../../styles";
 import CardThree from "./CardThree";
 
 const CardThreeContainer = ({ combo }) => {
+  const { meals } = useContext(SpoonacularContext);
   const { width } = useWindowDimensions();
   // Todo: handle icon click and handle title click
   return (
     <>
-      {combo ? (
+      {combo &&
+      meals[combo.breakfast] &&
+      meals[combo.lunch] &&
+      meals[combo.dinner] ? (
         <div className="flex flex-col px-6 pt-4 pb-6 h-fit rounded-[24px] combinationBg 500:w-full 700:w-fit max-w-[622px]">
           {/* header */}
           <div className="flex flex-row 500:items-center justify-between gap-x-5">
@@ -63,9 +68,9 @@ const CardThreeContainer = ({ combo }) => {
           {/* cards */}
           {/* over 600px */}
           <div className="flex flex-col 700:flex-row gap-2">
-            <CardThree meal={combo.breakfast} />
-            <CardThree meal={combo.lunch} />
-            <CardThree meal={combo.dinner} />
+            <CardThree meal={meals[combo.breakfast]} />
+            <CardThree meal={meals[combo.lunch]} />
+            <CardThree meal={meals[combo.dinner]} />
           </div>
         </div>
       ) : (

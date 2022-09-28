@@ -9,11 +9,11 @@ import { useLike } from "../../hooks/useLike";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import styles from "../../styles";
 
-const CardThree = (meal) => {
+const CardThree = ({ meal }) => {
   const { user, buyinglist, dispatch } = useContext(SpoonacularContext);
   const { width } = useWindowDimensions();
   const navigate = useNavigate();
-  const { mealinformation, ingredients, liked } = meal.meal;
+  const { mealinformation, ingredients, liked } = meal;
 
   const { handleBuyinglist } = useBuyinglist();
   const { handleHeart } = useLike();
@@ -24,13 +24,14 @@ const CardThree = (meal) => {
   }, [liked]);
 
   const handleBuy = () => {
+    console.log(buyinglist)
     const newBuyinglist = handleBuyinglist({buyinglist, title: mealinformation.title, ingredients});
     dispatch({ type: "UPDATE_BUYINGLIST", payload: newBuyinglist });
   };
 
   const handleHeartClick = () => {
     console.log(liked);
-    const { userInfo, mealInfo } = handleHeart(user, likeState, meal.meal);
+    const { userInfo, mealInfo } = handleHeart(user, likeState, meal);
     
     dispatch({
       type: "UPDATE_USER_INFORMATION",

@@ -4,7 +4,8 @@ import { useUploadToFirestore } from "../firestoreHooks/useUploadToFirestore";
 export const useBuyinglist = () => {
   const { uploadBuyinglist } = useUploadToFirestore();
 
-  const handleBuyinglist = ({buyinglist, title, ingredients}) => {
+  const handleBuyinglist = ({ buyinglist, title, ingredients }) => {
+    console.log(buyinglist)
     const alreadyExists = buyinglist.filter((meal) =>
       Object.keys(meal).includes(title)
     ).length;

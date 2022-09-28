@@ -20,7 +20,7 @@ import styles from "../styles";
 const FavMeals = () => {
   const { user, meals, combos, dispatch } = useContext(SpoonacularContext);
   const [filterState, setFilterState] = useState(false);
-  const { handleMeals, handleCombos, handleGetMealsCombos } = useGetMealsTry();
+  const { handleGetMealsCombos } = useGetMealsTry();
   const [selectedFilter, setSelectedFilter] = useState({
     Breakfast: false,
     Lunch: false,
@@ -31,8 +31,8 @@ const FavMeals = () => {
   const [searchText, setSearchText] = useState("");
   const [filteredMeals, setFilteredMeals] = useState();
   const [filteredCombos, setFilteredCombos] = useState();
-  const [internalFavorite, setInternalFavorite] = useState()
-  const [internalCombos, setInternalCombos] = useState()
+  const [internalFavorite, setInternalFavorite] = useState([]);
+  const [internalCombos, setInternalCombos] = useState([]);
   const [twoChoice, setTwoChoice] = useState("first");
 
   const navigate = useNavigate();
@@ -47,19 +47,20 @@ const FavMeals = () => {
 
   // setFilteredMeals
   useEffect(() => {
-    setFilteredMeals(user.favoriteMeals);
-  }, [user.favoriteMeals]);
+    setFilteredMeals(internalFavorite);
+  }, [internalFavorite]);
 
   // context
   useEffect(() => {
     const updateContext = async () => {
-      const {formattedCollectedMeals, formattedCombos} = await handleGetMealsCombos(
-        meals,
-        combos,
-        user.favMeals,
-        user.favCombos,
-        "favorite"
-      );
+      const { formattedCollectedMeals, formattedCombos } =
+        await handleGetMealsCombos(
+          meals,
+          combos,
+          user.favMeals,
+          user.favCombos,
+          "favorite"
+        );
       dispatch({
         type: "UPDATE_MEALS_AND_COMBOS",
         payload: {
@@ -67,10 +68,10 @@ const FavMeals = () => {
           combos: formattedCombos,
         },
       });
-    }
+    };
 
     if (user.favMeals) {
-      updateContext()
+      updateContext();
     }
   }, []);
 
@@ -80,31 +81,44 @@ const FavMeals = () => {
       let internalFavoriteMeals = [];
       Object.keys(meals).map((mealId) => {
         if (user.favMeals.includes(parseInt(mealId))) {
-          // return meals[mealId];
           internalFavoriteMeals.push({ ...meals[mealId] });
         }
       });
+      console.log(meals[1526841]);
       setInternalFavorite(internalFavoriteMeals);
     }
-  }, [user.favMeals])
+  }, [user.favMeals, meals]);
 
   useEffect(() => {
-    setFilteredCombos(user.favoriteCombos);
-  }, [user.favoriteCombos]);
+    if (user.favCombos) {
+      let internalFavoriteCombos = [];
+      Object.keys(combos).map((comboId) => {
+        if (user.favCombos.includes(comboId)) {
+          internalFavoriteCombos.push({ ...combos[comboId] });
+        }
+      });
+      setInternalCombos(internalFavoriteCombos);
+    }
+  }, [user.favCombos, meals]);
+
+  useEffect(() => {
+    setFilteredCombos(internalCombos);
+  }, [internalCombos]);
 
   // favMeals: when changes call search + tag filter function
   useEffect(() => {
-    if (user.favoriteMeals && twoChoice === "first") {
+    if (user.favMeals && twoChoice === "first") {
       setFilteredMeals(tagfilter(searchFilter("1 Meal")));
     }
-  }, [searchText, selectedFilter, user.favoriteMeals, twoChoice]);
+  }, [searchText, selectedFilter, user.favMeals, twoChoice]);
 
   // favCombos: when changes call search + tag filter function
   useEffect(() => {
-    if (user.favoriteCombos && twoChoice === "second") {
+    if (user.favCombos && twoChoice === "second") {
+      console.log(searchFilter("3 Meals"));
       setFilteredCombos(searchFilter("3 Meals"));
     }
-  }, [searchText, user.favoriteCombos, twoChoice]);
+  }, [searchText, user.favCombos, twoChoice]);
 
   // functionality of search filter
   const searchFilter = (type) => {
@@ -112,12 +126,12 @@ const FavMeals = () => {
     let re = new RegExp(searchText, "i");
     switch (type) {
       case "1 Meal":
-        searchFilteredMeals = user.favoriteMeals.filter((meal) =>
+        searchFilteredMeals = internalFavorite.filter((meal) =>
           meal.mealinformation.title.match(re)
         );
         break;
       case "3 Meals":
-        searchFilteredMeals = user.favoriteCombos.filter((combo) =>
+        searchFilteredMeals = internalCombos.filter((combo) =>
           combo.title.match(re)
         );
         break;
