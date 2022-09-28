@@ -2,7 +2,7 @@ import { getAuth } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { db } from "../firebase.config";
-import { useGetMealsTry } from "../hooks/useGetMealsTry";
+import { useGetMealsTry } from "../hooks/useGetMeals";
 
 export const useUploadToFirestore = () => {
   const {filterOutMeals} = useGetMealsTry()

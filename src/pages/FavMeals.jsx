@@ -14,7 +14,7 @@ import FavMealsOne from "../components/FavMealsOne";
 import FavMealsThree from "../components/FavMealsThree";
 import TwoChoice from "../components/TwoChoice";
 import SpoonacularContext from "../context/SpoonacularContext";
-import { useGetMealsTry } from "../hooks/useGetMealsTry";
+import { useGetMealsTry } from "../hooks/useGetMeals";
 import styles from "../styles";
 
 const FavMeals = () => {

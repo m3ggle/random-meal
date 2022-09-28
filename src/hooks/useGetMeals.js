@@ -1,86 +1,200 @@
-import { collection, getDocs, limit, query, where } from "firebase/firestore";
-import { db } from "../firebase.config";
+import { useState } from "react";
+import { useDownloadFromFirestore } from "../firestoreHooks/useDownloadFromFirestore";
+import { useLikeStatus } from "./useLikeStatus";
 
-// get all favorite meals from firestore
-export const useGetMeals = () => {
-  // normal meals
-  const handleGetMeals = async (mealIds) => {
+export const useGetMealsTry = () => {
+  const { singleFavMeals, comboMeals, singleMeals } = useLikeStatus();
+  const {
+    getTenFavCombos,
+    getTenCombosFromCollection,
+    getTenFavMeals,
+    getTenMealsFromCollection,
+    getMealsById,
+  } = useDownloadFromFirestore();
+  const [pagenation, setPagenation] = useState({
+    favMealsStartAfter: 0,
+    favCombosStartAfter: 0,
+    CombosStartAfter: 0,
+    SingleMealsStartAfter: 0,
+  });
+
+  const filterOutIds = (mealsContext, mealIds) => {
+    // mealIds can also be comboIds and mealsContext can also be comboContext
+    if (mealIds?.length > 0) {
+      const missingMeals = mealIds.filter(
+        (mealId) => !Object.keys(mealsContext).includes(mealId.toString())
+      );
+      return missingMeals;
+    } else {
+      return mealIds
+    }
+  };
+
+  const filterOutMeals = (mealsContext, meals) => {
+    if (meals?.length > 0) {
+      const missingMeals = meals.filter(
+        (meal) => !Object.keys(mealsContext).includes(meal.mealinformation.id.toString())
+      );
+      return missingMeals;
+    } else {
+      return meals;
+    }
+  };
+
+  const mealContextFormatter = (meals) => {
+    let format = {};
+    meals.map((meal) => {
+      format[meal.mealinformation.id.toString()] = meal;
+    });
+    return format;
+  };
+
+  const comboContextFormatter = (combos) => {
+    let format = {};
+    combos.map((combo) => {
+      format[combo.comboId] = combo;
+    });
+    return format;
+  };
+
+  const handleMeals = async (mealContext, favMeals, type) => {
     try {
+      // filter
       let meals = [];
-      mealIds = mealIds.slice(0, 10)
-      if (mealIds.length > 0) {
-        const getTenMeals = query(
-          collection(db, "meals"),
-          where("mealinformation.id", "in", mealIds),
-          limit(10)
-        );
-        const querySnapshot = await getDocs(getTenMeals);
-        querySnapshot.forEach((doc) => {
-          meals.push(doc.data());
+      let missingMeals = [];
+
+      // get meals from firestore
+      if (type === "favMeals") {
+        missingMeals = filterOutIds(mealContext, favMeals);
+        meals = await getTenFavMeals(missingMeals);
+        // like
+        meals = singleFavMeals(meals);
+      } else if (type === "collection") {
+        meals = await getTenMealsFromCollection();
+        // like
+        meals = singleMeals(meals, favMeals);
+        // get all the ids
+        const mealIds = meals.map((meal) => {
+          return meal.mealinformation.id;
         });
+        // filter out
+        let missingMeals = filterOutIds(mealContext, mealIds);
+        meals = meals.filter((meal) =>
+          missingMeals.includes(meal.mealinformation.id)
+        );
       }
 
-      return meals;
+      // corrected format
+      const formattedMeals = mealContextFormatter(meals);
+
+      return { formattedMeals };
     } catch (error) {
       console.log(error);
     }
   };
 
-  // combo meals
-  const handleGetCombos = async (comboIds) => {
+  const handleCombos = async (
+    mealContext,
+    comboContext,
+    favMeals,
+    favCombos,
+    type
+  ) => {
     try {
       let combos = [];
 
-      if (comboIds.length > 0) {
-        // get ten combos which the user likes from firestore
-        const getTenCombos = query(
-          collection(db, "combos"),
-          where("comboId", "in", comboIds),
-          limit(10)
-        );
-        const querySnapshot = await getDocs(getTenCombos);
-        querySnapshot.forEach((doc) => {
-          combos.push(doc.data());
-        });
-
-        // get the meals out of the combos
-        // befor only ids
-        // after full fletched meals with all the information
-        let allComboMeals;
-        await Promise.all(
-          combos.map((combo) => {
-            return handleGetMeals(combo.allIds);
-          })
-        ).then((comboResult) => {
-          allComboMeals = comboResult;
-        });
-
-        // replace the ids of breakfast, lunch, dinner with the mealinformation of the respective meal
-        combos.map((combo, index) => {
-          combo.breakfast = allComboMeals[index].filter(
-            (meal) => meal.mealinformation.id === combo.breakfast
-          );
-          combo.lunch = allComboMeals[index].filter(
-            (meal) => meal.mealinformation.id === combo.lunch
-          );
-          combo.dinner = allComboMeals[index].filter(
-            (meal) => meal.mealinformation.id === combo.dinner
-          );
-        });
-
-        // currently the breakfast, ..., are wrapped inside a unnecessary array
-        combos.map((combo) => {
-          combo.breakfast = { ...combo.breakfast[0] };
-          combo.lunch = { ...combo.lunch[0] };
-          combo.dinner = { ...combo.dinner[0] };
-        });
+      // get combos from firestore
+      if (type === "favCombos") {
+        combos = await getTenFavCombos(favCombos);
+      } else if (type === "collection") {
+        combos = await getTenCombosFromCollection();
       }
 
-      return combos;
+      // filter out meals
+      let mealIds = [];
+      combos.map((combo) => {
+        mealIds.push(...combo.allIds);
+      });
+
+      // get all missing meals
+      const missingMealIds = filterOutIds(mealContext, mealIds);
+
+      // get meal information
+      let missingMeals = await getMealsById(missingMealIds);
+
+      // like stuff single Meals
+      missingMeals = singleMeals(missingMeals, favMeals);
+
+      // meals Formatter
+      const formattedMeals = mealContextFormatter(missingMeals);
+
+      // get all combo ids
+      const comboIds = combos.map((combo) => {
+        return combo.comboId;
+      });
+
+      // filter out combos
+      const missingComboIds = filterOutIds(comboContext, comboIds);
+
+      // filterOutIds allready existing combos
+      combos = combos.filter((combo) =>
+        missingComboIds.includes(combo.comboId)
+      );
+
+      // combo like
+      combos = comboMeals(combos, favCombos);
+
+      // combo formatter
+      const formattedCombos = comboContextFormatter(combos);
+
+      return { formattedCombos, formattedMeals };
     } catch (error) {
       console.log(error);
     }
   };
 
-  return { handleGetMeals, handleGetCombos };
+  const handleGetMealsCombos = async (meals, combos, favMeals, favCombos, type) => {
+    let typeForHandleMeals, typeForHandleCombos;
+    if (type === "favorite") {
+      typeForHandleMeals = "favMeals"
+      typeForHandleCombos = "favCombos"
+    } else if (type === "collection") {
+      typeForHandleMeals = "collection";
+      typeForHandleCombos = "collection";
+    }
+
+    // get stuff
+    const { formattedMeals: firstMeals } = await handleMeals(
+      meals,
+      favMeals,
+      typeForHandleMeals
+    );
+    const { formattedMeals: secondMeals, formattedCombos } = await handleCombos(
+      meals,
+      combos,
+      favMeals,
+      favCombos,
+      typeForHandleCombos
+    );
+    
+    // filter
+    let formattedCollectedMeals = {...firstMeals};
+    Object.keys(secondMeals).map(meal => {
+      if (formattedCollectedMeals[meal] === undefined) {
+        formattedCollectedMeals[meal] = secondMeals[meal]
+      }
+    })
+
+    return { formattedCollectedMeals, formattedCombos };
+  };
+
+  return {
+    handleMeals,
+    handleCombos,
+    handleGetMealsCombos,
+    filterOutIds,
+    filterOutMeals,
+    mealContextFormatter,
+    comboContextFormatter,
+  };
 };

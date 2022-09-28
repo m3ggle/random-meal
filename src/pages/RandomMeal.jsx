@@ -4,7 +4,7 @@ import { getRandomDayMeal } from "../context/SpoonacularAction";
 import SpoonacularContext from "../context/SpoonacularContext";
 import { useUploadToFirestore } from "../firestoreHooks/useUploadToFirestore";
 import useCleanUp from "../hooks/useCleanUp";
-import { useGetMealsTry } from "../hooks/useGetMealsTry";
+import { useGetMealsTry } from "../hooks/useGetMeals";
 import { useLikeStatus } from "../hooks/useLikeStatus";
 import HomeCards0T640 from "../utilities/HomeCards0T640";
 
