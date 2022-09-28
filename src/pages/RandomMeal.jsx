@@ -9,7 +9,7 @@ import { getRandomDayMeal } from "../context/SpoonacularAction";
 import SpoonacularContext from "../context/SpoonacularContext";
 import { db } from "../firebase.config";
 import useCleanUp from "../hooks/useCleanUp";
-import { useUploadToFirestore } from "../firestoreHooks/useUpload";
+import { useUploadToFirestore } from "../firestoreHooks/useUploadToFirestore";
 
 const RandomMeal = () => {
   const { cleanUpMeals } = useCleanUp();

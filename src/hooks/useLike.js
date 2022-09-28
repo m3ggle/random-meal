@@ -1,7 +1,7 @@
 import { getAuth } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useUploadToFirestore } from "../firestoreHooks/useUpload";
+import { useUploadToFirestore } from "../firestoreHooks/useUploadToFirestore";
 
 export const useLike = () => {
   const { uploadFavMeals } = useUploadToFirestore();

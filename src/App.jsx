@@ -11,6 +11,7 @@ import SpoonacularContext from "./context/SpoonacularContext";
 import { db } from "./firebase.config";
 import { useAuthStatus } from "./hooks/useAuthStatus";
 import { useGetMeals } from "./hooks/useGetMeals";
+import { useGetMealsTry } from "./hooks/useGetMealsTry";
 import { useLikeStatus } from "./hooks/useLikeStatus";
 import BuyingList from "./pages/BuyingList";
 import Creation from "./pages/Creation";
@@ -24,7 +25,6 @@ import SharePage from "./pages/SharePage";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import styles from "./styles";
-import { useGetMealsTry } from "./hooks/useGetMealsTry";
 
 function App() {
   // Todo: outsource
@@ -32,12 +32,8 @@ function App() {
   const { loggedIn, checkingStatus } = useAuthStatus();
   const { handleGetMeals, handleGetCombos } = useGetMeals();
   const { singleFavMeals, comboFavMeals } = useLikeStatus();
-  const {
-    handleMeals,
-    handleCombos,
-    handleCatalogMeals,
-    handleShareCombos,
-  } = useGetMealsTry();
+  const { handleMeals, handleCombos, handleCatalogMeals, handleShareCombos } =
+    useGetMealsTry();
 
   // set global context
   const getUserInformation = async (user) => {
@@ -45,7 +41,7 @@ function App() {
     if (docSnapFavMeals.exists()) {
       let userInfo = docSnapFavMeals.data();
       let favoriteMeals = await handleGetMeals(userInfo.favMeals);
-      let favoriteCombos = await handleGetCombos(userInfo.favCombos)
+      let favoriteCombos = await handleGetCombos(userInfo.favCombos);
       userInfo.favoriteMeals = singleFavMeals(favoriteMeals);
       userInfo.favoriteCombos = comboFavMeals(
         favoriteCombos,
@@ -84,7 +80,7 @@ function App() {
         "collection"
       );
       console.log(mealContext, testDrive);
-      
+
       // sharepage combo
       // const testDrive = await handleShareCombos(
       //   { 1234: "haha", 290833: "haha", 630720: "haha" },
@@ -95,7 +91,6 @@ function App() {
       //   userInfo.favMeals
       // );
       // console.log(testDrive)
-
 
       dispatch({
         type: "UPDATE_USER_INFORMATION_INIT",

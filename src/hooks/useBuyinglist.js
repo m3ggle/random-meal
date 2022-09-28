@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import { useUploadToFirestore } from "../firestoreHooks/useUpload";
+import { useUploadToFirestore } from "../firestoreHooks/useUploadToFirestore";
 
 export const useBuyinglist = () => {
   const { uploadBuyinglist } = useUploadToFirestore();

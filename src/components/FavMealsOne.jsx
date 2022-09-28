@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
 import SpoonacularContext from "../context/SpoonacularContext";
-import { useUploadToFirestore } from "../firestoreHooks/useUpload";
+import { useUploadToFirestore } from "../firestoreHooks/useUploadToFirestore";
 import FavMealsOneCard from "../utilities/cards/FavMealsOneCard";
 import Loading from "./Loading";
 
