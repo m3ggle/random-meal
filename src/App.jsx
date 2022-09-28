@@ -53,16 +53,16 @@ function App() {
       );
 
       // Combos
-      // const testDrive = await handleFavCombos(
-        // { 1234: "haha", 290833: "haha", 630720: "haha"},
-        // {
-        //   "9e8b3ac1-c20f-4aaa-be88-a8257934da52": "haha",
-        // },
-        // userInfo.favCombos,
-        // userInfo.favMeals
-      // );
-      // console.log(testDrive)
-      // dispatch({ type: "INSERT_MEALS", payload: testDrive });
+      const {missingCombos, missingMeals} = await handleFavCombos(
+        { 1234: "haha", 290833: "haha", 630720: "haha"},
+        {
+          "9e8b3ac1-c20f-4aaa-be88-a8257934da52": "haha",
+        },
+        userInfo.favCombos,
+        userInfo.favMeals
+      );
+      console.log(missingCombos, missingMeals);
+      dispatch({ type: "INSERT_MEALS", payload: missingMeals });
 
       // single Meals
       // const mealContext = {
@@ -79,15 +79,15 @@ function App() {
       // console.log(testDrive)
       
       // sharepage combo
-      const testDrive = await handleShareCombos(
-        { 1234: "haha", 290833: "haha", 630720: "haha" },
-        {
-          "9e8b3ac1-c20f-4aaa-be88-a8257934da52": "haha",
-        },
-        userInfo.favCombos,
-        userInfo.favMeals
-      );
-      console.log(testDrive)
+      // const testDrive = await handleShareCombos(
+      //   { 1234: "haha", 290833: "haha", 630720: "haha" },
+      //   {
+      //     "9e8b3ac1-c20f-4aaa-be88-a8257934da52": "haha",
+      //   },
+      //   userInfo.favCombos,
+      //   userInfo.favMeals
+      // );
+      // console.log(testDrive)
 
 
       dispatch({

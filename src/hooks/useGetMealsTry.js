@@ -79,6 +79,8 @@ export const useGetMealsTry = () => {
   ) => {
     try {
       let combos = [];
+      let correctCombos = [];
+      let mealsForContext = [];
 
       // stuff
       if (comboIds.length > 0) {
@@ -91,6 +93,7 @@ export const useGetMealsTry = () => {
         const querySnapshot = await getDocs(getTenCombos);
         querySnapshot.forEach((doc) => {
           combos.push(doc.data());
+          correctCombos.push(doc.data());
         });
 
         // get the meals out of the combos
@@ -103,6 +106,13 @@ export const useGetMealsTry = () => {
           })
         ).then((comboResult) => {
           allComboMeals = comboResult;
+        });
+
+        // all combo meals in one array
+        allComboMeals.map((comboMeals) => {
+          comboMeals.map((meal) => {
+            mealsForContext.push(meal);
+          });
         });
 
         // replace the ids of breakfast, lunch, dinner with the mealinformation of the respective meal
@@ -127,21 +137,41 @@ export const useGetMealsTry = () => {
       }
 
       // like
+      // todo: make useLikeStatus for combos more reusable
       combos = comboFavMeals(combos, usersFavMeals);
 
       // filter out meals
-      let meals = [];
+      let mealIds = [];
       combos.map((combo) => {
-        meals.push(...combo.allIds);
+        mealIds.push(...combo.allIds);
       });
 
-      const missingMeals = filterOut(mealContext, meals);
-      // Todo: give this to handleSingleMeals
+      // get all missing meals
+      const missingMealIds = filterOut(mealContext, mealIds);
+      let missingMeals = mealsForContext.filter((meal) =>
+        missingMealIds.includes(meal.mealinformation.id)
+      );
+
+      // get missing meals
+      // let allComboMeals;
+      // await Promise.all(
+      //   combos.map((combo) => {
+      //     return handleGetMeals(combo.allIds);
+      //   })
+      // ).then((comboResult) => {
+      //   allComboMeals = comboResult;
+      // });
+
+      // Then do the like stuff
+
+      // make missing meals context ready
+      missingMeals = mealContextFormat(missingMeals);
 
       // filter out combos
-      combos = filterOut(comboContext, comboIds);
+      console.log(combos);
+      const missingCombos = filterOut(comboContext, comboIds);
 
-      return combos;
+      return { missingCombos, missingMeals };
     } catch (error) {
       console.log(error);
     }
@@ -240,10 +270,10 @@ export const useGetMealsTry = () => {
       // get all mealids for filter out
       let mealIds = [];
       likedMeals.map((combo) => {
-        console.log(combo)
+        console.log(combo);
         // mealIds.push(...combo.allIds);
       });
-      console.log(mealIds)
+      console.log(mealIds);
 
       const missingMealIds = filterOut(mealContext, mealIds);
       // meals = singleMeals(missingMeals, favMeals);
