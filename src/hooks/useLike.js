@@ -17,13 +17,14 @@ export const useLike = () => {
       }
     } else {
       toast.error("😤 Not logged in");
+      navigate("/signIn")
     }
   };
 
   const handleLikeFavMeal = (user, meal, id) => {
     meal.liked = true;
     user.favMeals.push(id);
-    user.favoriteMeals.push(meal);
+    // user.favoriteMeals.push(meal);
     uploadFavMeals(user.favMeals);
     return { userInfo: user, mealInfo: meal };
   };
@@ -32,9 +33,9 @@ export const useLike = () => {
     // favoriteMeals for local update (shortterm)
     // favMeals for global update (longterm)
     meal.liked = false;
-    user.favoriteMeals = user.favoriteMeals.filter(
-      (meal) => meal.mealinformation.id !== id
-    );
+    // user.favoriteMeals = user.favoriteMeals.filter(
+    //   (meal) => meal.mealinformation.id !== id
+    // );
     user.favMeals = user.favMeals.filter((mealId) => mealId !== id);
     uploadFavMeals(user.favMeals);
     return { userInfo: user, mealInfo: meal };

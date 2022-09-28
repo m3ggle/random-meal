@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
@@ -14,50 +14,25 @@ const CardThree = ({ meal }) => {
   const { width } = useWindowDimensions();
   const navigate = useNavigate();
   const { mealinformation, ingredients, liked } = meal;
-
   const { handleBuyinglist } = useBuyinglist();
   const { handleHeart } = useLike();
-  const [likeState, setLikeState] = useState(false);
-
-  useEffect(() => {
-    setLikeState(liked);
-  }, [liked]);
 
   const handleBuy = () => {
-    console.log(buyinglist)
-    const newBuyinglist = handleBuyinglist({buyinglist, title: mealinformation.title, ingredients});
+    const newBuyinglist = handleBuyinglist({
+      buyinglist,
+      title: mealinformation.title,
+      ingredients,
+    });
     dispatch({ type: "UPDATE_BUYINGLIST", payload: newBuyinglist });
   };
 
   const handleHeartClick = () => {
-    console.log(liked);
-    const { userInfo, mealInfo } = handleHeart(user, likeState, meal);
-    
+    const { userInfo } = handleHeart(user, liked, meal);
     dispatch({
       type: "UPDATE_USER_INFORMATION",
       payload: { ...userInfo },
     });
   };
-
-
-
-  //   const handleClick = (msg) => {
-  //     if (msg === "card") {
-  //       navigate(`/mealdetails/${id}`);
-  //     } else if (msg === "heart") {
-  //       const auth = getAuth();
-  //       if (auth.currentUser) {
-  //         likeState
-  //           ? callbackRemoveFavMeal(id)
-  //           : callbackAddFavMeal(id, fullMealInfo);
-  //         setLikeState((prevState) => !prevState);
-  //       } else {
-  //         toast.error("😤 Not logged in");
-  //       }
-  //     } else if (msg === "buy") {
-  //       callbackBuylist(id, fullMealInfo);
-  //     }
-  //   };
 
   return (
     <motion.div
@@ -116,11 +91,10 @@ const CardThree = ({ meal }) => {
       >
         <motion.div
           id="heart"
-          // onClick={() => handleClick("heart")}
           onClick={() => handleHeartClick()}
           whileTap={{ scale: 0.94 }}
           className={`w-[34px] h-[34px] ${styles.flexCenter} z-20 ${
-            likeState ? "text-failure" : "text-iconTransCol"
+            liked ? "text-failure" : "text-iconTransCol"
           } cursor-pointer`}
         >
           <FaHeart size={width > 700 ? "22px" : "16px"} />
