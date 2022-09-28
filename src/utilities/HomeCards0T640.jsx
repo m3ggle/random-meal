@@ -2,34 +2,35 @@ import { motion } from "framer-motion";
 import React from "react";
 import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import styles from "../styles";
+import { v4 as uuidv4 } from "uuid";
 import Card0T640 from "./cards/Card0T640";
+import Loading from "../components/Loading";
 
 /* 0-640px */
 
 const HomeCards0T640 = ({
+  meals,
   data,
   callbackButton,
-  callbackAddFavMeal,
-  callbackRemoveFavMeal,
-  callbackBuylist,
 }) => {
   return (
     <div className="w-full max-w-[640px] xl:max-w-full flex items-center xl:justify-center flex-col py-[20px] md:py-10">
       {/* meals */}
-      <div className="w-full flex flex-col xl:flex-row flex-grow xl:flex-grow-0 items-center xl:justify-center gap-y-[3%] xl:gap-x-[48px]">
-        {data.map((mealCard) => (
-          <Card0T640
-            key={mealCard.mealinformation.id}
-            id={mealCard.mealinformation.id}
-            title={mealCard.mealinformation.title}
-            image={mealCard.mealinformation.image}
-            fullMealInfo={mealCard}
-            callbackAddFavMeal={callbackAddFavMeal}
-            callbackRemoveFavMeal={callbackRemoveFavMeal}
-            callbackBuylist={callbackBuylist}
-          />
-        ))}
-      </div>
+
+      {meals[data[0]] && meals[data[1]] && meals[data[2]] ? (
+        <div className="w-full flex flex-col xl:flex-row flex-grow xl:flex-grow-0 items-center xl:justify-center gap-y-[3%] xl:gap-x-[48px]">
+          {data.map((mealId) => (
+            <Card0T640
+              key={uuidv4()}
+              meal={meals[mealId]}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className="w-full flex flex-col xl:flex-row flex-grow xl:flex-grow-0 items-center xl:justify-center gap-y-[3%] xl:gap-x-[48px]">
+          <Loading />
+        </div>
+      )}
 
       {/* Puffer */}
       <div className="w-full h-[202px] 600:h-[172px] md:h-[132px] md:hidden"></div>

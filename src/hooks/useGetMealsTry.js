@@ -20,7 +20,7 @@ export const useGetMealsTry = () => {
     SingleMealsStartAfter: 0,
   });
 
-  const filterOut = (mealsContext, mealIds) => {
+  const filterOutIds = (mealsContext, mealIds) => {
     // mealIds can also be comboIds and mealsContext can also be comboContext
     if (mealIds?.length > 0) {
       const missingMeals = mealIds.filter(
@@ -29,6 +29,17 @@ export const useGetMealsTry = () => {
       return missingMeals;
     } else {
       return mealIds
+    }
+  };
+
+  const filterOutMeals = (mealsContext, meals) => {
+    if (meals?.length > 0) {
+      const missingMeals = meals.filter(
+        (meal) => !Object.keys(mealsContext).includes(meal.mealinformation.id.toString())
+      );
+      return missingMeals;
+    } else {
+      return meals;
     }
   };
 
@@ -56,7 +67,7 @@ export const useGetMealsTry = () => {
 
       // get meals from firestore
       if (type === "favMeals") {
-        missingMeals = filterOut(mealContext, favMeals);
+        missingMeals = filterOutIds(mealContext, favMeals);
         meals = await getTenFavMeals(missingMeals);
         // like
         meals = singleFavMeals(meals);
@@ -69,7 +80,7 @@ export const useGetMealsTry = () => {
           return meal.mealinformation.id;
         });
         // filter out
-        let missingMeals = filterOut(mealContext, mealIds);
+        let missingMeals = filterOutIds(mealContext, mealIds);
         meals = meals.filter((meal) =>
           missingMeals.includes(meal.mealinformation.id)
         );
@@ -108,7 +119,7 @@ export const useGetMealsTry = () => {
       });
 
       // get all missing meals
-      const missingMealIds = filterOut(mealContext, mealIds);
+      const missingMealIds = filterOutIds(mealContext, mealIds);
 
       // get meal information
       let missingMeals = await getMealsById(missingMealIds);
@@ -125,9 +136,9 @@ export const useGetMealsTry = () => {
       });
 
       // filter out combos
-      const missingComboIds = filterOut(comboContext, comboIds);
+      const missingComboIds = filterOutIds(comboContext, comboIds);
 
-      // filterOut allready existing combos
+      // filterOutIds allready existing combos
       combos = combos.filter((combo) =>
         missingComboIds.includes(combo.comboId)
       );
@@ -183,7 +194,8 @@ export const useGetMealsTry = () => {
     handleMeals,
     handleCombos,
     handleGetMealsCombos,
-    filterOut,
+    filterOutIds,
+    filterOutMeals,
     mealContextFormatter,
     comboContextFormatter,
   };
