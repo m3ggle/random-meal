@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet";
 import React, { useState } from "react";
 import BgImage from "../assets/images/InImage.webp";
 import Input from "../components/Input";
@@ -29,6 +30,10 @@ const ForgotPassword = () => {
       className="relative w-full h-screen bg-cover bg-center"
       style={{ backgroundImage: `url(${BgImage})` }}
     >
+      <Helmet>
+        <title>Forgot Password</title>
+        <meta name="description" content="" />
+      </Helmet>
       <div
         className={`sm:absolute top-[5%] sm:left-[5%] md:left-[10%] ${styles.flexCenter} flex-col px-[40px] sm:px-[80px] gap-y-[40px] w-full sm:w-[510px] h-screen sm:h-[612px] signBg sm:rounded-[30px]`}
       >

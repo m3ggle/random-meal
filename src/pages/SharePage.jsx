@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import React, { useContext, useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 import {
   FaCheck,
   FaExclamationCircle,
@@ -156,6 +157,11 @@ const SharePage = () => {
 
   return (
     <div className="w-full h-full overflow-scroll flex flex-col gap-y-3">
+      <Helmet>
+        <title>Share is Caring</title>
+        <meta name="description" content="" />
+      </Helmet>
+
       {/* header */}
       <div className="flex justify-center h-[120px] pt-8">
         <div className="w-full max-w-[325px] flex flex-col gap-y-[8px] ">

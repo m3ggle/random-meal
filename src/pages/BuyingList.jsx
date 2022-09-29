@@ -1,6 +1,7 @@
 import { getAuth } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { motion } from "framer-motion";
+import { Helmet } from "react-helmet";
 import React, { useContext, useState } from "react";
 import { FaTimes } from "react-icons/fa";
 import { toast } from "react-toastify";
@@ -160,6 +161,10 @@ const BuyingList = () => {
 
   return (
     <div className="w-full h-screen flex">
+      <Helmet>
+        <title>Buyinglist</title>
+        <meta name="description" content="" />
+      </Helmet>
       <div className="relative w-full md:max-w-[534px] lg:max-w-[600px] h-screen overflow-scroll bg-bgPrimaryCol pt-10 pb-28 md:pb-10  flex flex-col">
         <div className="flex flex-col">
           {/* titel */}

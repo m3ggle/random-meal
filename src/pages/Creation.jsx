@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet";
 import React, { useState } from "react";
 import {
   FaCheck,
@@ -13,7 +14,7 @@ import {
 import useWindowDimensions from "../hooks/useWindowDimensions";
 import styles from "../styles";
 // import CardsSamples from "../utilities/cards/CardsSamples";
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 
 const Creation = () => {
   const { width, height } = useWindowDimensions();
@@ -29,10 +30,14 @@ const Creation = () => {
     }
   */
 
-  const navigate = useNavigate()
-  
+  const navigate = useNavigate();
+
   return (
     <div className="fixed top-0 left-0 w-full h-screen z-[100] bg-bgPrimaryCol">
+      <Helmet>
+        <title>Creation</title>
+        <meta name="description" content="" />
+      </Helmet>
       <div className="relative w-full h-screen overflow-auto flex justify-center ">
         {/* beginning of the actual modal */}
         <div

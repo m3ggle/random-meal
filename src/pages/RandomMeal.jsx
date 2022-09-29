@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet";
 import { getAuth } from "firebase/auth";
 import React, { useContext, useState } from "react";
 import { getRandomDayMeal } from "../context/SpoonacularAction";
@@ -42,6 +43,10 @@ const RandomMeal = () => {
 
   return (
     <div className="w-full h-screen bg-bgPrimaryCol flex justify-evenly ">
+      <Helmet>
+        <title>Random Meal</title>
+        <meta name="description" content="" />
+      </Helmet>
       <HomeCards0T640
         meals={meals}
         data={spoonResults}

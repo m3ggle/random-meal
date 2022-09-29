@@ -1,3 +1,5 @@
+
+import { Helmet } from "react-helmet";
 import { getAuth, onAuthStateChanged, updateEmail } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { getStorage, ref } from "firebase/storage";
@@ -258,6 +260,10 @@ const Profile = () => {
 
   return (
     <div className="w-full h-screen bg-bgPrimaryCol flex flex-col overflow-scroll pt-8 md:pt-0">
+      <Helmet>
+        <title>Profile</title>
+        <meta name="description" content="" />
+      </Helmet>
       {/* top */}
       <div className={`${styles.flexCenter} w-full h-[300px]`}>
         <div

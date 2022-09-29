@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet";
 import { getAuth } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import React, { useContext, useEffect, useState } from "react";
@@ -130,6 +131,10 @@ const Mealdetails = ({ data, navigateTo }) => {
 
   return (
     <div className="fixed top-0 left-0 w-full h-screen z-[100] bg-bgPrimaryCol">
+      <Helmet>
+        <title>{mealinformation.title}</title>
+        <meta name="description" content="" />
+      </Helmet>
       <div className="relative w-full h-screen overflow-auto flex justify-center">
         {/* beginning of the actual modal */}
         <div

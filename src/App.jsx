@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet";
 import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import { useContext, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -65,6 +66,11 @@ function App() {
 
   return (
     <div className={`w-full h-screen ${styles.flexCenter} bg-navCol`}>
+      <Helmet>
+        <title>Random Meal</title>
+        <meta name="description" content="" />
+        <meta name="keywords" content="Food, Planning, Meals, Buyinglist, Random Meals, New Meals"/>
+      </Helmet>
       {checkingStatus ? (
         <Loading />
       ) : (
