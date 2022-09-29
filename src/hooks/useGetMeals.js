@@ -77,7 +77,6 @@ export const useGetMeals = () => {
         // like
         meals = favMeals !== undefined ? singleMeals(meals, favMeals) : meals
         // get all the ids
-        console.log(meals)
         const mealIds = meals.map((meal) => {
           return meal.mealinformation.id;
         });

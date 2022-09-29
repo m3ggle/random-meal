@@ -3,7 +3,6 @@ import React, { useContext } from "react";
 import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
-import Catalog from "../../components/Catalog";
 import SpoonacularContext from "../../context/SpoonacularContext";
 import { useBuyinglist } from "../../hooks/useBuyinglist";
 import { useLike } from "../../hooks/useLike";

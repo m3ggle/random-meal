@@ -1,55 +1,36 @@
-import { getAuth } from "firebase/auth";
 import { motion } from "framer-motion";
 import React, { useContext } from "react";
 import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
 import SpoonacularContext from "../../context/SpoonacularContext";
 import { useBuyinglist } from "../../hooks/useBuyinglist";
 import { useLike } from "../../hooks/useLike";
 import styles from "../../styles";
 
-const FavMealsOneCard = ({ meal, callbackRemoveFavMeal, callbackBuylist }) => {
+const SingleCard = ({ meal }) => {
   const { user, buyinglist, dispatch } = useContext(SpoonacularContext);
   const navigate = useNavigate();
-    const { mealinformation, ingredients, liked } = meal;
-    const { handleBuyinglist } = useBuyinglist();
+  const { mealinformation, ingredients, liked } = meal;
+  const { handleBuyinglist } = useBuyinglist();
   const { handleHeart } = useLike();
-  
-  
-  const handleClick = (msg) => {
-    if (msg === "card") {
-      navigate(`/mealdetails/${mealinformation.id}`);
-    } else if (msg === "heart") {
-      const auth = getAuth();
-      if (auth.currentUser) {
-        callbackRemoveFavMeal(mealinformation.id);
-      } else {
-        toast.error("😤 Not logged in");
-      }
-    } else if (msg === "buy") {
-      callbackBuylist(mealinformation.id, meal);
-    }
+
+  const handleBuy = () => {
+    const newBuyinglist = handleBuyinglist({
+      buyinglist,
+      title: mealinformation.title,
+      ingredients,
+    });
+    dispatch({ type: "UPDATE_BUYINGLIST", payload: newBuyinglist });
   };
 
-    const handleBuy = () => {
-      const newBuyinglist = handleBuyinglist({
-        buyinglist,
-        title: mealinformation.title,
-        ingredients,
-      });
-      dispatch({ type: "UPDATE_BUYINGLIST", payload: newBuyinglist });
-    };
-
-    const handleHeartClick = () => {
-      const { userInfo } = handleHeart(user, liked, meal);
-      dispatch({
-        type: "UPDATE_USER_INFORMATION",
-        payload: { ...userInfo },
-      });
-    };
-
+  const handleHeartClick = () => {
+    const { userInfo } = handleHeart(user, liked, meal);
+    dispatch({
+      type: "UPDATE_USER_INFORMATION",
+      payload: { ...userInfo },
+    });
+  };
 
   return (
     <motion.div
@@ -127,4 +108,4 @@ const FavMealsOneCard = ({ meal, callbackRemoveFavMeal, callbackBuylist }) => {
   );
 };
 
-export default FavMealsOneCard;
+export default SingleCard;

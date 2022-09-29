@@ -68,7 +68,6 @@ const CardThreeContainer = ({ combo }) => {
             ))}
           </div>
           {/* cards */}
-          {/* over 600px */}
           <div className="flex flex-col 700:flex-row gap-2">
             <CardThree meal={meals[combo.breakfast]} />
             <CardThree meal={meals[combo.lunch]} />
@@ -80,82 +79,6 @@ const CardThreeContainer = ({ combo }) => {
       )}
     </>
   );
-
-  {
-    /* under 600px */
-  }
-  {
-    /* <Link
-        to={"/mealdetails/123"}
-        className="600:hidden flex-col gap-y-2  w-full"
-      >
-        <div
-          className="relative w-full h-[100px] rounded-xl bg-red-400 bg-center bg-cover overflow-hidden DayMealsShadow z-10"
-          style={{ backgroundImage: `url(${BreakfastImg})` }}
-        >
-          <div className="w-full h-full imgOverlayRandomMeal"></div>
-          <p
-            className={`absolute bottom-[5%] left-[5%] ${styles.heading16} text-lightTextCol`}
-          >
-            Morbi ac diam pretium
-          </p>
-          <div className="w-fit h-fit flex flex-col gap-y-[10px] absolute top-[8%] left-[90%] 500:top-[12%] 500:left-[92%]">
-            <FaHeart
-              size="14px"
-              className="text-iconTransCol drop-shadow-cardIcon"
-            />
-            <FaShoppingCart
-              size="14px"
-              className="text-iconTransCol drop-shadow-cardIcon"
-            />
-          </div>
-        </div>
-        <div
-          className="relative w-full h-[100px] rounded-xl bg-red-400 bg-center bg-cover overflow-hidden DayMealsShadow z-20"
-          style={{ backgroundImage: `url(${LunchImg})` }}
-        >
-          <div className="w-full h-full imgOverlayRandomMeal"></div>
-          <p
-            className={`absolute bottom-[5%] left-[5%] ${styles.heading16} text-lightTextCol`}
-          >
-            Morbi ac diam pretium
-          </p>
-          <div className="w-fit h-fit flex flex-col gap-y-[10px] absolute top-[8%] left-[90%] 500:top-[12%] 500:left-[92%]">
-            <FaHeart
-              size="14px"
-              className="text-iconTransCol drop-shadow-cardIcon"
-            />
-            <FaShoppingCart
-              size="14px"
-              className="text-iconTransCol drop-shadow-cardIcon"
-            />
-          </div>
-        </div>
-        <div
-          className="relative w-full h-[100px] rounded-xl bg-red-400 bg-center bg-cover overflow-hidden DayMealsShadow z-30"
-          style={{ backgroundImage: `url(${DinnerImg})` }}
-        >
-          <div className="w-full h-full imgOverlayRandomMeal"></div>
-          <p
-            className={`absolute bottom-[5%] left-[5%] ${styles.heading16} text-lightTextCol`}
-          >
-            Morbi ac diam pretium
-          </p>
-          <div className="w-fit h-fit flex flex-col gap-y-[10px] absolute top-[8%] left-[90%] 500:top-[12%] 500:left-[92%]">
-            <FaHeart
-              size="14px"
-              className="text-iconTransCol drop-shadow-cardIcon"
-            />
-            <FaShoppingCart
-              size="14px"
-              className="text-iconTransCol drop-shadow-cardIcon"
-            />
-          </div>
-        </div>
-      </Link> */
-  }
-  // </div>
-  // );
 };
 
 export default CardThreeContainer;

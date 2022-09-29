@@ -33,11 +33,6 @@ const SharePage = () => {
   const [internalCombos, setInternalCombos] = useState([]);
   const [twoChoice, setTwoChoice] = useState("first");
 
-  // setFilteredMeals
-  useEffect(() => {
-    setFilteredMeals(internalMeals);
-  }, [internalMeals]);
-
   // context
   useEffect(() => {
     const updateContext = async () => {
@@ -49,7 +44,6 @@ const SharePage = () => {
           user.favCombos,
           "collection"
         );
-      console.log(formattedCollectedMeals, formattedCombos);
       dispatch({
         type: "UPDATE_MEALS_AND_COMBOS",
         payload: {
@@ -79,35 +73,40 @@ const SharePage = () => {
     setInternalCombos(internalMealsCombos);
   }, [user.favCombos, meals]);
 
+  // setFilteredMeals
+  useEffect(() => {
+    setFilteredMeals(internalMeals);
+  }, [internalMeals]);
+
   useEffect(() => {
     setFilteredCombos(internalCombos);
   }, [internalCombos]);
 
   // favMeals: when changes call search + tag filter function
   useEffect(() => {
-    if (user.favMeals && twoChoice === "first") {
-      setFilteredMeals(tagfilter(searchFilter("1 Meal")));
+    if (twoChoice === "second") {
+      setFilteredMeals(tagfilter(searchFilter("second")));
     }
   }, [searchText, selectedFilter, twoChoice]);
 
   // favCombos: when changes call search + tag filter function
   useEffect(() => {
-    if (user.favCombos && twoChoice === "second") {
-      setFilteredCombos(searchFilter("3 Meals"));
+    if (twoChoice === "first") {
+      setFilteredCombos(searchFilter("first"));
     }
-  }, [searchText, user.favCombos, twoChoice]);
+  }, [searchText, twoChoice]);
 
   // functionality of search filter
   const searchFilter = (type) => {
     let searchFilteredMeals;
     let re = new RegExp(searchText, "i");
     switch (type) {
-      case "1 Meal":
+      case "second":
         searchFilteredMeals = internalMeals.filter((meal) =>
           meal.mealinformation.title.match(re)
         );
         break;
-      case "3 Meals":
+      case "first":
         searchFilteredMeals = internalCombos.filter((combo) =>
           combo.title.match(re)
         );
@@ -242,7 +241,7 @@ const SharePage = () => {
           {/* Tags from filter */}
           <div
             className={`flex flex-row gap-2 ${
-              twoChoice === "first" ? "opacity-100" : "opacity-0"
+              twoChoice === "second" ? "opacity-100" : "opacity-0"
             }`}
           >
             <p className={`text-lightTextCol ${styles.paragraph16} mr-1`}>
