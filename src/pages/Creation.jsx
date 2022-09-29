@@ -12,7 +12,7 @@ import {
 } from "react-icons/fa";
 import useWindowDimensions from "../hooks/useWindowDimensions";
 import styles from "../styles";
-import CardsSamples from "../utilities/cards/CardsSamples";
+// import CardsSamples from "../utilities/cards/CardsSamples";
 import {useNavigate} from "react-router-dom"
 
 const Creation = () => {
@@ -258,7 +258,7 @@ const Creation = () => {
                 selected === "Breakfast" ? "flex" : "hidden"
               } gap-2 flex-wrap w-full 600:gap-6 justify-center max-w-[1350px]`}
             >
-              {width < 600 ? (
+              {/* {width < 600 ? (
                 <CardsSamples type="mobile" />
               ) : (
                 <CardsSamples type="little" />
@@ -297,7 +297,7 @@ const Creation = () => {
                 <CardsSamples type="mobile" />
               ) : (
                 <CardsSamples type="little" />
-              )}
+              )} */}
             </div>
             {/* 2. Lunch */}
             <div
@@ -305,7 +305,7 @@ const Creation = () => {
                 selected === "Lunch" ? "flex" : "hidden"
               } gap-2 flex-wrap w-full 600:gap-6 justify-center max-w-[1350px]`}
             >
-              {width < 600 ? (
+              {/* {width < 600 ? (
                 <CardsSamples type="mobile" />
               ) : (
                 <CardsSamples type="little" />
@@ -344,7 +344,7 @@ const Creation = () => {
                 <CardsSamples type="mobile" />
               ) : (
                 <CardsSamples type="little" />
-              )}
+              )} */}
             </div>
 
             {/* 2. Dinner */}
@@ -353,7 +353,7 @@ const Creation = () => {
                 selected === "Dinner" ? "flex" : "hidden"
               } gap-2 flex-wrap w-full 600:gap-6 justify-center max-w-[1350px]`}
             >
-              {width < 600 ? (
+              {/* {width < 600 ? (
                 <CardsSamples type="mobile" />
               ) : (
                 <CardsSamples type="little" />
@@ -392,7 +392,7 @@ const Creation = () => {
                 <CardsSamples type="mobile" />
               ) : (
                 <CardsSamples type="little" />
-              )}
+              )} */}
             </div>
 
             {/* 4. Preview */}
@@ -401,7 +401,7 @@ const Creation = () => {
                 selected === "Preview" ? "flex" : "hidden"
               } gap-2 flex-wrap w-full 600:gap-6 justify-center max-w-[1350px]`}
             >
-              <CardsSamples type="three" />
+              {/* <CardsSamples type="three" /> */}
             </div>
 
             {/* check btn */}

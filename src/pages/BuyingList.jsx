@@ -5,7 +5,7 @@ import React, { useContext, useState } from "react";
 import { FaTimes } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
-import LunchImg from "../assets/images/lunchExample.jpg";
+import LunchImg from "../assets/images/lunchExample.webp";
 import SpoonacularContext from "../context/SpoonacularContext";
 import { db } from "../firebase.config";
 import styles from "../styles";

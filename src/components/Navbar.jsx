@@ -9,7 +9,7 @@ import {
   FaUsers,
 } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
-import ODonutLogo from "../assets/images/ODonut.png";
+import ODonutLogo from "../assets/images/ODonut.webp";
 import InstagramIcon from "../assets/svg/instagramIcon.svg";
 import styles from "../styles";
 

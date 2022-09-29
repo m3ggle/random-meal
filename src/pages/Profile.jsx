@@ -1,16 +1,14 @@
 import { getAuth, onAuthStateChanged, updateEmail } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { getStorage, ref } from "firebase/storage";
+import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
-import { FaCamera } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import ProfilePic from "../assets/images/ProfilePic.webp";
+import ODonutLogo from "../assets/images/ODonut.webp";
 import Input from "../components/Input";
 import { db } from "../firebase.config";
 import styles from "../styles";
-import ODonutLogo from "../assets/images/ODonut.png";
-import { motion } from "framer-motion";
 
 const Profile = () => {
   const auth = getAuth();
@@ -137,7 +135,7 @@ const Profile = () => {
       } else {
         // if not logged in, modal that will give him the option to sign in or up or go back
         navigate("/signIn");
-        toast.error("You Have To Be Logged In")
+        toast.error("You Have To Be Logged In");
       }
     });
   }, []);
