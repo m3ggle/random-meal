@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import { getAuth } from "firebase/auth";
+import { motion } from "framer-motion";
+import React, { useContext, useEffect, useState } from "react";
 import {
   FaCheck,
   FaExclamationCircle,
@@ -7,12 +9,18 @@ import {
   FaSearch,
   FaTimes,
 } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import FavMealsOne from "../components/FavMealsOne";
+import FavMealsThree from "../components/FavMealsThree";
+import TwoChoice from "../components/TwoChoice";
+import SpoonacularContext from "../context/SpoonacularContext";
+import { useGetMealsTry } from "../hooks/useGetMeals";
 import styles from "../styles";
-import CardsSamples from "../utilities/cards/CardsSamples";
 
 const SharePage = () => {
-  const [selected] = useState("3 Meals");
+  const { user, meals, combos, dispatch } = useContext(SpoonacularContext);
   const [filterState, setFilterState] = useState(false);
+  const { handleGetMealsCombos } = useGetMealsTry();
   const [selectedFilter, setSelectedFilter] = useState({
     Breakfast: false,
     Lunch: false,
@@ -20,7 +28,145 @@ const SharePage = () => {
     Vegetarian: false,
     Vegan: false,
   });
-  // filter
+  const [searchText, setSearchText] = useState("");
+  const [filteredMeals, setFilteredMeals] = useState();
+  const [filteredCombos, setFilteredCombos] = useState();
+  const [internalFavorite, setInternalFavorite] = useState([]);
+  const [internalCombos, setInternalCombos] = useState([]);
+  const [twoChoice, setTwoChoice] = useState("first");
+
+  const navigate = useNavigate();
+
+  // check signed in
+  useEffect(() => {
+    const auth = getAuth();
+    if (!auth.currentUser) {
+      navigate("/signIn");
+    }
+  }, []);
+
+  // setFilteredMeals
+  useEffect(() => {
+    setFilteredMeals(internalFavorite);
+  }, [internalFavorite]);
+
+  // context
+  useEffect(() => {
+    const updateContext = async () => {
+      const { formattedCollectedMeals, formattedCombos } =
+        await handleGetMealsCombos(
+          meals,
+          combos,
+          user.favMeals,
+          user.favCombos,
+          "favorite"
+        );
+      dispatch({
+        type: "UPDATE_MEALS_AND_COMBOS",
+        payload: {
+          meals: formattedCollectedMeals,
+          combos: formattedCombos,
+        },
+      });
+    };
+
+    if (user.favMeals) {
+      updateContext();
+    }
+  }, []);
+
+  // set/updatefavorite Meals (internal)
+  useEffect(() => {
+    if (user.favMeals) {
+      let internalFavoriteMeals = [];
+      Object.keys(meals).map((mealId) => {
+        if (user.favMeals.includes(parseInt(mealId))) {
+          internalFavoriteMeals.push({ ...meals[mealId] });
+        }
+      });
+      setInternalFavorite(internalFavoriteMeals);
+    }
+  }, [user.favMeals, meals]);
+
+  useEffect(() => {
+    if (user.favCombos) {
+      let internalFavoriteCombos = [];
+      Object.keys(combos).map((comboId) => {
+        if (user.favCombos.includes(comboId)) {
+          internalFavoriteCombos.push({ ...combos[comboId] });
+        }
+      });
+      setInternalCombos(internalFavoriteCombos);
+    }
+  }, [user.favCombos, meals]);
+
+  useEffect(() => {
+    setFilteredCombos(internalCombos);
+  }, [internalCombos]);
+
+  // favMeals: when changes call search + tag filter function
+  useEffect(() => {
+    if (user.favMeals && twoChoice === "first") {
+      setFilteredMeals(tagfilter(searchFilter("1 Meal")));
+    }
+  }, [searchText, selectedFilter, user.favMeals, twoChoice]);
+
+  // favCombos: when changes call search + tag filter function
+  useEffect(() => {
+    if (user.favCombos && twoChoice === "second") {
+      setFilteredCombos(searchFilter("3 Meals"));
+    }
+  }, [searchText, user.favCombos, twoChoice]);
+
+  // functionality of search filter
+  const searchFilter = (type) => {
+    let searchFilteredMeals;
+    let re = new RegExp(searchText, "i");
+    switch (type) {
+      case "1 Meal":
+        searchFilteredMeals = internalFavorite.filter((meal) =>
+          meal.mealinformation.title.match(re)
+        );
+        break;
+      case "3 Meals":
+        searchFilteredMeals = internalCombos.filter((combo) =>
+          combo.title.match(re)
+        );
+        break;
+      default:
+        break;
+    }
+    return searchFilteredMeals;
+  };
+
+  // functionality of tags filter
+  const tagfilter = (filteredBySearch) => {
+    // get all active filter tags
+    let activeFilters;
+    activeFilters = Object.entries(selectedFilter).filter((pair) => pair[1]);
+    activeFilters = activeFilters.map((fil) => {
+      return fil[0];
+    });
+
+    // fill with meals that have one of the active filter tags
+    let fullFiltered = [];
+    filteredBySearch.map((meal) => {
+      activeFilters.some((fil) => {
+        if (meal.mealinformation.dishTypes.includes(fil)) {
+          fullFiltered.push(meal);
+          return meal;
+        }
+      });
+    });
+
+    if (fullFiltered.length > 0) {
+      return fullFiltered;
+    } else {
+      return filteredBySearch;
+    }
+  };
+
+  // when change tag filter
   const handleSelectedFilterChange = (e) => {
     setSelectedFilter({
       ...selectedFilter,
@@ -28,8 +174,10 @@ const SharePage = () => {
     });
   };
 
+  const handleTwoChoice = (msg) => setTwoChoice(msg);
+
   return (
-    <div className="w-full h-screen flex flex-col gap-y-3">
+    <div className="w-full h-full overflow-scroll flex flex-col gap-y-3">
       {/* header */}
       <div className="flex justify-center h-[120px] pt-8">
         <div className="w-full max-w-[325px] flex flex-col gap-y-[8px] ">
@@ -46,13 +194,20 @@ const SharePage = () => {
               {/* text */}
               <input
                 type="text"
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
                 className={`bg-transparent w-full h-[20px] focus:outline-none text-lightTextCol ${styles.paragraph14} placeholder:text-inputCol`}
                 placeholder="Search For Meals..."
               />
             </div>
             {/* Filter */}
-            <div
-              className={`relative w-[50px] h-[46px] border-[1px] rounded-xl ${styles.flexCenter} text-lightTextCol z-[60] cursor-pointer`}
+            <motion.div
+              whileTap={{ scale: 0.98 }}
+              className={`${
+                twoChoice === "first" ? "flex" : "hidden"
+              } relative w-[50px] h-[46px] border-[1px] rounded-xl ${
+                styles.flexCenter
+              } text-lightTextCol z-[60] cursor-pointer`}
               onClick={() => setFilterState((prevState) => !prevState)}
             >
               <FaFilter size="14px" />
@@ -69,7 +224,8 @@ const SharePage = () => {
                 {/* content */}
                 <div className="flex flex-col">
                   {Object.keys(selectedFilter).map((key, index) => (
-                    <div
+                    <motion.div
+                      whileTap={{ scale: 0.98 }}
                       key={index}
                       onClick={() => handleSelectedFilterChange(key)}
                       className="flex items-center hover:bg-[#3E4150] rounded-[4px] py-2 cursor-pointer hover:px-2"
@@ -91,11 +247,11 @@ const SharePage = () => {
                           {selectedFilter[key] ? <FaCheck /> : <FaTimes />}
                         </div>
                       </div>
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
           <div
             className={`text-inputCol ${styles.paragraph14} flex items-center gap-x-[8px] hidden`}
@@ -105,7 +261,11 @@ const SharePage = () => {
             Please Enter The Correct Password
           </div>
           {/* Tags from filter */}
-          <div className="flex flex-row gap-2">
+          <div
+            className={`flex flex-row gap-2 ${
+              twoChoice === "first" ? "opacity-100" : "opacity-0"
+            }`}
+          >
             <p className={`text-lightTextCol ${styles.paragraph16} mr-1`}>
               Filter:
             </p>
@@ -131,20 +291,18 @@ const SharePage = () => {
         </div>
       </div>
 
-      {/* meals */}
-      <div
-        className={`${
-          selected === "3 Meals" ? "1400:grid flex" : "hidden"
-        } gap-2 grid-cols-2 flex-wrap w-full px-6 500:px-10 overflow-scroll 300:gap-5 600:gap-6 justify-center max-w-[1350px]`}
-      >
-        <CardsSamples type="three" />
-        <CardsSamples type="three" />
-        <CardsSamples type="three" />
-        <CardsSamples type="three" />
+      {/* 1 Meal vs 3 Meals */}
+      <TwoChoice
+        callbackTwoChoice={handleTwoChoice}
+        firstChoice="1 Meal"
+        secondChoice="3 Meals"
+      />
 
-        {/* puffer */}
-        <div className="h-[20%] md:h-[5%] w-full"></div>
-      </div>
+      {twoChoice === "first" ? (
+        <FavMealsOne filteredMeals={filteredMeals} />
+      ) : (
+        <FavMealsThree filteredCombos={filteredCombos} />
+      )}
     </div>
   );
 };
