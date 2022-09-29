@@ -3,6 +3,7 @@ import React, { useContext } from "react";
 import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
+import Catalog from "../../components/Catalog";
 import SpoonacularContext from "../../context/SpoonacularContext";
 import { useBuyinglist } from "../../hooks/useBuyinglist";
 import { useLike } from "../../hooks/useLike";
@@ -26,10 +27,12 @@ const Card0T640 = ({ meal }) => {
 
   const handleHeartClick = () => {
     const { userInfo } = handleHeart(user, liked, meal);
-    dispatch({
-      type: "UPDATE_USER_INFORMATION",
-      payload: { ...userInfo },
-    });
+    if (Object.keys(userInfo).length > 0) {
+      dispatch({
+        type: "UPDATE_USER_INFORMATION",
+        payload: { ...userInfo },
+      });
+    }
   };
 
   return (
