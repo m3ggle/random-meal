@@ -3,14 +3,31 @@ import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import { v4 as uuidv4 } from "uuid";
 import Loading from "../../components/Loading";
 import SpoonacularContext from "../../context/SpoonacularContext";
+import { useBuyinglist } from "../../hooks/useBuyinglist";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import styles from "../../styles";
 import CardThree from "./CardThree";
 
 const CardThreeContainer = ({ combo }) => {
-  const { meals } = useContext(SpoonacularContext);
+  const { meals, buyinglist, dispatch } = useContext(SpoonacularContext);
   const { width } = useWindowDimensions();
   // Todo: handle icon click and handle title click
+
+  const { handleBuyinglistCombo } = useBuyinglist();
+
+  const handleBuy = () => {
+    const newBuyinglist = handleBuyinglistCombo({
+      buyinglist,
+      mealsInCombo: [
+        meals[combo.breakfast],
+        meals[combo.lunch],
+        meals[combo.dinner],
+      ],
+    });
+    console.log(newBuyinglist);
+    dispatch({ type: "UPDATE_BUYINGLIST", payload: newBuyinglist });
+  };
+
   return (
     <>
       {combo &&
@@ -50,6 +67,7 @@ const CardThreeContainer = ({ combo }) => {
                 }`}
               />
               <FaShoppingCart
+                onClick={handleBuy}
                 size={width > 700 ? "22px" : "16px"}
                 className="cursor-pointer"
               />
