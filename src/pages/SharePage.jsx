@@ -1,4 +1,3 @@
-import { getAuth } from "firebase/auth";
 import { motion } from "framer-motion";
 import React, { useContext, useEffect, useState } from "react";
 import {
@@ -9,18 +8,17 @@ import {
   FaSearch,
   FaTimes,
 } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
-import FavMealsOne from "../components/FavMealsOne";
-import FavMealsThree from "../components/FavMealsThree";
+import Catalog from "../components/Catalog";
+import ShareCombos from "../components/ShareCombos";
 import TwoChoice from "../components/TwoChoice";
 import SpoonacularContext from "../context/SpoonacularContext";
-import { useGetMealsTry } from "../hooks/useGetMeals";
+import { useGetMeals } from "../hooks/useGetMeals";
 import styles from "../styles";
 
 const SharePage = () => {
   const { user, meals, combos, dispatch } = useContext(SpoonacularContext);
   const [filterState, setFilterState] = useState(false);
-  const { handleGetMealsCombos } = useGetMealsTry();
+  const { handleGetMealsCombos } = useGetMeals();
   const [selectedFilter, setSelectedFilter] = useState({
     Breakfast: false,
     Lunch: false,
@@ -29,26 +27,16 @@ const SharePage = () => {
     Vegan: false,
   });
   const [searchText, setSearchText] = useState("");
-  const [filteredMeals, setFilteredMeals] = useState();
-  const [filteredCombos, setFilteredCombos] = useState();
-  const [internalFavorite, setInternalFavorite] = useState([]);
+  const [filteredMeals, setFilteredMeals] = useState([]);
+  const [filteredCombos, setFilteredCombos] = useState([]);
+  const [internalMeals, setInternalMeals] = useState([]);
   const [internalCombos, setInternalCombos] = useState([]);
   const [twoChoice, setTwoChoice] = useState("first");
 
-  const navigate = useNavigate();
-
-  // check signed in
-  useEffect(() => {
-    const auth = getAuth();
-    if (!auth.currentUser) {
-      navigate("/signIn");
-    }
-  }, []);
-
   // setFilteredMeals
   useEffect(() => {
-    setFilteredMeals(internalFavorite);
-  }, [internalFavorite]);
+    setFilteredMeals(internalMeals);
+  }, [internalMeals]);
 
   // context
   useEffect(() => {
@@ -59,8 +47,9 @@ const SharePage = () => {
           combos,
           user.favMeals,
           user.favCombos,
-          "favorite"
+          "collection"
         );
+      console.log(formattedCollectedMeals, formattedCombos);
       dispatch({
         type: "UPDATE_MEALS_AND_COMBOS",
         payload: {
@@ -70,34 +59,24 @@ const SharePage = () => {
       });
     };
 
-    if (user.favMeals) {
-      updateContext();
-    }
+    updateContext();
   }, []);
 
   // set/updatefavorite Meals (internal)
   useEffect(() => {
-    if (user.favMeals) {
-      let internalFavoriteMeals = [];
-      Object.keys(meals).map((mealId) => {
-        if (user.favMeals.includes(parseInt(mealId))) {
-          internalFavoriteMeals.push({ ...meals[mealId] });
-        }
-      });
-      setInternalFavorite(internalFavoriteMeals);
-    }
+    let internalMealsMeals = [];
+    Object.keys(meals).map((mealId) => {
+      internalMealsMeals.push({ ...meals[mealId] });
+    });
+    setInternalMeals(internalMealsMeals);
   }, [user.favMeals, meals]);
 
   useEffect(() => {
-    if (user.favCombos) {
-      let internalFavoriteCombos = [];
-      Object.keys(combos).map((comboId) => {
-        if (user.favCombos.includes(comboId)) {
-          internalFavoriteCombos.push({ ...combos[comboId] });
-        }
-      });
-      setInternalCombos(internalFavoriteCombos);
-    }
+    let internalMealsCombos = [];
+    Object.keys(combos).map((comboId) => {
+      internalMealsCombos.push({ ...combos[comboId] });
+    });
+    setInternalCombos(internalMealsCombos);
   }, [user.favCombos, meals]);
 
   useEffect(() => {
@@ -109,7 +88,7 @@ const SharePage = () => {
     if (user.favMeals && twoChoice === "first") {
       setFilteredMeals(tagfilter(searchFilter("1 Meal")));
     }
-  }, [searchText, selectedFilter, user.favMeals, twoChoice]);
+  }, [searchText, selectedFilter, twoChoice]);
 
   // favCombos: when changes call search + tag filter function
   useEffect(() => {
@@ -124,7 +103,7 @@ const SharePage = () => {
     let re = new RegExp(searchText, "i");
     switch (type) {
       case "1 Meal":
-        searchFilteredMeals = internalFavorite.filter((meal) =>
+        searchFilteredMeals = internalMeals.filter((meal) =>
           meal.mealinformation.title.match(re)
         );
         break;
@@ -204,7 +183,7 @@ const SharePage = () => {
             <motion.div
               whileTap={{ scale: 0.98 }}
               className={`${
-                twoChoice === "first" ? "flex" : "hidden"
+                twoChoice === "first" ? "hidden" : "flex"
               } relative w-[50px] h-[46px] border-[1px] rounded-xl ${
                 styles.flexCenter
               } text-lightTextCol z-[60] cursor-pointer`}
@@ -294,14 +273,14 @@ const SharePage = () => {
       {/* 1 Meal vs 3 Meals */}
       <TwoChoice
         callbackTwoChoice={handleTwoChoice}
-        firstChoice="1 Meal"
-        secondChoice="3 Meals"
+        firstChoice="Sharing"
+        secondChoice="Catalog"
       />
 
       {twoChoice === "first" ? (
-        <FavMealsOne filteredMeals={filteredMeals} />
+        <ShareCombos filteredCombos={filteredCombos} />
       ) : (
-        <FavMealsThree filteredCombos={filteredCombos} />
+        <Catalog filteredMeals={filteredMeals} />
       )}
     </div>
   );

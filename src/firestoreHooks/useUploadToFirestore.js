@@ -2,11 +2,8 @@ import { getAuth } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { db } from "../firebase.config";
-import { useGetMealsTry } from "../hooks/useGetMeals";
 
 export const useUploadToFirestore = () => {
-  const {filterOutMeals} = useGetMealsTry()
-
   const uploadFavMeals = async (favMeals) => {
     try {
       const auth = getAuth();
@@ -46,36 +43,36 @@ export const useUploadToFirestore = () => {
     }
   };
 
-    const storeInDb = async (result, allMealIds) => {
-      try {
-        let missingIds = [];
-        const missingMeals = result.filter((meal) => {
-          if (!allMealIds.includes(meal.mealinformation.id)) {
-            missingIds.push(meal.mealinformation.id);
-            return meal;
-          }
-        });
-        missingIds.push(...allMealIds);
-
-        if (missingMeals.length > 0) {
-          await Promise.all([
-            missingMeals.map((meal) => {
-              return setDoc(
-                doc(db, "meals", meal.mealinformation.id.toString()),
-                { ...meal }
-              );
-            }),
-            setDoc(
-              doc(db, "meals", "ids"),
-              { allMealIds: [...missingIds] },
-              { merge: true }
-            ),
-          ]);
+  const storeInDb = async (result, allMealIds) => {
+    try {
+      let missingIds = [];
+      const missingMeals = result.filter((meal) => {
+        if (!allMealIds.includes(meal.mealinformation.id)) {
+          missingIds.push(meal.mealinformation.id);
+          return meal;
         }
-      } catch (error) {
-        console.log(error);
+      });
+      missingIds.push(...allMealIds);
+
+      if (missingMeals.length > 0) {
+        await Promise.all([
+          missingMeals.map((meal) => {
+            return setDoc(
+              doc(db, "meals", meal.mealinformation.id.toString()),
+              { ...meal }
+            );
+          }),
+          setDoc(
+            doc(db, "meals", "ids"),
+            { allMealIds: [...missingIds] },
+            { merge: true }
+          ),
+        ]);
       }
-    };
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return { uploadFavMeals, uploadBuyinglist, storeInDb };
 };

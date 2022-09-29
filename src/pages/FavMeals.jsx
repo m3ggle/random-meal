@@ -14,13 +14,13 @@ import FavMealsOne from "../components/FavMealsOne";
 import FavMealsThree from "../components/FavMealsThree";
 import TwoChoice from "../components/TwoChoice";
 import SpoonacularContext from "../context/SpoonacularContext";
-import { useGetMealsTry } from "../hooks/useGetMeals";
+import { useGetMeals } from "../hooks/useGetMeals";
 import styles from "../styles";
 
 const FavMeals = () => {
   const { user, meals, combos, dispatch } = useContext(SpoonacularContext);
   const [filterState, setFilterState] = useState(false);
-  const { handleGetMealsCombos } = useGetMealsTry();
+  const { handleGetMealsCombos } = useGetMeals();
   const [selectedFilter, setSelectedFilter] = useState({
     Breakfast: false,
     Lunch: false,

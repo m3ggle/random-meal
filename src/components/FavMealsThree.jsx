@@ -13,7 +13,7 @@ const FavMealsThree = ({ filteredCombos }) => {
     <div
       className={`1400:grid flex gap-2 grid-cols-2 flex-wrap w-full px-6 500:px-10 overflow-scroll 300:gap-5 600:gap-6 justify-center max-w-[1350px]`}
     >
-      {filteredCombos.map((combo) => (
+      {filteredCombos?.map((combo) => (
         <CardThreeContainer
           key={uuidv4()}
           combo={combo}

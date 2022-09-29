@@ -4,7 +4,7 @@ import { getRandomDayMeal } from "../context/SpoonacularAction";
 import SpoonacularContext from "../context/SpoonacularContext";
 import { useUploadToFirestore } from "../firestoreHooks/useUploadToFirestore";
 import useCleanUp from "../hooks/useCleanUp";
-import { useGetMealsTry } from "../hooks/useGetMeals";
+import { useGetMeals } from "../hooks/useGetMeals";
 import { useLikeStatus } from "../hooks/useLikeStatus";
 import HomeCards0T640 from "../utilities/HomeCards0T640";
 
@@ -13,7 +13,7 @@ const RandomMeal = () => {
   const { user, meals, dispatch, allMealIds } = useContext(SpoonacularContext);
   const { storeInDb } = useUploadToFirestore();
   const { singleMeals } = useLikeStatus();
-  const { filterOutMeals, mealContextFormatter } = useGetMealsTry();
+  const { filterOutMeals, mealContextFormatter } = useGetMeals();
   const [spoonResults, setspoonResults] = useState([77188, 580283, 596149]);
 
   const auth = getAuth();

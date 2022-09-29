@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDownloadFromFirestore } from "../firestoreHooks/useDownloadFromFirestore";
 import { useLikeStatus } from "./useLikeStatus";
 
-export const useGetMealsTry = () => {
+export const useGetMeals = () => {
   const { singleFavMeals, comboMeals, singleMeals } = useLikeStatus();
   const {
     getTenFavCombos,
@@ -26,14 +26,17 @@ export const useGetMealsTry = () => {
       );
       return missingMeals;
     } else {
-      return mealIds
+      return mealIds;
     }
   };
 
   const filterOutMeals = (mealsContext, meals) => {
     if (meals?.length > 0) {
       const missingMeals = meals.filter(
-        (meal) => !Object.keys(mealsContext).includes(meal.mealinformation.id.toString())
+        (meal) =>
+          !Object.keys(mealsContext).includes(
+            meal.mealinformation.id.toString()
+          )
       );
       return missingMeals;
     } else {
@@ -72,8 +75,9 @@ export const useGetMealsTry = () => {
       } else if (type === "collection") {
         meals = await getTenMealsFromCollection();
         // like
-        meals = singleMeals(meals, favMeals);
+        meals = favMeals !== undefined ? singleMeals(meals, favMeals) : meals
         // get all the ids
+        console.log(meals)
         const mealIds = meals.map((meal) => {
           return meal.mealinformation.id;
         });
@@ -123,7 +127,10 @@ export const useGetMealsTry = () => {
       let missingMeals = await getMealsById(missingMealIds);
 
       // like stuff single Meals
-      missingMeals = singleMeals(missingMeals, favMeals);
+      missingMeals =
+        favMeals !== undefined
+          ? singleMeals(missingMeals, favMeals)
+          : missingMeals;
 
       // meals Formatter
       const formattedMeals = mealContextFormatter(missingMeals);
@@ -142,7 +149,7 @@ export const useGetMealsTry = () => {
       );
 
       // combo like
-      combos = comboMeals(combos, favCombos);
+      combos = favCombos !== undefined ? comboMeals(combos, favCombos) : combos;
 
       // combo formatter
       const formattedCombos = comboContextFormatter(combos);
@@ -153,11 +160,17 @@ export const useGetMealsTry = () => {
     }
   };
 
-  const handleGetMealsCombos = async (meals, combos, favMeals, favCombos, type) => {
+  const handleGetMealsCombos = async (
+    meals,
+    combos,
+    favMeals,
+    favCombos,
+    type
+  ) => {
     let typeForHandleMeals, typeForHandleCombos;
-    if (type === "favorite") {
-      typeForHandleMeals = "favMeals"
-      typeForHandleCombos = "favCombos"
+    if (type === "favorite" && favMeals !== undefined) {
+      typeForHandleMeals = "favMeals";
+      typeForHandleCombos = "favCombos";
     } else if (type === "collection") {
       typeForHandleMeals = "collection";
       typeForHandleCombos = "collection";
@@ -176,14 +189,14 @@ export const useGetMealsTry = () => {
       favCombos,
       typeForHandleCombos
     );
-    
+
     // filter
-    let formattedCollectedMeals = {...firstMeals};
-    Object.keys(secondMeals).map(meal => {
+    let formattedCollectedMeals = { ...firstMeals };
+    Object.keys(secondMeals).map((meal) => {
       if (formattedCollectedMeals[meal] === undefined) {
-        formattedCollectedMeals[meal] = secondMeals[meal]
+        formattedCollectedMeals[meal] = secondMeals[meal];
       }
-    })
+    });
 
     return { formattedCollectedMeals, formattedCombos };
   };
