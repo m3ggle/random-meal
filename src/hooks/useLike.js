@@ -17,8 +17,8 @@ export const useLike = () => {
       }
     } else {
       toast.error("😤 Not logged in");
-      navigate("/signIn")
-      return {userInfo: {}, mealInfo: {}};
+      navigate("/signIn");
+      return { userInfo: {}, mealInfo: {} };
     }
   };
 

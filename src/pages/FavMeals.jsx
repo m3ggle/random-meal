@@ -100,6 +100,9 @@ const FavMeals = () => {
         meals={internalFavorite}
         combos={internalCombos}
         twoChoice={twoChoice}
+        // normal order because meals are first and combos are second
+        first="first"
+        second="second"
       />
 
       {/* 1 Meal vs 3 Meals */}

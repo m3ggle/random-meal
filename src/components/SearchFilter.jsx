@@ -10,6 +10,8 @@ const SearchFilter = ({
   meals,
   combos,
   twoChoice,
+  first,
+  second 
 }) => {
   const { user } = useContext(SpoonacularContext);
   const [filterState, setFilterState] = useState(false);
@@ -24,14 +26,14 @@ const SearchFilter = ({
 
   // favMeals: when changes call search + tag filter function
   useEffect(() => {
-    if (twoChoice === "first") {
+    if (twoChoice === first) {
       callbackFilteredMeals(tagfilter(searchFilter("first")));
     }
   }, [searchText, selectedFilter, meals, twoChoice]);
 
   // favCombos: when changes call search + tag filter function
   useEffect(() => {
-    if (twoChoice === "second") {
+    if (twoChoice === second) {
       callbackFilteredCombos(searchFilter("second"));
     }
   }, [searchText, user.favCombos, combos, twoChoice]);
