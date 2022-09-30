@@ -699,7 +699,7 @@ export const SpoonacularProvider = ({ children }) => {
       breakfast: {
         title:
           "There are times when breakfast seems the one thing worth getting up for. ~ Peter De Vries",
-        subTitle: "Choose your Breakfast 🥐",
+        subTitle: "Choose your Breakfast 🥪",
         status: false,
         id: 0,
       },
@@ -713,6 +713,13 @@ export const SpoonacularProvider = ({ children }) => {
         title:
           "Tell the truth, work hard, and come to dinner on time. ~ Gerald R. Ford",
         subTitle: "Choose your Dinner 🥘",
+        status: false,
+        id: 0,
+      },
+      preview: {
+        title:
+          "I don't stop eating when I'm full. The meal isn't over when I'm full. It's over when I hate myself. ~ Louis C. K.",
+        subTitle: "Preview 🥪 🥗 🥘",
         status: false,
         id: 0,
       },

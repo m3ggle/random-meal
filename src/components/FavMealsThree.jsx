@@ -14,14 +14,10 @@ const FavMealsThree = ({ filteredCombos }) => {
       className={`1400:grid flex gap-2 grid-cols-2 flex-wrap w-full px-6 500:px-10 overflow-scroll 300:gap-5 600:gap-6 justify-center max-w-[1350px]`}
     >
       {filteredCombos?.map((combo) => (
-        <CardThreeContainer
-          key={uuidv4()}
-          combo={combo}
-        />
+        <CardThreeContainer key={uuidv4()} combo={combo} />
       ))}
       <div
-        onClick={() => navigate("/creation", {state: "mealTitel" })}
-        // onClick={() => navigate("/users/123", { state: "partialUser" })}
+        onClick={() => navigate("/creation/mealTitle")}
         className={`absolute  ${
           height > 600 && width > 767 ? "top-[88%]" : "top-[78%]"
         } left-[74%] 600:left-[84%] btnPrimaryCol buttonShadow hover:bg-[#293D2B] w-14 h-14 600:w-20 600:h-20 z-30 rounded-full ${

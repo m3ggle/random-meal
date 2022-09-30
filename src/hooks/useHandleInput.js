@@ -52,8 +52,6 @@ export default function useHandleInput() {
         condition,
       })
     };
-    console.log(formData[id].overallValidation);
-    console.log(formData)
     return formData;
   };
 

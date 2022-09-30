@@ -1,8 +1,8 @@
 export default function useValidation() {
   const distributor = ({ id, condition, values, validation }) => {
     switch (validation) {
-      case "fullName": 
-        return validateFullName(values)
+      case "fullName":
+        return validateFullName(values);
       case "username":
         return validateUsername(values);
       case "email":
@@ -10,23 +10,32 @@ export default function useValidation() {
       case "password":
         return validatePassword(values);
       case "wordInIt":
-        return validateWordInIt({id, values});
+        return validateWordInIt({ id, values });
       case "userInformation":
         return validateUserInformation({ condition, values });
-      case "noValidation": 
-        return { result: true, errorMsg: "Invalid value" }
-      case "symbols400": 
-        return validateCharacterCount(values)
+      case "maxWords":
+        return validateMaxWords(values);
+      case "noValidation":
+        return { result: true, errorMsg: "Invalid value" };
+      case "symbols400":
+        return validateCharacterCount(values);
       default:
     }
+  };
+
+  const validateMaxWords = (word) => {
+    return {
+      result: word.length <= 20 && word.length > 2,
+      errorMsg: "Keep it under 20 Characters",
+    };
   };
 
   const validateFullName = (fullName) => {
     return {
       result: fullName.length >= 6,
-      errorMsg: "Please Enter Your Full Name With At Least 6 Characters"
-    }
-  }
+      errorMsg: "Please Enter Your Full Name With At Least 6 Characters",
+    };
+  };
 
   const validateUsername = (username) => {
     return {
@@ -58,28 +67,27 @@ export default function useValidation() {
 
   const validateUserInformation = ({ condition, values }) => {
     // condition: to check if only have to be in the state success/defaultSuccess or all
-    console.log(condition)
     if (condition === "all") {
       return values.every((item) => item.includes("uccess"));
     } else if (condition === "one") {
-      console.log(values)
+      console.log(values);
       if (values.filter((item) => item.includes("uccess")).length >= 1) {
         if (
           values.filter(
-            (item) => (item.includes("warning") || item.includes("failure"))
+            (item) => item.includes("warning") || item.includes("failure")
           ).length >= 1
         ) {
           return false;
         } else {
-          return true
+          return true;
         }
       } else {
-        return false
+        return false;
       }
     }
   };
 
-  const validateWordInIt = ({id, values}) => {
+  const validateWordInIt = ({ id, values }) => {
     return {
       result: values.length === 0 ? true : values.includes(id),
       errorMsg:
@@ -88,7 +96,7 @@ export default function useValidation() {
         id.slice(1) +
         " Has To Be Included",
     };
-  }
+  };
 
   const validateCharacterCount = (characters) => {
     return {

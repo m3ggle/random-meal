@@ -1,17 +1,20 @@
-import React, { useContext, useState } from "react";
+import { motion } from "framer-motion";
+import React, { useContext, useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { FaCheck, FaChevronLeft, FaTimes } from "react-icons/fa";
+import { useNavigate, useParams } from "react-router-dom";
+import Catalog from "../components/Catalog";
+import Input from "../components/Input";
+import SearchFilter from "../components/SearchFilter";
+import SpoonacularContext from "../context/SpoonacularContext";
+import { useGetMeals } from "../hooks/useGetMeals";
 import useWindowDimensions from "../hooks/useWindowDimensions";
 import styles from "../styles";
-import { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import SpoonacularContext from "../context/SpoonacularContext";
-import Input from "../components/Input";
+import CardThreeContainer from "../utilities/cards/CardThreeContainer";
 
 const Creation = () => {
-  const { creation } = useContext(SpoonacularContext);
+  const { creation, dispatch } = useContext(SpoonacularContext);
   const { width } = useWindowDimensions();
-  const [selected] = useState("Preview");
   const [currentIteration, setCurrentIteration] = useState("mealTitle");
   const [direction] = useState([
     "mealTitle",
@@ -22,8 +25,26 @@ const Creation = () => {
   ]);
   const navigate = useNavigate();
   const params = useParams();
+  const [formData, setFormData] = useState({
+    title: {
+      id: "title",
+      displayName: "",
+      placeholder: "Early Autumn Sunday",
+      type: "text",
+      inputValue: "",
+      active: false,
+      state: "default",
+      validation: "maxWords",
+      overallValidation: "userInformation",
+      errorMessage: "Keep it under 20 Characters",
+      icon: "fa-solid fa-bowl-food",
+    },
+    userInformation: false,
+  });
+  const { title, userInformation } = formData;
+  const handleCallBack = (cb) => setFormData(cb);
 
-  // set currentIteration
+  // set currentIteration or redirect to notFound
   useEffect(() => {
     if (direction.includes(params.stepName)) {
       setCurrentIteration(params.stepName);
@@ -32,11 +53,60 @@ const Creation = () => {
     }
   }, [params.stepName, direction, navigate]);
 
-  useEffect(() => {
-    // if (storage[currentIteration].title) {
-    //   console.log(storage[currentIteration].title);
-    // }
-  }, []);
+  // only for mealTitle
+  const handleAdd = () => {
+    if (userInformation) {
+      let creationCopy = { ...creation }
+      creationCopy.mealTitle.text = title.inputValue
+      dispatch({ type: "UPDATE_CREATION", payload: creationCopy });
+      const stepForward = direction[direction.indexOf(currentIteration) + 1]
+      navigate(`/creation/${stepForward}`);
+    }
+  }
+
+  // for breakfast, lunch and dinner
+    const { user, meals, combos, } = useContext(SpoonacularContext);
+    const { handleGetMealsCombos } = useGetMeals();
+    const [filteredMeals, setFilteredMeals] = useState([]);
+    const [internalMeals, setInternalMeals] = useState([]);
+    const [twoChoice] = useState("first");
+
+    // context
+    useEffect(() => {
+      const updateContext = async () => {
+        const { formattedCollectedMeals, formattedCombos } =
+          await handleGetMealsCombos(
+            meals,
+            combos,
+            user.favMeals,
+            user.favCombos,
+            "collection"
+          );
+        dispatch({
+          type: "UPDATE_MEALS_AND_COMBOS",
+          payload: {
+            meals: formattedCollectedMeals,
+            combos: formattedCombos,
+          },
+        });
+      };
+
+      updateContext();
+    }, []);
+
+    // set/updatefavorite Meals (internal)
+    useEffect(() => {
+      let internalMealsMeals = [];
+      Object.keys(meals).map((mealId) => {
+        internalMealsMeals.push({ ...meals[mealId] });
+      });
+      setInternalMeals(internalMealsMeals);
+    }, [user.favMeals, meals]);
+
+    const handleCallbackFilteredMeals = (newlyFiltered) => {
+      setFilteredMeals(newlyFiltered);
+    };
+    const handleCallbackFilteredCombos = () => {};
 
   return (
     <div className="fixed top-0 left-0 w-full h-screen z-[100] bg-bgPrimaryCol">
@@ -73,129 +143,62 @@ const Creation = () => {
             <p className={`${styles.heading20} text-lightTextCol`}>
               {creation[currentIteration].subTitle}
             </p>
-            {/* search + filter */}
-            {/* //Todo: search and filter component  */}
           </div>
 
           {/* meals */}
           <div className={`w-full flex flex-row flex-1 pb-3 `}>
-            {/* 1. choose titel */}
-            <div className={`${currentIteration === "mealTitle" ? "flex" : "hidden"}`}>
-              {/* <Input /> */}
+            <div className="gap-2 flex flex-wrap w-full 600:gap-6 h-fit py-6 justify-center max-w-[1350px]">
+              {currentIteration === "mealTitle" ? (
+                <div className="w-[420px] flex gap-x-4">
+                  <Input
+                    callbackFct={handleCallBack}
+                    formData={formData}
+                    stateArray={[title.state]}
+                    condition={"all"}
+                    validation={title.validation}
+                    specificInputObject={title}
+                    label={false}
+                  />
+                  <motion.button
+                    whileHover={
+                      userInformation ? { scale: 1.02 } : { scale: 1 }
+                    }
+                    whileTap={userInformation ? { scale: 0.98 } : { scale: 1 }}
+                    type="button"
+                    onClick={handleAdd}
+                    className={`min-w-[50px] min-h-[46px] max-h-[46px] rounded-xl ${
+                      styles.flexCenter
+                    } text-lightTextCol ${
+                      userInformation
+                        ? "btnPrimaryCol cursor-pointer"
+                        : "cursor-default border-[1px]"
+                    }`}
+                  >
+                    <i className="fa-solid fa-chevron-right text-[15px] text-inputCol"></i>
+                  </motion.button>
+                </div>
+              ) : (
+                <>
+                  {currentIteration === "preview" ? (
+                    <CardThreeContainer />
+                  ) : (
+                    <>
+                      <SearchFilter
+                        callbackFilteredMeals={handleCallbackFilteredMeals}
+                        callbackFilteredCombos={handleCallbackFilteredCombos}
+                        meals={internalMeals}
+                        combos={[]}
+                        twoChoice={twoChoice}
+                        // reversed because combos are first and then meals
+                        first="first"
+                        second="first"
+                      />
+                      <Catalog filteredMeals={filteredMeals} />
+                    </>
+                  )}
+                </>
+              )}
             </div>
-            {/* 2. Breakfast */}
-            <div
-              className={`${
-                selected === "Breakfast" ? "flex" : "flex"
-              } gap-2 flex-wrap w-full 600:gap-6 justify-center max-w-[1350px]`}
-            >
-              {/* //Todo: catalog Component */}
-            </div>
-            {/* 2. Lunch */}
-            <div
-              className={`${
-                selected === "Lunch" ? "flex" : "hidden"
-              } gap-2 flex-wrap w-full 600:gap-6 justify-center max-w-[1350px]`}
-            >
-              {/* {width < 600 ? (
-                <CardsSamples type="mobile" />
-              ) : (
-                <CardsSamples type="little" />
-              )}
-              {width < 600 ? (
-                <CardsSamples type="mobile" />
-              ) : (
-                <CardsSamples type="little" />
-              )}
-              {width < 600 ? (
-                <CardsSamples type="mobile" />
-              ) : (
-                <CardsSamples type="little" />
-              )}
-              {width < 600 ? (
-                <CardsSamples type="mobile" />
-              ) : (
-                <CardsSamples type="little" />
-              )}
-              {width < 600 ? (
-                <CardsSamples type="mobile" />
-              ) : (
-                <CardsSamples type="little" />
-              )}
-              {width < 600 ? (
-                <CardsSamples type="mobile" />
-              ) : (
-                <CardsSamples type="little" />
-              )}
-              {width < 600 ? (
-                <CardsSamples type="mobile" />
-              ) : (
-                <CardsSamples type="little" />
-              )}
-              {width < 600 ? (
-                <CardsSamples type="mobile" />
-              ) : (
-                <CardsSamples type="little" />
-              )} */}
-            </div>
-
-            {/* 2. Dinner */}
-            <div
-              className={`${
-                selected === "Dinner" ? "flex" : "hidden"
-              } gap-2 flex-wrap w-full 600:gap-6 justify-center max-w-[1350px]`}
-            >
-              {/* {width < 600 ? (
-                <CardsSamples type="mobile" />
-              ) : (
-                <CardsSamples type="little" />
-              )}
-              {width < 600 ? (
-                <CardsSamples type="mobile" />
-              ) : (
-                <CardsSamples type="little" />
-              )}
-              {width < 600 ? (
-                <CardsSamples type="mobile" />
-              ) : (
-                <CardsSamples type="little" />
-              )}
-              {width < 600 ? (
-                <CardsSamples type="mobile" />
-              ) : (
-                <CardsSamples type="little" />
-              )}
-              {width < 600 ? (
-                <CardsSamples type="mobile" />
-              ) : (
-                <CardsSamples type="little" />
-              )}
-              {width < 600 ? (
-                <CardsSamples type="mobile" />
-              ) : (
-                <CardsSamples type="little" />
-              )}
-              {width < 600 ? (
-                <CardsSamples type="mobile" />
-              ) : (
-                <CardsSamples type="little" />
-              )}
-              {width < 600 ? (
-                <CardsSamples type="mobile" />
-              ) : (
-                <CardsSamples type="little" />
-              )} */}
-            </div>
-
-            {/* 4. Preview */}
-            <div
-              className={`${
-                selected === "Preview" ? "flex" : "hidden"
-              } gap-2 flex-wrap w-full 600:gap-6 justify-center max-w-[1350px]`}
-            >
-              {/* <CardsSamples type="three" /> */}
-            </div>
-
             {/* check btn */}
             <div
               className={`${

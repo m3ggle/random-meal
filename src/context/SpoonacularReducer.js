@@ -58,6 +58,11 @@ const spoonacularReducer = (state, action) => {
         meals: { ...state.meals, ...action.payload.meals },
         combos: { ...state.combos, ...action.payload.combos },
       };
+    case "UPDATE_CREATION": 
+      return {
+        ...state,
+        creation: {...action.payload}
+      }
     default:
       return "";
   }
