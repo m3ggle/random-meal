@@ -97,7 +97,7 @@ function App() {
               <Route path="/sharepage" element={<SharePage />} />
               <Route path="/signIn" element={<SignIn />} />
               <Route path="/signUp" element={<SignUp />} />
-              <Route path="/creation" element={<Creation />} />
+              <Route path="/creation/:stepName" element={<Creation />} />
               <Route path="/sign" element={<NotSign />} />
               <Route path="/notFound" element={<NotFound />} />
               <Route path="/*" element={<NotFound />} />

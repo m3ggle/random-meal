@@ -1,36 +1,42 @@
+import React, { useContext, useState } from "react";
 import { Helmet } from "react-helmet";
-import React, { useState } from "react";
-import {
-  FaCheck,
-  FaChevronLeft,
-  FaCircleNotch,
-  FaExclamationCircle,
-  FaExclamationTriangle,
-  FaFilter,
-  FaFont,
-  FaSearch,
-  FaTimes,
-} from "react-icons/fa";
+import { FaCheck, FaChevronLeft, FaTimes } from "react-icons/fa";
 import useWindowDimensions from "../hooks/useWindowDimensions";
 import styles from "../styles";
-// import CardsSamples from "../utilities/cards/CardsSamples";
-import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import SpoonacularContext from "../context/SpoonacularContext";
+import Input from "../components/Input";
 
 const Creation = () => {
-  const { width, height } = useWindowDimensions();
+  const { creation } = useContext(SpoonacularContext);
+  const { width } = useWindowDimensions();
   const [selected] = useState("Preview");
-  /*
-    {
-      currently selected:
-      title: "Choose a Title for your new Combination"
-      breakfast: "Choose your Breakfast"
-      lunch: "Choose your Lunch"
-      dinner: "Choose your Dinner"
-      preview: "Preview"
-    }
-  */
-
+  const [currentIteration, setCurrentIteration] = useState("mealTitle");
+  const [direction] = useState([
+    "mealTitle",
+    "breakfast",
+    "lunch",
+    "dinner",
+    "preview",
+  ]);
   const navigate = useNavigate();
+  const params = useParams();
+
+  // set currentIteration
+  useEffect(() => {
+    if (direction.includes(params.stepName)) {
+      setCurrentIteration(params.stepName);
+    } else {
+      navigate("/notFound");
+    }
+  }, [params.stepName, direction, navigate]);
+
+  useEffect(() => {
+    // if (storage[currentIteration].title) {
+    //   console.log(storage[currentIteration].title);
+    // }
+  }, []);
 
   return (
     <div className="fixed top-0 left-0 w-full h-screen z-[100] bg-bgPrimaryCol">
@@ -62,247 +68,28 @@ const Creation = () => {
           <div className="w-full flex flex-col gap-4 py-4">
             {/* title */}
             <p className={`${styles.heading24} text-lightTextCol`}>
-              Choose a Title for your new Combination
+              {creation[currentIteration].title}
+            </p>
+            <p className={`${styles.heading20} text-lightTextCol`}>
+              {creation[currentIteration].subTitle}
             </p>
             {/* search + filter */}
-            <div
-              className={`w-full ${
-                selected !== "Title" && selected !== "Preview"
-                  ? "flex"
-                  : "hidden"
-              } flex-col items-center gap-y-2`}
-            >
-              <div className="w-full max-w-[360px] flex items-center flex-col gap-y-[8px] ">
-                {/* Label */}
-                <label className={`text-inputCol ${styles.paragraph14} hidden`}>
-                  Search
-                </label>
-                <div className="w-full flex gap-x-[10px]">
-                  <div className="text-inputCol w-full border-solid border-[1px] flex items-center rounded-xl px-[10px] gap-[8px] py-[12px]">
-                    {/* icon */}
-                    <div className={`w-[20px] h-[20px]  ${styles.flexCenter}`}>
-                      <FaSearch className="text-inputCol" size="15px" />
-                    </div>
-                    {/* text */}
-                    <input
-                      type="text"
-                      className={`bg-transparent w-full h-[20px] focus:outline-none text-lightTextCol ${styles.paragraph14} placeholder:text-inputCol`}
-                      placeholder="Search for a Meal"
-                    />
-                  </div>
-                  <div
-                    className={`relative w-[50px] h-[46px] border-[1px] rounded-xl ${styles.flexCenter} text-lightTextCol z-[60]`}
-                  >
-                    <FaFilter size="14px" />
-                    {/* Filter */}
-                    <div className="flex hidden w-[256px] absolute bg-bgSecondaryDarkCol informationBoxShadow rounded-2xl top-[110%] right-0 flex-col p-4">
-                      <p
-                        className={`${styles.heading14} border-b-[1px] border-lightTextCol mb-2`}
-                      >
-                        Filter for:
-                      </p>
-                      {/* content */}
-                      <div className="flex flex-col">
-                        {/* one line */}
-                        <div className="flex items-center hover:bg-[#3E4150] hover:px-2 rounded-[4px] py-2 cursor-pointer">
-                          <p className={`${styles.paragraph14} w-[110px]`}>
-                            Breakfast
-                          </p>
-                          <div className="flex flex-grow gap-x-4 items-center justify-between">
-                            <div
-                              className={`px-4 py-1 w-fit tagBreakfast rounded-full ${styles.tag10}`}
-                            >
-                              Breakfast
-                            </div>
-                            <div className="flex">
-                              <FaCheck />
-                            </div>
-                          </div>
-                        </div>
-                        {/* one line */}
-                        <div className="flex items-center hover:bg-[#3E4150] rounded-[4px] py-2 cursor-pointer hover:px-2">
-                          <p className={`${styles.paragraph14} w-[110px]`}>
-                            Lunch
-                          </p>
-                          <div className="flex flex-grow gap-x-4 items-center justify-between">
-                            <div
-                              className={`px-4 py-1 w-fit tagLunch rounded-full ${styles.tag10}`}
-                            >
-                              Lunch
-                            </div>
-                            <div className="flex">
-                              <FaCheck />
-                            </div>
-                          </div>
-                        </div>
-                        {/* one line */}
-                        <div className="flex items-center hover:bg-[#3E4150] rounded-[4px] py-2 cursor-pointer hover:px-2">
-                          <p className={`${styles.paragraph14} w-[110px]`}>
-                            Dinner
-                          </p>
-                          <div className="flex flex-grow gap-x-4 items-center justify-between">
-                            <div
-                              className={`px-4 py-1 w-fit tagDinner rounded-full ${styles.tag10}`}
-                            >
-                              Dinner
-                            </div>
-                            <div className="flex">
-                              <FaCheck />
-                            </div>
-                          </div>
-                        </div>
-                        {/* one line */}
-                        <div className="flex items-center hover:bg-[#3E4150] rounded-[4px] py-2 cursor-pointer hover:px-2">
-                          <p className={`${styles.paragraph14} w-[110px]`}>
-                            Vegeterian
-                          </p>
-                          <div className="flex flex-grow gap-x-4 items-center justify-between">
-                            <div
-                              className={`px-4 py-1 w-fit tagBreakfast rounded-full ${styles.tag10}`}
-                            >
-                              Vegeterian
-                            </div>
-                            <div className="flex">
-                              <FaTimes />
-                            </div>
-                          </div>
-                        </div>
-                        {/* one line */}
-                        <div className="flex items-center hover:bg-[#3E4150] rounded-[4px] py-2 cursor-pointer hover:px-2">
-                          <p className={`${styles.paragraph14} w-[110px]`}>
-                            Vegan
-                          </p>
-                          <div className="flex flex-grow gap-x-4 items-center justify-between">
-                            <div
-                              className={`px-4 py-1 w-fit tagBreakfast rounded-full ${styles.tag10}`}
-                            >
-                              Vegan
-                            </div>
-                            <div className="flex">
-                              <FaTimes />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  className={`text-inputCol ${styles.paragraph14} flex items-center gap-x-[8px] hidden`}
-                >
-                  <FaExclamationTriangle className="pb-[2px] text-failure hidden" />
-                  <FaExclamationCircle className="pb-[2px] text-warning hidden" />
-                  Please Enter The Correct Password
-                </div>
-              </div>
-              {/* Filter */}
-              <div className="flex flex-row w-full max-w-[360px] gap-2">
-                <p className={`text-lightTextCol ${styles.paragraph16} mr-1`}>
-                  Filter:
-                </p>
-                <div
-                  className={`px-4 py-1 w-fit tagLunch rounded-full ${styles.tag10}`}
-                >
-                  Lunch
-                </div>
-                <div
-                  className={`px-4 py-1 w-fit tagDinner rounded-full ${styles.tag10}`}
-                >
-                  Dinner
-                </div>
-                <div
-                  className={`px-4 py-1 w-fit tagBreakfast rounded-full ${styles.tag10}`}
-                >
-                  Vegetarian
-                </div>
-              </div>
-            </div>
+            {/* //Todo: search and filter component  */}
           </div>
 
           {/* meals */}
           <div className={`w-full flex flex-row flex-1 pb-3 `}>
             {/* 1. choose titel */}
-            <div
-              className={`w-full 800:w-6/12 ${
-                selected === "Title" ? "flex" : "hidden"
-              } flex-col`}
-            >
-              {/* Label */}
-              <label className={`text-inputCol ${styles.paragraph12} hidden`}>
-                Pinterest
-              </label>
-              <div className="text-inputCol w-full border-solid border-b-[1px] flex items-center px-[10px] gap-[8px] py-[12px]">
-                {/* icon */}
-                <div className={`w-[20px] h-[20px]  ${styles.flexCenter}`}>
-                  <FaFont className="text-inputCol" size="15px" />
-                </div>
-                {/* text */}
-                <input
-                  type="text"
-                  className={`bg-transparent w-full h-[20px] focus:outline-none text-lightTextCol ${styles.paragraph14} placeholder:text-inputCol`}
-                  placeholder="Monday's Meal"
-                />
-                <div
-                  className={`w-[20px] h-[20px] ${styles.flexCenter} cursor-pointer`}
-                >
-                  <FaCircleNotch className="text-inputCol w-[15px]" />
-                </div>
-              </div>
-              <div
-                className={`text-inputCol ${styles.paragraph14} flex items-center gap-x-[8px] hidden`}
-              >
-                <FaExclamationTriangle className="pb-[2px] text-failure hidden" />
-                <FaExclamationCircle className="pb-[2px] text-warning hidden" />
-                Please Enter The Correct Password
-              </div>
+            <div className={`${currentIteration === "mealTitle" ? "flex" : "hidden"}`}>
+              {/* <Input /> */}
             </div>
-
             {/* 2. Breakfast */}
             <div
               className={`${
-                selected === "Breakfast" ? "flex" : "hidden"
+                selected === "Breakfast" ? "flex" : "flex"
               } gap-2 flex-wrap w-full 600:gap-6 justify-center max-w-[1350px]`}
             >
-              {/* {width < 600 ? (
-                <CardsSamples type="mobile" />
-              ) : (
-                <CardsSamples type="little" />
-              )}
-              {width < 600 ? (
-                <CardsSamples type="mobile" />
-              ) : (
-                <CardsSamples type="little" />
-              )}
-              {width < 600 ? (
-                <CardsSamples type="mobile" />
-              ) : (
-                <CardsSamples type="little" />
-              )}
-              {width < 600 ? (
-                <CardsSamples type="mobile" />
-              ) : (
-                <CardsSamples type="little" />
-              )}
-              {width < 600 ? (
-                <CardsSamples type="mobile" />
-              ) : (
-                <CardsSamples type="little" />
-              )}
-              {width < 600 ? (
-                <CardsSamples type="mobile" />
-              ) : (
-                <CardsSamples type="little" />
-              )}
-              {width < 600 ? (
-                <CardsSamples type="mobile" />
-              ) : (
-                <CardsSamples type="little" />
-              )}
-              {width < 600 ? (
-                <CardsSamples type="mobile" />
-              ) : (
-                <CardsSamples type="little" />
-              )} */}
+              {/* //Todo: catalog Component */}
             </div>
             {/* 2. Lunch */}
             <div
@@ -411,8 +198,12 @@ const Creation = () => {
 
             {/* check btn */}
             <div
-              className={`fixed  top-[88%]
-              } left-[74%] 600:left-[84%] btnPrimaryCol buttonShadow hover:bg-[#293D2B] w-14 h-14 600:w-20 600:h-20 z-30 rounded-full ${styles.flexCenter}`}
+              className={`${
+                currentIteration === "preview" ? "flex" : "hidden"
+              } fixed top-[88%]
+              } left-[74%] 600:left-[84%] btnPrimaryCol buttonShadow hover:bg-[#293D2B] w-14 h-14 600:w-20 600:h-20 z-30 rounded-full ${
+                styles.flexCenter
+              }`}
             >
               <FaCheck
                 size={width > 600 ? "25px" : "20px"}

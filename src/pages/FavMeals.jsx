@@ -184,8 +184,8 @@ const FavMeals = () => {
         <meta name="description" content="" />
       </Helmet>
       {/* header */}
-      <div className="flex justify-center h-[120px] pt-8">
-        <div className="w-full max-w-[325px] flex flex-col gap-y-[8px] ">
+      <div className="flex justify-center h-30 pt-8">
+        <div className="w-full max-w-[325px] h-30 flex flex-col gap-y-[8px] ">
           {/* Label */}
           <label className={`text-inputCol ${styles.paragraph14} hidden`}>
             Search

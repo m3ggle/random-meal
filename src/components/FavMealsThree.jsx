@@ -20,7 +20,8 @@ const FavMealsThree = ({ filteredCombos }) => {
         />
       ))}
       <div
-        onClick={() => navigate("/creation")}
+        onClick={() => navigate("/creation", {state: "mealTitel" })}
+        // onClick={() => navigate("/users/123", { state: "partialUser" })}
         className={`absolute  ${
           height > 600 && width > 767 ? "top-[88%]" : "top-[78%]"
         } left-[74%] 600:left-[84%] btnPrimaryCol buttonShadow hover:bg-[#293D2B] w-14 h-14 600:w-20 600:h-20 z-30 rounded-full ${
