@@ -8,7 +8,7 @@ import { useBuyinglist } from "../../hooks/useBuyinglist";
 import { useLike } from "../../hooks/useLike";
 import styles from "../../styles";
 
-const SingleCard = ({ meal }) => {
+const SingleCard = ({ meal, navigationOn, callBackId }) => {
   const { user, buyinglist, dispatch } = useContext(SpoonacularContext);
   const navigate = useNavigate();
   const { mealinformation, ingredients, liked } = meal;
@@ -32,6 +32,14 @@ const SingleCard = ({ meal }) => {
     });
   };
 
+  const handleNavigation = () => {
+    if (navigationOn) {
+      navigate(`/mealdetails/${mealinformation.id}`);
+    } else {
+      callBackId(mealinformation.id);
+    }
+  };
+
   return (
     <motion.div
       whileHover={{ scale: 1.02 }}
@@ -41,7 +49,7 @@ const SingleCard = ({ meal }) => {
     >
       <div
         id="overlay"
-        onClick={() => navigate(`/mealdetails/${mealinformation.id}`)}
+        onClick={handleNavigation}
         className="absolute top-0 left-0 w-full h-full imgOverlayRandomMeal z-10"
       ></div>
 

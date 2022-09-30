@@ -689,7 +689,7 @@ export const SpoonacularProvider = ({ children }) => {
     },
     combos: {},
     creation: {
-      mealTitle: {
+      mealtitle: {
         title:
           "I live by this rule - breakfast like a king, lunch like a prince and dinner like a pauper. ~ Suniel Shetty",
         subTitle: "Choose the Title",
@@ -721,7 +721,7 @@ export const SpoonacularProvider = ({ children }) => {
           "I don't stop eating when I'm full. The meal isn't over when I'm full. It's over when I hate myself. ~ Louis C. K.",
         subTitle: "Preview 🥪 🥗 🥘",
         status: false,
-        id: 0,
+        combo: {}
       },
     },
     loading: false,

@@ -1,3 +1,4 @@
+import { getAuth } from "firebase/auth";
 import { motion } from "framer-motion";
 import React, { useContext, useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
@@ -14,10 +15,11 @@ import CardThreeContainer from "../utilities/cards/CardThreeContainer";
 
 const Creation = () => {
   const { creation, dispatch } = useContext(SpoonacularContext);
+  const { breakfast, lunch, dinner } = creation;
   const { width } = useWindowDimensions();
-  const [currentIteration, setCurrentIteration] = useState("mealTitle");
+  const [currentIteration, setCurrentIteration] = useState("mealtitle");
   const [direction] = useState([
-    "mealTitle",
+    "mealtitle",
     "breakfast",
     "lunch",
     "dinner",
@@ -43,70 +45,143 @@ const Creation = () => {
   });
   const { title, userInformation } = formData;
   const handleCallBack = (cb) => setFormData(cb);
+  const [createdCombos, setCreatedCombos] = useState({});
 
   // set currentIteration or redirect to notFound
   useEffect(() => {
     if (direction.includes(params.stepName)) {
+      if (params.stepName === "preview") {
+        createCombo();
+      }
       setCurrentIteration(params.stepName);
     } else {
       navigate("/notFound");
     }
   }, [params.stepName, direction, navigate]);
 
-  // only for mealTitle
+  // only for mealtitle
   const handleAdd = () => {
     if (userInformation) {
-      let creationCopy = { ...creation }
-      creationCopy.mealTitle.text = title.inputValue
+      let creationCopy = { ...creation };
+      creationCopy.mealtitle.text = title.inputValue;
       dispatch({ type: "UPDATE_CREATION", payload: creationCopy });
-      const stepForward = direction[direction.indexOf(currentIteration) + 1]
-      navigate(`/creation/${stepForward}`);
+      goToNextStep();
     }
-  }
+  };
+
+  const goToNextStep = () => {
+    const stepForward = direction[direction.indexOf(currentIteration) + 1];
+    navigate(`/creation/${stepForward}`);
+  };
 
   // for breakfast, lunch and dinner
-    const { user, meals, combos, } = useContext(SpoonacularContext);
-    const { handleGetMealsCombos } = useGetMeals();
-    const [filteredMeals, setFilteredMeals] = useState([]);
-    const [internalMeals, setInternalMeals] = useState([]);
-    const [twoChoice] = useState("first");
+  const { user, meals, combos } = useContext(SpoonacularContext);
+  const { handleGetMealsCombos } = useGetMeals();
+  const [filteredMeals, setFilteredMeals] = useState([]);
+  const [internalMeals, setInternalMeals] = useState([]);
+  const [twoChoice] = useState("first");
 
-    // context
-    useEffect(() => {
-      const updateContext = async () => {
-        const { formattedCollectedMeals, formattedCombos } =
-          await handleGetMealsCombos(
-            meals,
-            combos,
-            user.favMeals,
-            user.favCombos,
-            "collection"
-          );
-        dispatch({
-          type: "UPDATE_MEALS_AND_COMBOS",
-          payload: {
-            meals: formattedCollectedMeals,
-            combos: formattedCombos,
-          },
-        });
-      };
-
-      updateContext();
-    }, []);
-
-    // set/updatefavorite Meals (internal)
-    useEffect(() => {
-      let internalMealsMeals = [];
-      Object.keys(meals).map((mealId) => {
-        internalMealsMeals.push({ ...meals[mealId] });
+  // context
+  useEffect(() => {
+    const updateContext = async () => {
+      const { formattedCollectedMeals, formattedCombos } =
+        await handleGetMealsCombos(
+          meals,
+          combos,
+          user.favMeals,
+          user.favCombos,
+          "collection"
+        );
+      dispatch({
+        type: "UPDATE_MEALS_AND_COMBOS",
+        payload: {
+          meals: formattedCollectedMeals,
+          combos: formattedCombos,
+        },
       });
-      setInternalMeals(internalMealsMeals);
-    }, [user.favMeals, meals]);
-
-    const handleCallbackFilteredMeals = (newlyFiltered) => {
-      setFilteredMeals(newlyFiltered);
     };
-    const handleCallbackFilteredCombos = () => {};
+
+    updateContext();
+  }, []);
+
+  // set/updatefavorite Meals (internal)
+  useEffect(() => {
+    let internalMealsMeals = [];
+    Object.keys(meals).map((mealId) => {
+      internalMealsMeals.push({ ...meals[mealId] });
+    });
+    setInternalMeals(internalMealsMeals);
+  }, [user.favMeals, meals]);
+
+  const handleCallbackFilteredMeals = (newlyFiltered) => {
+    setFilteredMeals(newlyFiltered);
+  };
+  const handleCallbackFilteredCombos = () => {};
+
+  // callback for breakfast, lunch, dinner
+  const callBackId = (mealId) => {
+    let creationCopy = { ...creation };
+    creationCopy[currentIteration].id = mealId;
+    dispatch({ type: "UPDATE_CREATION", payload: creationCopy });
+    goToNextStep();
+  };
+
+  const createCombo = () => {
+    const auth = getAuth();
+    const breakfastInfo = { ...meals[breakfast.id] };
+    const lunchInfo = { ...meals[lunch.id] };
+    const dinnerInfo = { ...meals[dinner.id] };
+    let allMeals = [{ ...breakfastInfo }, { ...lunchInfo }, { ...dinnerInfo }];
+    // allMeals = singleMeals(allMeals, user.favMeals)
+
+    const getAmount = (nutrientName) => {
+      let amount = 0;
+      allMeals.map((meal) => {
+        meal.nutrients.nutrients.map((nut) => {
+          if (nut.name === nutrientName) {
+            amount += nut.amount;
+          }
+        });
+      });
+      return amount.toFixed(0);
+    };
+
+    const newCombo = {
+      allMealIds: [breakfast.id, lunch.id, dinner.id],
+      breakfast: breakfast.id,
+      lunch: lunch.id,
+      dinner: dinner.id,
+      likeCount: 1,
+      liked: true,
+      nutrients: [
+        {
+          amount: parseInt(getAmount("Calories")),
+          name: "Calories",
+          unit: "kcal",
+        },
+        {
+          amount: parseInt(getAmount("Fat")),
+          name: "Fat",
+          unit: "g",
+        },
+        {
+          amount: parseInt(getAmount("Sugar")),
+          name: "Sugar",
+          unit: "g",
+        },
+        {
+          amount: parseInt(getAmount("Protein")),
+          name: "Protein",
+          unit: "g",
+        },
+      ],
+      title: creation.mealtitle.text,
+      userId: auth.currentUser.uid,
+    };
+
+    console.log(newCombo)
+    setCreatedCombos({ ...newCombo });
+  };
 
   return (
     <div className="fixed top-0 left-0 w-full h-screen z-[100] bg-bgPrimaryCol">
@@ -127,7 +202,7 @@ const Creation = () => {
             </div>
             {/* go leave */}
             <div
-              onClick={() => navigate(-1)}
+              onClick={createCombo}
               className={`w-11 h-11 rounded-full ${styles.flexCenter} cursor-pointer`}
             >
               <FaTimes size="30px" className="text-lightTextCol" />
@@ -148,7 +223,7 @@ const Creation = () => {
           {/* meals */}
           <div className={`w-full flex flex-row flex-1 pb-3 `}>
             <div className="gap-2 flex flex-wrap w-full 600:gap-6 h-fit py-6 justify-center max-w-[1350px]">
-              {currentIteration === "mealTitle" ? (
+              {currentIteration === "mealtitle" ? (
                 <div className="w-[420px] flex gap-x-4">
                   <Input
                     callbackFct={handleCallBack}
@@ -180,7 +255,7 @@ const Creation = () => {
               ) : (
                 <>
                   {currentIteration === "preview" ? (
-                    <CardThreeContainer />
+                    <CardThreeContainer combo={createdCombos} />
                   ) : (
                     <>
                       <SearchFilter
@@ -193,14 +268,20 @@ const Creation = () => {
                         first="first"
                         second="first"
                       />
-                      <Catalog filteredMeals={filteredMeals} />
+                      <Catalog
+                        filteredMeals={filteredMeals}
+                        navigationOn={false}
+                        callBackId={callBackId}
+                      />
                     </>
                   )}
                 </>
               )}
             </div>
             {/* check btn */}
-            <div
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               className={`${
                 currentIteration === "preview" ? "flex" : "hidden"
               } fixed top-[88%]
@@ -212,7 +293,7 @@ const Creation = () => {
                 size={width > 600 ? "25px" : "20px"}
                 className="text-lightTextCol"
               />
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>

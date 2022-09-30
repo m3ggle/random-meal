@@ -24,7 +24,6 @@ const CardThreeContainer = ({ combo }) => {
         meals[combo.dinner],
       ],
     });
-    console.log(newBuyinglist);
     dispatch({ type: "UPDATE_BUYINGLIST", payload: newBuyinglist });
   };
 

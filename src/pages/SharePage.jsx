@@ -93,7 +93,7 @@ const SharePage = () => {
       {twoChoice === "first" ? (
         <ShareCombos filteredCombos={filteredCombos} />
       ) : (
-        <Catalog filteredMeals={filteredMeals} />
+        <Catalog filteredMeals={filteredMeals} navigationOn={true} />
       )}
     </div>
   );
