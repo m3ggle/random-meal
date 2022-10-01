@@ -24,6 +24,42 @@ export const useUploadToFirestore = () => {
     }
   };
 
+  const uploadFavCombos = async (favCombos) => {
+    try {
+      const auth = getAuth();
+      if (auth.currentUser) {
+        await setDoc(
+          doc(db, "users", auth.currentUser.uid),
+          {
+            favCombos: favCombos,
+          },
+          { merge: true }
+        );
+      } else {
+        toast.error("😤 Not logged in");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("🍅 Could not upload the Update");
+    }
+  };
+
+  const uploadCombo = async (combo) => {
+    try {
+      combo.liked !== undefined && delete combo.liked
+
+      const auth = getAuth();
+      if (auth.currentUser) {
+        await setDoc(doc(db, "combos", combo.comboId), combo);
+      } else {
+        toast.error("😤 Not logged in");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("🍅 Could not upload the Update");
+    }
+  };
+
   const uploadBuyinglist = async (buyinglist) => {
     try {
       const auth = getAuth();
@@ -74,5 +110,11 @@ export const useUploadToFirestore = () => {
     }
   };
 
-  return { uploadFavMeals, uploadBuyinglist, storeInDb };
+  return {
+    uploadFavMeals,
+    uploadBuyinglist,
+    storeInDb,
+    uploadFavCombos,
+    uploadCombo,
+  };
 };

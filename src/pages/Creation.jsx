@@ -1,13 +1,16 @@
+import { uuidv4 } from "@firebase/util";
 import { getAuth } from "firebase/auth";
 import { motion } from "framer-motion";
 import React, { useContext, useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { FaCheck, FaChevronLeft, FaTimes } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import Catalog from "../components/Catalog";
 import Input from "../components/Input";
 import SearchFilter from "../components/SearchFilter";
 import SpoonacularContext from "../context/SpoonacularContext";
+import { useUploadToFirestore } from "../firestoreHooks/useUploadToFirestore";
 import { useGetMeals } from "../hooks/useGetMeals";
 import useWindowDimensions from "../hooks/useWindowDimensions";
 import styles from "../styles";
@@ -15,6 +18,7 @@ import CardThreeContainer from "../utilities/cards/CardThreeContainer";
 
 const Creation = () => {
   const { creation, dispatch } = useContext(SpoonacularContext);
+  const { uploadFavCombos, uploadCombo } = useUploadToFirestore();
   const { breakfast, lunch, dinner } = creation;
   const { width } = useWindowDimensions();
   const [currentIteration, setCurrentIteration] = useState("mealtitle");
@@ -45,7 +49,7 @@ const Creation = () => {
   });
   const { title, userInformation } = formData;
   const handleCallBack = (cb) => setFormData(cb);
-  const [createdCombos, setCreatedCombos] = useState({});
+  const [createdCombo, setcreatedCombo] = useState({});
 
   // set currentIteration or redirect to notFound
   useEffect(() => {
@@ -147,7 +151,7 @@ const Creation = () => {
     };
 
     const newCombo = {
-      allMealIds: [breakfast.id, lunch.id, dinner.id],
+      allIds: [breakfast.id, lunch.id, dinner.id],
       breakfast: breakfast.id,
       lunch: lunch.id,
       dinner: dinner.id,
@@ -176,11 +180,64 @@ const Creation = () => {
         },
       ],
       title: creation.mealtitle.text,
+      comboId: uuidv4(),
       userId: auth.currentUser.uid,
     };
 
-    console.log(newCombo)
-    setCreatedCombos({ ...newCombo });
+    setcreatedCombo({ ...newCombo });
+  };
+
+  const cleanCreationUserInputs = () => {
+    const creationCopy = creation;
+    creationCopy.mealtitle.text = "";
+    creationCopy.breakfast.id = 0;
+    creationCopy.lunch.id = 0;
+    creationCopy.dinner.id = 0;
+    creationCopy.preview.combo = {};
+
+    dispatch({ type: "UPDATE_CREATION", payload: creationCopy });
+  };
+
+  const checkValidation = () => {
+    if (createdCombo.title < 2 || createdCombo.title > 20) {
+      toast.error("🧐 Your Title is too long ");
+    } else if (
+      !(createdCombo.breakfast && createdCombo.lunch && createdCombo.dinner)
+    ) {
+      toast.error("🤨 A Meal is missing");
+    } else if (creation.allMealIds.length !== 3) {
+      toast.error("😩 Something is wrong, please restart the Process");
+    } else {
+      return true;
+    }
+  };
+
+  const addComboIdToComboContext = () => {
+    const combosCopy = combos;
+    combosCopy[createdCombo.comboId] = { ...createdCombo }
+    console.log(combos, combosCopy)
+    
+    dispatch({ type: "UPDATE_COMBOS", payload: {...combosCopy} });
+  }
+
+  const addComboIdToFavCombos = () => {
+    const favCombosCopy = user.favCombos
+    favCombosCopy.push(createdCombo.comboId)
+    console.log(user.favCombos, favCombosCopy)
+
+    dispatch({ type: "UPDATE_FAVCOMBOS", payload: [...favCombosCopy] });
+
+    uploadFavCombos(favCombosCopy)
+  }
+
+  const handleSubmit = async () => {
+    if (checkValidation) {
+      addComboIdToComboContext()
+      addComboIdToFavCombos()
+      uploadCombo(createdCombo)
+      cleanCreationUserInputs()
+      navigate(-5)
+    }
   };
 
   return (
@@ -201,12 +258,14 @@ const Creation = () => {
               <FaChevronLeft size="30px" className="text-lightTextCol" />
             </div>
             {/* go leave */}
-            <div
-              onClick={createCombo}
+            <motion.div
+              onClick={() => navigate("/favorites")}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               className={`w-11 h-11 rounded-full ${styles.flexCenter} cursor-pointer`}
             >
               <FaTimes size="30px" className="text-lightTextCol" />
-            </div>
+            </motion.div>
           </div>
 
           {/* top titel and search + filter */}
@@ -255,7 +314,7 @@ const Creation = () => {
               ) : (
                 <>
                   {currentIteration === "preview" ? (
-                    <CardThreeContainer combo={createdCombos} />
+                    <CardThreeContainer combo={createdCombo} />
                   ) : (
                     <>
                       <SearchFilter
@@ -282,6 +341,7 @@ const Creation = () => {
             <motion.div
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
+              onClick={handleSubmit}
               className={`${
                 currentIteration === "preview" ? "flex" : "hidden"
               } fixed top-[88%]

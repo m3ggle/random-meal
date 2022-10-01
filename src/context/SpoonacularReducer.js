@@ -50,7 +50,7 @@ const spoonacularReducer = (state, action) => {
     case "UPDATE_COMBOS":
       return {
         ...state,
-        combos: { ...state.combos, ...action.payload },
+        combos: action.payload
       };
     case "UPDATE_MEALS_AND_COMBOS":
       return {
