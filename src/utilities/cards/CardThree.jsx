@@ -96,14 +96,14 @@ const CardThree = ({ meal }) => {
             liked ? "text-failure" : "text-iconTransCol"
           } cursor-pointer`}
         >
-          <FaHeart size={width > 700 ? "22px" : "16px"} />
+          <FaHeart size="22px" />
         </motion.div>
         <motion.div
           onClick={() => handleBuy()}
           whileTap={{ scale: 0.94 }}
           className={`w-[34px] h-[34px] ${styles.flexCenter} z-20 text-iconTransCol cursor-pointer active:text-[#2B598C]`}
         >
-          <FaShoppingCart size={width > 700 ? "22px" : "16px"} />
+          <FaShoppingCart size="22px" />
         </motion.div>
       </div>
     </motion.div>

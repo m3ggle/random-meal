@@ -117,7 +117,7 @@ const SearchFilter = ({
           <motion.div
             whileTap={{ scale: 0.98 }}
             className={`${
-              twoChoice === "first" ? "flex" : "hidden"
+              twoChoice === first ? "flex" : "hidden"
             } relative w-[50px] h-[46px] border-[1px] rounded-xl ${
               styles.flexCenter
             } text-lightTextCol z-[60] cursor-pointer`}
@@ -169,7 +169,7 @@ const SearchFilter = ({
         {/* Tags from filter */}
         <div
           className={`${
-            twoChoice === "first" ? "flex" : "hidden"
+            twoChoice === first ? "flex" : "hidden"
           } flex flex-row gap-2`}
         >
           <p className={`text-lightTextCol ${styles.paragraph16} mr-1`}>
