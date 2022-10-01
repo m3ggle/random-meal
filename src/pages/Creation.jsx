@@ -69,14 +69,21 @@ const Creation = () => {
       let creationCopy = { ...creation };
       creationCopy.mealtitle.text = title.inputValue;
       dispatch({ type: "UPDATE_CREATION", payload: creationCopy });
-      goToNextStep();
+      goForward();
     }
   };
 
-  const goToNextStep = () => {
+  const goForward = () => {
     const stepForward = direction[direction.indexOf(currentIteration) + 1];
     navigate(`/creation/${stepForward}`);
   };
+
+  const goBack = () => {
+    const stepBack = direction[direction.indexOf(currentIteration) - 1];
+    currentIteration === "mealtitle"
+      ? navigate("/favorites")
+      : navigate(`/creation/${stepBack}`);
+    };
 
   // for breakfast, lunch and dinner
   const { user, meals, combos } = useContext(SpoonacularContext);
@@ -127,7 +134,8 @@ const Creation = () => {
     let creationCopy = { ...creation };
     creationCopy[currentIteration].id = mealId;
     dispatch({ type: "UPDATE_CREATION", payload: creationCopy });
-    goToNextStep();
+    
+    goForward();
   };
 
   const createCombo = () => {
@@ -254,9 +262,14 @@ const Creation = () => {
           {/* top back and leave */}
           <div className="w-full h-10 flex justify-between">
             {/* go back */}
-            <div className={`w-11 h-11 rounded-full ${styles.flexCenter}`}>
+            <motion.div
+              onClick={goBack}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className={`w-11 h-11 rounded-full ${styles.flexCenter}`}
+            >
               <FaChevronLeft size="30px" className="text-lightTextCol" />
-            </div>
+            </motion.div>
             {/* go leave */}
             <motion.div
               onClick={() => navigate("/favorites")}
