@@ -30,28 +30,28 @@ const FavMeals = () => {
 
   // context
   useEffect(() => {
-    const updateContext = async () => {
-      const { formattedCollectedMeals, formattedCombos } =
-        await handleGetMealsCombos(
-          meals,
-          combos,
-          user.favMeals,
-          user.favCombos,
-          "favorite"
-        );
-      dispatch({
-        type: "UPDATE_MEALS_AND_COMBOS",
-        payload: {
-          meals: formattedCollectedMeals,
-          combos: formattedCombos,
-        },
-      });
-    };
-
     if (user.favMeals) {
       updateContext();
     }
   }, []);
+
+  const updateContext = async () => {
+    const { formattedCollectedMeals, formattedCombos } =
+      await handleGetMealsCombos(
+        meals,
+        combos,
+        user.favMeals,
+        user.favCombos,
+        "favorite"
+      );
+    dispatch({
+      type: "UPDATE_MEALS_AND_COMBOS",
+      payload: {
+        meals: formattedCollectedMeals,
+        combos: formattedCombos,
+      },
+    });
+  };
 
   // set/updatefavorite Meals (internal)
   useEffect(() => {
@@ -104,6 +104,13 @@ const FavMeals = () => {
         first="first"
         second="second"
       />
+
+      <div
+        onClick={updateContext}
+        className="w-11 h-6 bg-slate-500"
+      >
+        Click me to load more Meals
+      </div>
 
       {/* 1 Meal vs 3 Meals */}
       <TwoChoice

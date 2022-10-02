@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
 import { useDownloadFromFirestore } from "../firestoreHooks/useDownloadFromFirestore";
 import { useLikeStatus } from "./useLikeStatus";
 
@@ -12,7 +13,12 @@ export const useGetMeals = () => {
     getMealsById,
   } = useDownloadFromFirestore();
   const [pagenation, setPagenation] = useState({
-    favMealsStartAfter: 0,
+    favMealsStartAfter: {
+      // like the name says, it is a copy of favMeals (if favMeals changes this state will not be effected)
+      favMealCopy: [],
+      // storing all favMeals which are already in the mealContext
+      storingFavMeals: [],
+    },
     favCombosStartAfter: 0,
     CombosStartAfter: 0,
     SingleMealsStartAfter: 0,
@@ -68,14 +74,114 @@ export const useGetMeals = () => {
 
       // get meals from firestore
       if (type === "favMeals") {
-        missingMeals = filterOutIds(mealContext, favMeals);
-        meals = await getTenFavMeals(missingMeals);
-        // like
-        meals = singleFavMeals(meals);
+        // missingMeals = filterOutIds(mealContext, favMeals);
+        // meals = await getTenFavMeals(missingMeals);
+        // meals = singleFavMeals(meals);
+
+        // ! if sfm is empty (first time)
+        // console.log(pagenation.favMealsStartAfter.storingFavMeals.length);
+        // console.log("take the first route: " + pagenation.favMealsStartAfter.storingFavMeals.length === 0)
+        if (
+          pagenation.favMealsStartAfter.storingFavMeals.length === 0 &&
+          pagenation.favMealsStartAfter.storingFavMeals.length === 0
+        ) {
+          let storingFavMealsHolder = [];
+          let deleteMealsfromStorage = [];
+
+          // ! store in sfm if its not already in mealContext
+          for (let i = 0; i <= 9; i++) {
+            if (!Object.keys(mealContext).includes(favMeals[i].toString())) {
+              storingFavMealsHolder.push(favMeals[i]);
+              // console.log("second time", favMeals[i], storingFavMealsHolder);
+            }
+            deleteMealsfromStorage.push(favMeals[i]);
+          }
+
+          // ! download
+          meals = await getTenFavMeals(storingFavMealsHolder);
+          meals = singleFavMeals(meals);
+
+          // ! get all favorite mealIds which are not touched
+          const favMealCopyForState = favMeals.filter(
+            (mealId) => !favMeals.includes(deleteMealsfromStorage)
+          );
+
+          // ! update pagenation state
+          console.log("this should be the first time", storingFavMealsHolder);
+          const favMealsStartAfterCopy = {
+            favMealCopy: [...favMealCopyForState],
+            storingFavMeals: [...storingFavMealsHolder],
+          };
+          setPagenation((prevState) => ({
+            ...prevState,
+            favMealsStartAfter: { ...favMealsStartAfterCopy },
+          }));
+        } else {
+          // ! check if favMealsCopy is empty (all mealIds of favMeals are in mealContext)
+          if (
+            pagenation.favMealsStartAfter.favMealCopy.length === 0 &&
+            favMeals.length !== 0
+          ) {
+            toast.info("😋 You already have all your favorite Meals");
+            return "";
+          } else {
+            let storingFavMealsHolder = [
+              ...pagenation.favMealsStartAfter.storingFavMeals,
+            ];
+            let deleteMealsfromStorage = [];
+
+            // ! check if mealId is in the mealContext (array: favMealCopy)
+            for (
+              let i = 0;
+              i <= pagenation.favMealsStartAfter.favMealCopy.length - 1;
+              i++
+            ) {
+              if (
+                !Object.keys(mealContext).includes(
+                  pagenation.favMealsStartAfter.favMealCopy[i].toString()
+                )
+              ) {
+                missingMeals.push(
+                  pagenation.favMealsStartAfter.favMealCopy[i]
+                );
+              }
+              deleteMealsfromStorage.push(
+                pagenation.favMealsStartAfter.favMealCopy[i]
+              );
+            }
+            storingFavMealsHolder.push(missingMeals)
+            console.log(missingMeals);
+            missingMeals = missingMeals.slice(0, 10);
+            console.log(missingMeals);
+
+            // ! download
+            meals = await getTenFavMeals(missingMeals);
+            meals = singleFavMeals(meals);
+
+            // ! get all favorite mealIds which are not touched
+            const favMealCopyForState = favMeals.filter(
+              (mealId) => !favMeals.includes(deleteMealsfromStorage)
+            );
+
+            // ! update pagenation favMealCopy
+            console.log(
+              "in sfm something and this should be the second time",
+              storingFavMealsHolder
+            );
+            const favMealsStartAfterCopy = {
+              favMealCopy: [...favMealCopyForState],
+              storingFavMeals: [...storingFavMealsHolder],
+            };
+            setPagenation((prevState) => ({
+              ...prevState,
+              favMealsStartAfter: { ...favMealsStartAfterCopy },
+            }));
+          }
+        }
       } else if (type === "collection") {
         meals = await getTenMealsFromCollection();
         // like
-        meals = favMeals !== undefined ? singleMeals(meals, favMeals) : meals
+        meals = favMeals !== undefined ? singleMeals(meals, favMeals) : meals;
         // get all the ids
         const mealIds = meals.map((meal) => {
           return meal.mealinformation.id;
