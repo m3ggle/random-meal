@@ -37,6 +37,18 @@ const Navbar = () => {
     setActiveSite({ ...activeSiteCopy });
   }, [location]);
 
+  // Navbar try
+    const [stickyClass, setStickyClass] = useState("relative");
+
+    useEffect(() => {
+      // window.addEventListener("scroll", stickNavbar);
+
+      return () => {
+        // window.removeEventListener("scroll", stickNavbar);
+      };
+    }, []);
+
+
   return (
     <div className={`${hidden ? "hidden" : "flex"} w-0px md:w-[80px]`}>
       {/* desktop Navbar */}
