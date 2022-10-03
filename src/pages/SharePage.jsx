@@ -76,7 +76,6 @@ const SharePage = () => {
       return Math.abs(a - b);
     };
     if (difference(lastKnowScroll, currentY) > 120) {
-      console.log("bigger than 120");
       dispatch({
         type: "UPDATE_NAVBARSTATUS",
         payload: lastKnowScroll < e.currentTarget.scrollTop ? false : true,

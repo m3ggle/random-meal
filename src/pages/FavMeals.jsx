@@ -98,7 +98,6 @@ const FavMeals = () => {
       return Math.abs(a - b);
     };
     if (difference(lastKnowScroll, currentY) > 120) {
-      console.log("bigger than 120")
       dispatch({ type: "UPDATE_NAVBARSTATUS", payload: lastKnowScroll < e.currentTarget.scrollTop
         ? false
         : true});
@@ -106,61 +105,11 @@ const FavMeals = () => {
     }
   };
 
-  // const [prevScrollPos, setPrevScrollPos] = useState(0);
-  // const [visible, setVisible] = useState(true);
-
-  // const handleScroll = () => {
-  //   console.log("hallo");
-  //   const currentScrollPos = window.scrollY;
-
-  //   if (currentScrollPos > prevScrollPos) {
-  //     setVisible(false);
-  //   } else {
-  //     setVisible(true);
-  //   }
-
-  //   console.log(currentScrollPos > prevScrollPos);
-  //   setPrevScrollPos(currentScrollPos);
-  // };
-
-  // useEffect(() => {
-  //   window.addEventListener("scroll", () => {
-  //     console.log("bang bang")
-  //     handleScroll()
-  //   });
-
-  //   console.log(window);
-
-  //   return () => window.removeEventListener("scroll", handleScroll);
-  // }, []);
-
-// const checkHeader = () => {
-//   // Detect scroll position
-//   let viewportWidth = window.innerWidth || document.documentElement.clientWidth;
-//   if (viewportWidth > 1100) {
-//     let scrollPosition = Math.round(window.scrollY);
-
-//     if (scrollPosition > 100) {
-//       // document.querySelector("#nav").classList.add(`${headerStyles.sticky}`);
-//       console.log("smt")
-//     } else {
-//       console.log("other smt")
-//       // document.querySelector("#nav").classList.remove(`${headerStyles.sticky}`);
-//     }
-//   } else {
-//   }
-// };
-
-// // Check that window exists before accessing it
-// if (typeof window !== "undefined") {
-//   // Run the checkHeader function every time you scroll
-//   window.addEventListener("scroll", checkHeader);
-// }
-
   return (
     <div
       onScroll={updateShowNavbar}
-      className="w-full h-full overflow-scroll flex flex-col gap-y-3">
+      className="w-full h-full overflow-scroll flex flex-col gap-y-3"
+    >
       <Helmet>
         <title>Favorite Meals</title>
         <meta name="description" content="" />
@@ -189,7 +138,7 @@ const FavMeals = () => {
       />
 
       {twoChoice === "first" ? (
-        <FavMealsOne filteredMeals={filteredMeals} />
+        <FavMealsOne filteredMeals={filteredMeals} navigationOn={true} />
       ) : (
         <FavMealsThree filteredCombos={filteredCombos} />
       )}

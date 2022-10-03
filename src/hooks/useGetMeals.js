@@ -15,7 +15,7 @@ export const useGetMeals = () => {
   const [pagenation, setPagenation] = useState({
     favMealsStartAfter: {
       // like the name says, it is a copy of favMeals (if favMeals changes this state will not be effected)
-      favMealCopy: [],
+      favMealsRemaining: [],
       // storing all favMeals which are already in the mealContext
       storingFavMeals: [],
     },
@@ -77,13 +77,10 @@ export const useGetMeals = () => {
         // missingMeals = filterOutIds(mealContext, favMeals);
         // meals = await getTenFavMeals(missingMeals);
         // meals = singleFavMeals(meals);
-
+        const { storingFavMeals, favMealsRemaining } =
+          pagenation.favMealsStartAfter;
         // ! if sfm is empty (first time)
-        // console.log(pagenation.favMealsStartAfter.storingFavMeals.length);
-        // console.log("take the first route: " + pagenation.favMealsStartAfter.storingFavMeals.length === 0)
-        if (
-          pagenation.favMealsStartAfter.storingFavMeals.length === 0
-        ) {
+        if (storingFavMeals.length === 0 && favMealsRemaining.length === 0) {
           let storingFavMealsHolder = [];
           let deleteMealsfromStorage = [];
 
@@ -91,24 +88,23 @@ export const useGetMeals = () => {
           for (let i = 0; i <= 9; i++) {
             if (!Object.keys(mealContext).includes(favMeals[i].toString())) {
               storingFavMealsHolder.push(favMeals[i]);
-              // console.log("second time", favMeals[i], storingFavMealsHolder);
             }
-            deleteMealsfromStorage.push(favMeals[i]);
+            deleteMealsfromStorage.push(favMeals[i]); //add mealId to later filter out
           }
 
           // ! download
-          meals = await getTenFavMeals(storingFavMealsHolder);
-          meals = singleFavMeals(meals);
+          meals = await getTenFavMeals(storingFavMealsHolder); //download meals
+          meals = singleFavMeals(meals); //like meals
 
           // ! get all favorite mealIds which are not touched
           const favMealCopyForState = favMeals.filter(
-            (mealId) => !favMeals.includes(deleteMealsfromStorage)
+            (mealId) => !deleteMealsfromStorage.includes(mealId)
           );
 
           // ! update pagenation state
-          console.log("this should be the first time", storingFavMealsHolder);
+          // console.log("this should be the first time", storingFavMealsHolder);
           const favMealsStartAfterCopy = {
-            favMealCopy: [...favMealCopyForState],
+            favMealsRemaining: [...favMealCopyForState],
             storingFavMeals: [...storingFavMealsHolder],
           };
           setPagenation((prevState) => ({
@@ -117,44 +113,36 @@ export const useGetMeals = () => {
           }));
         } else {
           // ! check if favMealsCopy is empty (all mealIds of favMeals are in mealContext)
-          if (
-            pagenation.favMealsStartAfter.favMealCopy.length ===
-              pagenation.favMealsStartAfter.storingFavMeals.length &&
-            favMeals.length !== 0
-          ) {
+          if (favMealsRemaining.length === 0 && favMeals.length !== 0) {
             toast.info("😋 You already have all your favorite Meals");
             return "";
           } else {
+            let storingFavMealsHolder = [...storingFavMeals];
+            let deleteMealsfromStorage = [...storingFavMeals];
+            
+            // ! check if mealId is in the mealContext (array: favMealsRemaining)
+            let forForLoopCondition = true;
             console.log(
-              pagenation.favMealsStartAfter.favMealCopy.length,
-                pagenation.favMealsStartAfter.storingFavMeals.length 
+              "length of the remaining meals and should be amount of loops",
+              favMealsRemaining.length
             );
-            let storingFavMealsHolder = [
-              ...pagenation.favMealsStartAfter.storingFavMeals,
-            ];
-            let deleteMealsfromStorage = [];
-
-            // ! check if mealId is in the mealContext (array: favMealCopy)
-            for (
-              let i = 0;
-              i <= pagenation.favMealsStartAfter.favMealCopy.length - 1;
-              i++
-            ) {
+            for (let i = 0; forForLoopCondition; i++) {
               if (
                 !Object.keys(mealContext).includes(
-                  pagenation.favMealsStartAfter.favMealCopy[i].toString()
+                  favMealsRemaining[i].toString()
                 )
               ) {
-                missingMeals.push(pagenation.favMealsStartAfter.favMealCopy[i]);
+                missingMeals.push(favMealsRemaining[i]);
               }
-              deleteMealsfromStorage.push(
-                pagenation.favMealsStartAfter.favMealCopy[i]
-              );
+              deleteMealsfromStorage.push(favMealsRemaining[i]);
+              // condition to break loop
+              if (10 <= missingMeals.length || i >= favMealsRemaining.length - 1) {
+                forForLoopCondition = false;
+              }
             }
-            storingFavMealsHolder.push(missingMeals);
-            console.log(missingMeals);
-            missingMeals = missingMeals.slice(0, 10);
-            console.log(missingMeals);
+
+            // for later when updating the state
+            storingFavMealsHolder.push(...missingMeals);
 
             // ! download
             meals = await getTenFavMeals(missingMeals);
@@ -162,16 +150,16 @@ export const useGetMeals = () => {
 
             // ! get all favorite mealIds which are not touched
             const favMealCopyForState = favMeals.filter(
-              (mealId) => !favMeals.includes(deleteMealsfromStorage)
+              (mealId) => !deleteMealsfromStorage.includes(mealId)
             );
 
-            // ! update pagenation favMealCopy
-            console.log(
-              "in sfm something and this should be the second time",
-              storingFavMealsHolder
-            );
+            // ! update pagenation favMealsRemaining
+            // console.log(
+            //   "in sfm something and this should be the second time",
+            //   storingFavMealsHolder
+            // );
             const favMealsStartAfterCopy = {
-              favMealCopy: [...favMealCopyForState],
+              favMealsRemaining: [...favMealCopyForState],
               storingFavMeals: [...storingFavMealsHolder],
             };
             setPagenation((prevState) => ({
