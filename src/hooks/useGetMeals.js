@@ -74,9 +74,6 @@ export const useGetMeals = () => {
 
       // get meals from firestore
       if (type === "favMeals") {
-        // missingMeals = filterOutIds(mealContext, favMeals);
-        // meals = await getTenFavMeals(missingMeals);
-        // meals = singleFavMeals(meals);
         const { storingFavMeals, favMealsRemaining } =
           pagenation.favMealsStartAfter;
         // ! if sfm is empty (first time)

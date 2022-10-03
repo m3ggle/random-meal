@@ -26,7 +26,25 @@ const FavMeals = () => {
     if (!auth.currentUser) {
       navigate("/signIn");
     }
+
+    // const testDrive = async () => {
+    //   const results = await getTenMealsFromCollection()
+    //   console.log(results)
+    // }
+
+    // testDrive()
   }, []);
+
+  // const getTenMealsFromCollection = async () => {
+  //   let meals = [];
+  //   const collectionRef = collection(db, "meals");
+  //   const q = query(collectionRef, limit(10), startAfter(10));
+  //   const querySnapshot = await getDocs(q);
+  //   querySnapshot.forEach((doc) => {
+  //     meals.push(doc.data());
+  //   });
+  //   return meals;
+  // };
 
   // context
   useEffect(() => {
@@ -34,8 +52,8 @@ const FavMeals = () => {
       updateContext();
     }
 
-    // navbar 
-    dispatch({ type: "UPDATE_NAVBARSTATUS", payload: true })
+    // navbar
+    dispatch({ type: "UPDATE_NAVBARSTATUS", payload: true });
   }, []);
 
   const updateContext = async () => {
@@ -90,18 +108,19 @@ const FavMeals = () => {
     setFilteredCombos(newlyFiltered);
   };
 
-  // navbar 
-  const [lastKnowScroll, setLastKnowScroll] = useState(0)
+  // navbar
+  const [lastKnowScroll, setLastKnowScroll] = useState(0);
   const updateShowNavbar = (e) => {
-    const currentY = e.currentTarget.scrollTop
+    const currentY = e.currentTarget.scrollTop;
     var difference = function (a, b) {
       return Math.abs(a - b);
     };
     if (difference(lastKnowScroll, currentY) > 120) {
-      dispatch({ type: "UPDATE_NAVBARSTATUS", payload: lastKnowScroll < e.currentTarget.scrollTop
-        ? false
-        : true});
-    setLastKnowScroll(e.currentTarget.scrollTop)
+      dispatch({
+        type: "UPDATE_NAVBARSTATUS",
+        payload: lastKnowScroll < e.currentTarget.scrollTop ? false : true,
+      });
+      setLastKnowScroll(e.currentTarget.scrollTop);
     }
   };
 

@@ -717,10 +717,24 @@ export const SpoonacularProvider = ({ children }) => {
         title:
           "I don't stop eating when I'm full. The meal isn't over when I'm full. It's over when I hate myself. ~ Louis C. K.",
         subTitle: "Preview 🥪 🥗 🥘",
-        combo: {}
+        combo: {},
       },
     },
     loading: false,
+    pagenation: {
+      favMealsStartAfter: {
+        // like the name says, it is a copy of favMeals (if favMeals changes this state will not be effected)
+        favMealsRemaining: [],
+        // storing all favMeals which are already in the mealContext
+        storingFavMeals: [],
+      },
+      favCombosStartAfter: 0,
+      CombosStartAfter: 0,
+      singleMealsStartAfter: {
+        lastVisible: 0,
+        querySnapshot: 0,
+      },
+    },
     errorMsg: "",
     allMealIds: [],
   };

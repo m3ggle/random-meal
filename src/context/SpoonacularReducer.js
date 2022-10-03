@@ -68,6 +68,11 @@ const spoonacularReducer = (state, action) => {
         ...state,
         navbarStatus: action.payload
       }
+    // case "SINGLE_MEAL_PAGENATION": 
+    //   return {
+    //     ...state,
+
+    //   }
     default:
       return "";
   }
