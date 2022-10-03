@@ -2,9 +2,6 @@ import React from 'react'
 import styles from '../styles'
 
 const Buttons = ({text}) => {
-  const numberOf = 5
-  console.log(numberOf)
-
   return (
     <button
       type="Button"

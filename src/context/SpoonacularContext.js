@@ -5,7 +5,10 @@ const SpoonacularContext = createContext();
 
 export const SpoonacularProvider = ({ children }) => {
   const initialState = {
-    user: {},
+    user: {
+      favMeals: [],
+      favCombos: [],
+    },
     navbarStatus: true,
     buyinglist: [],
     meals: {

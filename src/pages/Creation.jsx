@@ -250,10 +250,10 @@ const Creation = () => {
 
   return (
     <div className="fixed top-0 left-0 w-full h-screen z-[100] bg-bgPrimaryCol">
-      <Helmet>
+      {/* <Helmet>
         <title>Creation</title>
         <meta name="description" content="" />
-      </Helmet>
+      </Helmet> */}
       <div className="relative w-full h-screen overflow-auto flex justify-center ">
         {/* beginning of the actual modal */}
         <div

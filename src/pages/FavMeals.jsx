@@ -129,10 +129,10 @@ const FavMeals = () => {
       onScroll={updateShowNavbar}
       className="w-full h-full overflow-scroll flex flex-col gap-y-3"
     >
-      <Helmet>
+      {/* <Helmet>
         <title>Favorite Meals</title>
         <meta name="description" content="" />
-      </Helmet>
+      </Helmet> */}
 
       <SearchFilter
         callbackFilteredMeals={handleCallbackFilteredMeals}

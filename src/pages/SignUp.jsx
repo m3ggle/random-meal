@@ -57,10 +57,10 @@ const SignUp = () => {
       className="relative w-full h-screen bg-cover bg-center"
       style={{ backgroundImage: `url(${BgImage})` }}
     >
-      <Helmet>
+      {/* <Helmet>
         <title>Sign Up</title>
         <meta name="description" content="" />
-      </Helmet>
+      </Helmet> */}
       <div
         className={`sm:absolute top-[5%] sm:left-[5%] md:left-[10%] ${styles.flexCenter} flex-col px-[40px] sm:px-[80px] gap-y-[10px] w-full sm:w-[510px] h-screen sm:h-[612px] signBg sm:rounded-[30px]`}
       >

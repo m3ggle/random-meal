@@ -12,7 +12,12 @@ export const useLikeStatus = () => {
 
   // for meals which are not necessary favorite meals (eg. for catalog)
   const singleMeals = (meals, favMeals) => {
-    if (meals?.length > 0) {
+    if (favMeals.length === 0) {
+      meals = meals.map((meal) => { 
+        meal.liked = false;
+        return meal
+      })
+    } else if (meals?.length > 0) {
       meals = meals.map((meal) => {
         if (favMeals.includes(meal.mealinformation.id)) {
           meal.liked = true;

@@ -167,10 +167,10 @@ const BuyingList = () => {
 
   return (
     <div className="w-full h-screen flex">
-      <Helmet>
+      {/* <Helmet>
         <title>Buyinglist</title>
         <meta name="description" content="" />
-      </Helmet>
+      </Helmet> */}
       <div className="relative w-full md:max-w-[534px] lg:max-w-[600px] h-screen overflow-scroll bg-bgPrimaryCol pt-10 pb-28 md:pb-10  flex flex-col">
         <div className="flex flex-col">
           {/* titel */}

@@ -128,10 +128,10 @@ const RandomMeal = () => {
 
   return (
     <div className="w-full h-screen bg-bgPrimaryCol flex justify-evenly ">
-      <Helmet>
+      {/* <Helmet>
         <title>Random Meal</title>
         <meta name="description" content="" />
-      </Helmet>
+      </Helmet> */}
       {/* <div
         onClick={() => getTenMealsFromCollection()}
         className="w-11 h-6 bg-slate-400 rounded-xl"

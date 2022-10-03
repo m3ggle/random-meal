@@ -45,7 +45,9 @@ function App() {
   };
 
   useEffect(() => {
+    
     if (loggedIn) {
+      console.log("wam bam")
       getUserInformation(loggedIn);
     }
   }, [loggedIn]);
@@ -66,11 +68,11 @@ function App() {
 
   return (
     <div className={`w-full h-screen ${styles.flexCenter} bg-navCol`}>
-      <Helmet>
+      {/* <Helmet>
         <title>Random Meal</title>
         <meta name="description" content="" />
         <meta name="keywords" content="Food, Planning, Meals, Buyinglist, Random Meals, New Meals"/>
-      </Helmet>
+      </Helmet> */}
       {checkingStatus ? (
         <Loading />
       ) : (

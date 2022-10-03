@@ -265,10 +265,10 @@ const Profile = () => {
 
   return (
     <div className="w-full h-screen bg-bgPrimaryCol flex flex-col overflow-scroll pt-8 md:pt-0">
-      <Helmet>
+      {/* <Helmet>
         <title>Profile</title>
         <meta name="description" content="" />
-      </Helmet>
+      </Helmet> */}
       {/* top */}
       <div className={`${styles.flexCenter} w-full h-[300px]`}>
         <div
