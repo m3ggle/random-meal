@@ -11,6 +11,7 @@ import SpoonacularContext from "../context/SpoonacularContext";
 import { db } from "../firebase.config";
 import styles from "../styles";
 import Button from "../utilities/Buttons";
+import { useEffect } from "react";
 
 const BuyingList = () => {
   // Todo: clean up fromData mess
@@ -86,6 +87,11 @@ const BuyingList = () => {
       toast.error("🍅 Could not upload the Update");
     }
   };
+
+  useEffect(() => {
+    // navbar
+    dispatch({ type: "UPDATE_NAVBARSTATUS", payload: true });
+  }, [])
 
   const handleAdd = (ingName, ingAmount, ingUnit) => {
     let created = false;

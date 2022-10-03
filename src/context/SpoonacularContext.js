@@ -6,6 +6,7 @@ const SpoonacularContext = createContext();
 export const SpoonacularProvider = ({ children }) => {
   const initialState = {
     user: {},
+    navbarStatus: true,
     buyinglist: [],
     meals: {
       580283: {

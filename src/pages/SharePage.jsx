@@ -37,6 +37,9 @@ const SharePage = () => {
     };
 
     updateContext();
+
+    // navbar
+    dispatch({ type: "UPDATE_NAVBARSTATUS", payload: true });
   }, []);
 
   // set/updatefavorite Meals (internal)
@@ -65,8 +68,28 @@ const SharePage = () => {
     setFilteredCombos(newlyFiltered);
   };
 
+  // navbar
+  const [lastKnowScroll, setLastKnowScroll] = useState(0);
+  const updateShowNavbar = (e) => {
+    const currentY = e.currentTarget.scrollTop;
+    var difference = function (a, b) {
+      return Math.abs(a - b);
+    };
+    if (difference(lastKnowScroll, currentY) > 120) {
+      console.log("bigger than 120");
+      dispatch({
+        type: "UPDATE_NAVBARSTATUS",
+        payload: lastKnowScroll < e.currentTarget.scrollTop ? false : true,
+      });
+      setLastKnowScroll(e.currentTarget.scrollTop);
+    }
+  };
+
   return (
-    <div className="w-full h-full overflow-scroll flex flex-col gap-y-3">
+    <div
+      onScroll={updateShowNavbar}
+      className="w-full h-full overflow-scroll flex flex-col gap-y-3"
+    >
       <Helmet>
         <title>Share is Caring</title>
         <meta name="description" content="" />

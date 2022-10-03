@@ -63,6 +63,11 @@ const spoonacularReducer = (state, action) => {
         ...state,
         creation: {...action.payload}
       }
+    case "UPDATE_NAVBARSTATUS": 
+      return {
+        ...state,
+        navbarStatus: action.payload
+      }
     default:
       return "";
   }

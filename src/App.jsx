@@ -59,7 +59,7 @@ function App() {
         type: "UPDATE_STORED_MEAL_IDS",
         payload: [...allMealIds],
       });
-    });
+    });    
 
     return () => unsub();
   }, []);

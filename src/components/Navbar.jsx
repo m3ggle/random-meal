@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useContext } from "react";
 import {
   FaHome,
   FaPinterestP,
@@ -11,9 +12,11 @@ import {
 import { Link, useLocation } from "react-router-dom";
 import ODonutLogo from "../assets/images/ODonut.webp";
 import InstagramIcon from "../assets/svg/instagramIcon.svg";
+import SpoonacularContext from "../context/SpoonacularContext";
 import styles from "../styles";
 
 const Navbar = () => {
+  const { navbarStatus } = useContext(SpoonacularContext);
   const location = useLocation();
 
   const [activeSite, setActiveSite] = useState({
@@ -37,17 +40,9 @@ const Navbar = () => {
     setActiveSite({ ...activeSiteCopy });
   }, [location]);
 
-  // Navbar try
-    const [stickyClass, setStickyClass] = useState("relative");
-
-    useEffect(() => {
-      // window.addEventListener("scroll", stickNavbar);
-
-      return () => {
-        // window.removeEventListener("scroll", stickNavbar);
-      };
-    }, []);
-
+  useEffect(() => {
+    console.log(navbarStatus);
+  }, [navbarStatus]);
 
   return (
     <div className={`${hidden ? "hidden" : "flex"} w-0px md:w-[80px]`}>
@@ -224,7 +219,7 @@ const Navbar = () => {
 
       {/* mobile Navbar */}
       <div
-        className={`md:hidden absolute bottom-0 w-full h-24 600:h-28 max-h-[112px] flex justify-center z-[60] bg-bgPrimaryCol py-3 600:pb-0 rounded-t-[20px]`}
+        className={`${navbarStatus ? "flex" : "hidden"} md:hidden absolute bottom-0 w-full h-24 600:h-28 max-h-[112px] flex justify-center z-[60] bg-bgPrimaryCol py-3 600:pb-0 rounded-t-[20px]`}
       >
         <div className="flex justify-between py-[10px] px-[20px] min-w-[340px] w-[90%] max-w-[450px] h-20 rounded-xl bg-bgSecondaryDarkCol">
           <Link

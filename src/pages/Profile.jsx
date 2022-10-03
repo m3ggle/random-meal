@@ -4,17 +4,19 @@ import { getAuth, onAuthStateChanged, updateEmail } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { getStorage, ref } from "firebase/storage";
 import { motion } from "framer-motion";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import ODonutLogo from "../assets/images/ODonut.webp";
 import Input from "../components/Input";
 import { db } from "../firebase.config";
 import styles from "../styles";
+import SpoonacularContext from "../context/SpoonacularContext";
 
 const Profile = () => {
   const auth = getAuth();
   const navigate = useNavigate();
+  const { dispatch } = useContext(SpoonacularContext)
 
   // Todo: Save Button is only available if all the inputs are change and in a state of default
   //  ? how about, default is going to be "def" and the change defaults going to be "defaultChange" => check: fullName.state.includes("default") && ...
@@ -140,6 +142,9 @@ const Profile = () => {
         toast.error("You Have To Be Logged In");
       }
     });
+
+    // navbar
+    dispatch({ type: "UPDATE_NAVBARSTATUS", payload: true });
   }, []);
 
   const handleCompletion = async (user) => {

@@ -8,6 +8,7 @@ import useCleanUp from "../hooks/useCleanUp";
 import { useGetMeals } from "../hooks/useGetMeals";
 import { useLikeStatus } from "../hooks/useLikeStatus";
 import HomeCards0T640 from "../utilities/HomeCards0T640";
+import { useEffect } from "react";
 
 const RandomMeal = () => {
   const { cleanUpMeals } = useCleanUp();
@@ -34,6 +35,11 @@ const RandomMeal = () => {
     storeInDb(cleanedUpMeals, allMealIds);
     setspoonResults(getAllIds(cleanedUpMeals));
   };
+
+  useEffect(() => {
+    // navbar
+    dispatch({ type: "UPDATE_NAVBARSTATUS", payload: true });
+  }, [])
 
   const getAllIds = (meals) => {
     return meals.map((meal) => {

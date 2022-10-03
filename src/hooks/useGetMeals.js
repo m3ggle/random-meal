@@ -82,7 +82,6 @@ export const useGetMeals = () => {
         // console.log(pagenation.favMealsStartAfter.storingFavMeals.length);
         // console.log("take the first route: " + pagenation.favMealsStartAfter.storingFavMeals.length === 0)
         if (
-          pagenation.favMealsStartAfter.storingFavMeals.length === 0 &&
           pagenation.favMealsStartAfter.storingFavMeals.length === 0
         ) {
           let storingFavMealsHolder = [];
@@ -119,12 +118,17 @@ export const useGetMeals = () => {
         } else {
           // ! check if favMealsCopy is empty (all mealIds of favMeals are in mealContext)
           if (
-            pagenation.favMealsStartAfter.favMealCopy.length === 0 &&
+            pagenation.favMealsStartAfter.favMealCopy.length ===
+              pagenation.favMealsStartAfter.storingFavMeals.length &&
             favMeals.length !== 0
           ) {
             toast.info("😋 You already have all your favorite Meals");
             return "";
           } else {
+            console.log(
+              pagenation.favMealsStartAfter.favMealCopy.length,
+                pagenation.favMealsStartAfter.storingFavMeals.length 
+            );
             let storingFavMealsHolder = [
               ...pagenation.favMealsStartAfter.storingFavMeals,
             ];
@@ -141,15 +145,13 @@ export const useGetMeals = () => {
                   pagenation.favMealsStartAfter.favMealCopy[i].toString()
                 )
               ) {
-                missingMeals.push(
-                  pagenation.favMealsStartAfter.favMealCopy[i]
-                );
+                missingMeals.push(pagenation.favMealsStartAfter.favMealCopy[i]);
               }
               deleteMealsfromStorage.push(
                 pagenation.favMealsStartAfter.favMealCopy[i]
               );
             }
-            storingFavMealsHolder.push(missingMeals)
+            storingFavMealsHolder.push(missingMeals);
             console.log(missingMeals);
             missingMeals = missingMeals.slice(0, 10);
             console.log(missingMeals);
