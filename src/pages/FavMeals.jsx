@@ -145,9 +145,9 @@ const FavMeals = () => {
         second="second"
       />
 
-      <div onClick={updateContext} className="w-11 h-6 bg-slate-500">
+      {/* <div onClick={updateContext} className="w-11 h-6 bg-slate-500">
         Click me to load more Meals
-      </div>
+      </div> */}
 
       {/* 1 Meal vs 3 Meals */}
       <TwoChoice
