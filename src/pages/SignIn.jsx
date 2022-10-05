@@ -1,4 +1,3 @@
-import { Helmet } from "react-helmet";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import BgImage from "../assets/images/InImage.webp";
@@ -100,6 +99,15 @@ const SignIn = () => {
             formData={formData}
             stateArray={[email.state, password.state]}
           />
+
+          {/* Forget Password Text */}
+          <Link
+            to={"/"}
+            className={`${styles.paragraph12} text-lightTextCol w-fit ${styles.flexCenter}`}
+          >
+            <i class="fa-solid fa-house mr-1"></i>
+            <p className="underline underline-offset-2">Go Back Home</p>
+          </Link>
         </form>
       </div>
     </div>
