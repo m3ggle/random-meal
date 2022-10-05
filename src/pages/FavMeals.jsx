@@ -1,17 +1,18 @@
 import { getAuth } from "firebase/auth";
 import React, { useContext, useEffect, useState } from "react";
-import { Helmet } from "react-helmet";
 import { useNavigate } from "react-router-dom";
 import FavMealsOne from "../components/FavMealsOne";
 import FavMealsThree from "../components/FavMealsThree";
 import SearchFilter from "../components/SearchFilter";
 import TwoChoice from "../components/TwoChoice";
+import { useMealContext } from "../context/meals/MealContext";
 import SpoonacularContext from "../context/SpoonacularContext";
 import { useGetMeals } from "../hooks/useGetMeals";
 
 const FavMeals = () => {
-  const { user, meals, combos, dispatch } = useContext(SpoonacularContext);
+  const { user, combos, dispatch } = useContext(SpoonacularContext);
   const { handleGetMealsCombos } = useGetMeals();
+  const { meals, dispatchMeal } = useMealContext();
   const [filteredMeals, setFilteredMeals] = useState();
   const [filteredCombos, setFilteredCombos] = useState();
   const [internalFavorite, setInternalFavorite] = useState([]);
@@ -71,6 +72,10 @@ const FavMeals = () => {
         meals: formattedCollectedMeals,
         combos: formattedCombos,
       },
+    });
+    dispatchMeal({
+      type: "UPDATE_MEALS",
+      payload: formattedCollectedMeals,
     });
   };
 

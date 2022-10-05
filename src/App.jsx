@@ -24,10 +24,12 @@ import SharePage from "./pages/SharePage";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import styles from "./styles";
+import { useMealContext } from "./context/meals/MealContext";
 
 function App() {
   // Todo: outsource
   const { dispatch } = useContext(SpoonacularContext);
+  const {dispatchMeal} = useMealContext()
   const { loggedIn, checkingStatus } = useAuthStatus();
 
   // set global context
@@ -58,6 +60,10 @@ function App() {
       let allMealIds = doc.data();
       allMealIds = allMealIds.allMealIds;
       dispatch({
+        type: "UPDATE_STORED_MEAL_IDS",
+        payload: [...allMealIds],
+      });
+      dispatchMeal({
         type: "UPDATE_STORED_MEAL_IDS",
         payload: [...allMealIds],
       });

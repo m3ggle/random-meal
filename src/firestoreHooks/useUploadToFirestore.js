@@ -1,9 +1,11 @@
 import { getAuth } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
+import { useMealContext } from "../context/meals/MealContext";
 import { db } from "../firebase.config";
 
 export const useUploadToFirestore = () => {
+  const { dispatchMeal } = useMealContext();
   const uploadFavMeals = async (favMeals) => {
     try {
       const auth = getAuth();
@@ -46,7 +48,7 @@ export const useUploadToFirestore = () => {
 
   const uploadCombo = async (combo) => {
     try {
-      combo.liked !== undefined && delete combo.liked
+      combo.liked !== undefined && delete combo.liked;
 
       const auth = getAuth();
       if (auth.currentUser) {
@@ -88,7 +90,13 @@ export const useUploadToFirestore = () => {
           return meal;
         }
       });
-      missingIds.push(...allMealIds);
+      
+      dispatchMeal({
+        type: "UPDATE_STORED_MEAL_IDS",
+        payload: [...missingIds],
+      });
+      
+      const newAllMealIds = [...allMealIds, ...missingIds];
 
       if (missingMeals.length > 0) {
         await Promise.all([
@@ -100,7 +108,7 @@ export const useUploadToFirestore = () => {
           }),
           setDoc(
             doc(db, "meals", "ids"),
-            { allMealIds: [...missingIds] },
+            { allMealIds: [...newAllMealIds] },
             { merge: true }
           ),
         ]);

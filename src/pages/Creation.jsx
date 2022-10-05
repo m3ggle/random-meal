@@ -2,13 +2,13 @@ import { uuidv4 } from "@firebase/util";
 import { getAuth } from "firebase/auth";
 import { motion } from "framer-motion";
 import React, { useContext, useEffect, useState } from "react";
-import { Helmet } from "react-helmet";
 import { FaCheck, FaChevronLeft, FaTimes } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import Catalog from "../components/Catalog";
 import Input from "../components/Input";
 import SearchFilter from "../components/SearchFilter";
+import { useMealContext } from "../context/meals/MealContext";
 import SpoonacularContext from "../context/SpoonacularContext";
 import { useUploadToFirestore } from "../firestoreHooks/useUploadToFirestore";
 import { useGetMeals } from "../hooks/useGetMeals";
@@ -18,6 +18,7 @@ import CardThreeContainer from "../utilities/cards/CardThreeContainer";
 
 const Creation = () => {
   const { creation, dispatch } = useContext(SpoonacularContext);
+  const { dispatchMeal } = useMealContext();
   const { uploadFavCombos, uploadCombo } = useUploadToFirestore();
   const { breakfast, lunch, dinner } = creation;
   const { width } = useWindowDimensions();
@@ -83,7 +84,7 @@ const Creation = () => {
     currentIteration === "mealtitle"
       ? navigate("/favorites")
       : navigate(`/creation/${stepBack}`);
-    };
+  };
 
   // for breakfast, lunch and dinner
   const { user, meals, combos } = useContext(SpoonacularContext);
@@ -110,6 +111,10 @@ const Creation = () => {
           combos: formattedCombos,
         },
       });
+      dispatchMeal({
+        type: "UPDATE_MEALS",
+        payload: formattedCollectedMeals,
+      });
     };
 
     updateContext();
@@ -134,7 +139,7 @@ const Creation = () => {
     let creationCopy = { ...creation };
     creationCopy[currentIteration].id = mealId;
     dispatch({ type: "UPDATE_CREATION", payload: creationCopy });
-    
+
     goForward();
   };
 
@@ -222,29 +227,29 @@ const Creation = () => {
 
   const addComboIdToComboContext = () => {
     const combosCopy = combos;
-    combosCopy[createdCombo.comboId] = { ...createdCombo }
-    console.log(combos, combosCopy)
-    
-    dispatch({ type: "UPDATE_COMBOS", payload: {...combosCopy} });
-  }
+    combosCopy[createdCombo.comboId] = { ...createdCombo };
+    console.log(combos, combosCopy);
+
+    dispatch({ type: "UPDATE_COMBOS", payload: { ...combosCopy } });
+  };
 
   const addComboIdToFavCombos = () => {
-    const favCombosCopy = user.favCombos
-    favCombosCopy.push(createdCombo.comboId)
-    console.log(user.favCombos, favCombosCopy)
+    const favCombosCopy = user.favCombos;
+    favCombosCopy.push(createdCombo.comboId);
+    console.log(user.favCombos, favCombosCopy);
 
     dispatch({ type: "UPDATE_FAVCOMBOS", payload: [...favCombosCopy] });
 
-    uploadFavCombos(favCombosCopy)
-  }
+    uploadFavCombos(favCombosCopy);
+  };
 
   const handleSubmit = async () => {
     if (checkValidation) {
-      addComboIdToComboContext()
-      addComboIdToFavCombos()
-      uploadCombo(createdCombo)
-      cleanCreationUserInputs()
-      navigate(-5)
+      addComboIdToComboContext();
+      addComboIdToFavCombos();
+      uploadCombo(createdCombo);
+      cleanCreationUserInputs();
+      navigate(-5);
     }
   };
 

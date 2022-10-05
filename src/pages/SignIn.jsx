@@ -103,7 +103,7 @@ const SignIn = () => {
             to={"/"}
             className={`${styles.paragraph12} text-lightTextCol w-fit ${styles.flexCenter}`}
           >
-            <i class="fa-solid fa-house mr-1"></i>
+            <i className="fa-solid fa-house mr-1"></i>
             <p className="underline underline-offset-2">Go Back Home</p>
           </Link>
         </form>

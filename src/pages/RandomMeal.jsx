@@ -7,6 +7,7 @@ import {
   startAfter,
 } from "firebase/firestore";
 import React, { useContext, useEffect, useState } from "react";
+import { useMealContext } from "../context/meals/MealContext";
 import { getRandomDayMeal } from "../context/SpoonacularAction";
 import SpoonacularContext from "../context/SpoonacularContext";
 import { db } from "../firebase.config";
@@ -19,7 +20,8 @@ import HomeCards0T640 from "../utilities/HomeCards0T640";
 
 const RandomMeal = () => {
   const { cleanUpMeals } = useCleanUp();
-  const { user, meals, buyinglist, dispatch, allMealIds, pagenation } =
+  const { dispatchMeal, allMealIds } = useMealContext();
+  const { user, meals, buyinglist, dispatch, pagenation } =
     useContext(SpoonacularContext);
   const { handleBuyinglistCombo } = useBuyinglist();
   const { storeInDb } = useUploadToFirestore();
@@ -37,7 +39,7 @@ const RandomMeal = () => {
       ? singleMeals(filteredOutMeals, user.favMeals)
       : filteredOutMeals;
     const formattedMeals = mealContextFormatter(internalMeals);
-    dispatch({
+    dispatchMeal({
       type: "UPDATE_MEALS",
       payload: { ...formattedMeals },
     });
