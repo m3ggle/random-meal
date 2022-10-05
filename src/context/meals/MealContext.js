@@ -700,5 +700,3 @@ export const MealProvider = ({ children }) => {
         </MealContext.Provider>
     )
 }
-
-// export default MealContext

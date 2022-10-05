@@ -9,12 +9,20 @@ import { useLike } from "../../hooks/useLike";
 import styles from "../../styles";
 
 const SingleCard = ({ meal, navigationOn, callBackId }) => {
+  //* context
   const { user, buyinglist, dispatch } = useContext(SpoonacularContext);
-  const navigate = useNavigate();
-  const { mealinformation, ingredients, liked } = meal;
+
+  //* states
+  //* import fct/hooks
   const { handleBuyinglist } = useBuyinglist();
   const { handleHeart } = useLike();
+  const navigate = useNavigate();
 
+  //* destructuring
+  const { mealinformation, ingredients, liked } = meal;
+  
+  //* variables
+  //* on you go
   const handleBuy = () => {
     const newBuyinglist = handleBuyinglist({
       buyinglist,

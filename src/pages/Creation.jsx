@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import Catalog from "../components/Catalog";
 import Input from "../components/Input";
 import SearchFilter from "../components/SearchFilter";
+import { useComboContext } from "../context/combos/ComboContext";
 import { useMealContext } from "../context/meals/MealContext";
 import SpoonacularContext from "../context/SpoonacularContext";
 import { useUploadToFirestore } from "../firestoreHooks/useUploadToFirestore";
@@ -17,11 +18,12 @@ import styles from "../styles";
 import CardThreeContainer from "../utilities/cards/CardThreeContainer";
 
 const Creation = () => {
-  const { creation, dispatch } = useContext(SpoonacularContext);
-  const { dispatchMeal } = useMealContext();
-  const { uploadFavCombos, uploadCombo } = useUploadToFirestore();
-  const { breakfast, lunch, dinner } = creation;
-  const { width } = useWindowDimensions();
+  //* context
+  const { user, creation, dispatch } = useContext(SpoonacularContext);
+  const { meals, dispatchMeal } = useMealContext();
+  const { combos, dispatchCombo } = useComboContext();
+  
+  //* states
   const [currentIteration, setCurrentIteration] = useState("mealtitle");
   const [direction] = useState([
     "mealtitle",
@@ -30,8 +32,6 @@ const Creation = () => {
     "dinner",
     "preview",
   ]);
-  const navigate = useNavigate();
-  const params = useParams();
   const [formData, setFormData] = useState({
     title: {
       id: "title",
@@ -48,10 +48,26 @@ const Creation = () => {
     },
     userInformation: false,
   });
-  const { title, userInformation } = formData;
-  const handleCallBack = (cb) => setFormData(cb);
-  const [createdCombo, setcreatedCombo] = useState({});
+  const [createdCombo, setCreatedCombo] = useState({});
+  const [filteredMeals, setFilteredMeals] = useState([]);
+  const [internalMeals, setInternalMeals] = useState([]);
+  const [twoChoice] = useState("first");
 
+  //* import fct/hooks
+  const { uploadFavCombos, uploadCombo } = useUploadToFirestore();
+  const { width } = useWindowDimensions();
+  const { handleGetMealsCombos } = useGetMeals();
+
+  //* destructuring
+  const { breakfast, lunch, dinner } = creation;
+  const { title, userInformation } = formData;
+  
+  //* variables
+  const navigate = useNavigate();
+  const params = useParams();
+  
+  //* on you go
+  const handleCallBack = (cb) => setFormData(cb);
   // set currentIteration or redirect to notFound
   useEffect(() => {
     if (direction.includes(params.stepName)) {
@@ -86,13 +102,6 @@ const Creation = () => {
       : navigate(`/creation/${stepBack}`);
   };
 
-  // for breakfast, lunch and dinner
-  const { user, meals, combos } = useContext(SpoonacularContext);
-  const { handleGetMealsCombos } = useGetMeals();
-  const [filteredMeals, setFilteredMeals] = useState([]);
-  const [internalMeals, setInternalMeals] = useState([]);
-  const [twoChoice] = useState("first");
-
   // context
   useEffect(() => {
     const updateContext = async () => {
@@ -104,17 +113,18 @@ const Creation = () => {
           user.favCombos,
           "collection"
         );
-      dispatch({
-        type: "UPDATE_MEALS_AND_COMBOS",
-        payload: {
-          meals: formattedCollectedMeals,
-          combos: formattedCombos,
-        },
-      });
-      dispatchMeal({
-        type: "UPDATE_MEALS",
-        payload: formattedCollectedMeals,
-      });
+      if (Object.keys(formattedCollectedMeals).length > 0) {
+        dispatchMeal({
+          type: "UPDATE_MEALS",
+          payload: formattedCollectedMeals,
+        });
+      }
+      if (Object.keys(formattedCombos).length > 0) {
+        dispatchCombo({
+          type: "UPDATE_COMBOS",
+          payload: formattedCombos,
+        });
+      }
     };
 
     updateContext();
@@ -127,7 +137,7 @@ const Creation = () => {
       internalMealsMeals.push({ ...meals[mealId] });
     });
     setInternalMeals(internalMealsMeals);
-  }, [user.favMeals, meals]);
+  }, [user, meals]);
 
   const handleCallbackFilteredMeals = (newlyFiltered) => {
     setFilteredMeals(newlyFiltered);
@@ -197,7 +207,7 @@ const Creation = () => {
       userId: auth.currentUser.uid,
     };
 
-    setcreatedCombo({ ...newCombo });
+    setCreatedCombo({ ...newCombo });
   };
 
   const cleanCreationUserInputs = () => {
@@ -228,18 +238,19 @@ const Creation = () => {
   const addComboIdToComboContext = () => {
     const combosCopy = combos;
     combosCopy[createdCombo.comboId] = { ...createdCombo };
-    console.log(combos, combosCopy);
-
-    dispatch({ type: "UPDATE_COMBOS", payload: { ...combosCopy } });
+    dispatchCombo({
+      type: "UPDATE_COMBO",
+      payload: {
+        id: createdCombo.comboId,
+        combo: createdCombo,
+      },
+    });
   };
 
   const addComboIdToFavCombos = () => {
     const favCombosCopy = user.favCombos;
     favCombosCopy.push(createdCombo.comboId);
-    console.log(user.favCombos, favCombosCopy);
-
     dispatch({ type: "UPDATE_FAVCOMBOS", payload: [...favCombosCopy] });
-
     uploadFavCombos(favCombosCopy);
   };
 

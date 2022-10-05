@@ -1,72 +1,71 @@
 const spoonacularReducer = (state, action) => {
-  switch (action.type) {
+  const { type, payload} = action
+  switch (type) {
     case "UPDATE_USER_INFORMATION_INIT":
       return {
         ...state,
-        user: action.payload,
-        buyinglist: action.payload.buyinglist,
+        user: payload,
+        buyinglist: payload.buyinglist,
       };
     case "UPDATE_USER_INFORMATION":
       return {
         ...state,
-        user: action.payload,
+        user: payload,
       };
     case "UPDATE_RANDOM_MEALS":
       return {
         ...state,
-        spoonacularResult: action.payload,
+        spoonacularResult: payload,
       };
     case "UPDATE_STORED_MEAL_IDS":
       return {
         ...state,
-        allMealIds: action.payload,
+        allMealIds: payload,
       };
     case "UPDATE_BUYINGLIST":
       return {
         ...state,
-        buyinglist: action.payload,
+        buyinglist: payload,
       };
     case "UPDATE_FAVMEALS":
       return {
         ...state,
-        favMeals: action.payload,
+        favMeals: payload,
       };
     case "UPDATE_FAVMEALS_AND_FAVORITEMEALS":
       return {
         ...state,
-        favMeals: action.payload.favMeals,
-        favoriteMeals: action.payload.favoriteMeals,
+        favMeals: payload.favMeals,
+        favoriteMeals: payload.favoriteMeals,
       };
-    case "UPDATE_FAVCOMBOS":
+    case "UPDATE_FAVCOMBOS": 
       return {
         ...state,
-        favCombos: action.payload,
-      };
-    case "UPDATE_MEALS":
-      return {
-        ...state,
-        meals: { ...state.meals, ...action.payload },
-      };
+        user: {
+          ...state.user,
+          favCombos: [...payload]
+        }
+      }
     case "UPDATE_COMBOS":
       return {
         ...state,
-        combos: action.payload
+        combos: payload
       };
     case "UPDATE_MEALS_AND_COMBOS":
       return {
         ...state,
-        meals: { ...state.meals, ...action.payload.meals },
-        combos: { ...state.combos, ...action.payload.combos },
+        meals: { ...state.meals, ...payload.meals },
+        combos: { ...state.combos, ...payload.combos },
       };
     case "UPDATE_CREATION": 
       return {
         ...state,
-        creation: {...action.payload}
+        creation: {...payload}
       }
     case "UPDATE_NAVBARSTATUS": 
       return {
         ...state,
-        navbarStatus: action.payload
+        navbarStatus: payload
       }
     // case "SINGLE_MEAL_PAGENATION": 
     //   return {

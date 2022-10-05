@@ -3,6 +3,7 @@ import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
 import Loading from "../../components/Loading";
+import { useMealContext } from "../../context/meals/MealContext";
 import SpoonacularContext from "../../context/SpoonacularContext";
 import { useBuyinglist } from "../../hooks/useBuyinglist";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
@@ -10,12 +11,18 @@ import styles from "../../styles";
 import CardThree from "./CardThree";
 
 const CardThreeContainer = ({ combo }) => {
-  const { meals, buyinglist, dispatch } = useContext(SpoonacularContext);
-  const { width } = useWindowDimensions();
-  // Todo: handle icon click and handle title click
+  //* context
+  const { buyinglist, dispatch } = useContext(SpoonacularContext);
+  const { meals } = useMealContext();
 
+  //* states
+  //* import fct/hooks
+  const { width } = useWindowDimensions();
   const { handleBuyinglistCombo } = useBuyinglist();
 
+  //* destructuring
+  //* variables
+  //* on you go
   const handleBuy = () => {
     const newBuyinglist = handleBuyinglistCombo({
       buyinglist,
@@ -28,9 +35,9 @@ const CardThreeContainer = ({ combo }) => {
     dispatch({ type: "UPDATE_BUYINGLIST", payload: newBuyinglist });
   };
 
-      const handleToastMsg = () => {
-        toast.info("😊 This Feature is coming in soon");
-      };
+  const handleToastMsg = () => {
+    toast.info("😊 This Feature is coming in soon");
+  };
 
   return (
     <>

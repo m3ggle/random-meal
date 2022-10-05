@@ -19,17 +19,26 @@ import { useLikeStatus } from "../hooks/useLikeStatus";
 import HomeCards0T640 from "../utilities/HomeCards0T640";
 
 const RandomMeal = () => {
-  const { cleanUpMeals } = useCleanUp();
-  const { dispatchMeal, allMealIds } = useMealContext();
-  const { user, meals, buyinglist, dispatch, pagenation } =
+  //* context
+  const { meals, dispatchMeal, allMealIds } = useMealContext();
+  const { user, buyinglist, dispatch, pagenation } =
     useContext(SpoonacularContext);
+
+  //* states
+  const [spoonResults, setspoonResults] = useState([77188, 580283, 596149]);
+
+  //* import fct/hooks
+  const { cleanUpMeals } = useCleanUp();
   const { handleBuyinglistCombo } = useBuyinglist();
   const { storeInDb } = useUploadToFirestore();
   const { singleMeals } = useLikeStatus();
   const { filterOutMeals, mealContextFormatter } = useGetMeals();
-  const [spoonResults, setspoonResults] = useState([77188, 580283, 596149]);
 
+  //* destructuring
+  //* variables
   const auth = getAuth();
+
+  //* on you go
   // singleMeals is for checking if the meals are liked by the user
   const callbackClickedButton = async () => {
     const fetchResult = await getRandomDayMeal();

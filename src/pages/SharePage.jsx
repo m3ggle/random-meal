@@ -1,21 +1,34 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Helmet } from "react-helmet";
 import Catalog from "../components/Catalog";
 import SearchFilter from "../components/SearchFilter";
 import ShareCombos from "../components/ShareCombos";
 import TwoChoice from "../components/TwoChoice";
+import { useComboContext } from "../context/combos/ComboContext";
+import { useMealContext } from "../context/meals/MealContext";
 import SpoonacularContext from "../context/SpoonacularContext";
 import { useGetMeals } from "../hooks/useGetMeals";
 
 const SharePage = () => {
-  const { user, meals, combos, dispatch } = useContext(SpoonacularContext);
-  const { handleGetMealsCombos } = useGetMeals();
+  //* context
+  const { user, dispatch } = useContext(SpoonacularContext);
+  const { meals, dispatchMeal } = useMealContext();
+  const { combos, dispatchCombo } = useComboContext();
+
+  //* states
   const [filteredMeals, setFilteredMeals] = useState([]);
   const [filteredCombos, setFilteredCombos] = useState([]);
   const [internalMeals, setInternalMeals] = useState([]);
   const [internalCombos, setInternalCombos] = useState([]);
   const [twoChoice, setTwoChoice] = useState("first");
 
+  //* import fct/hooks
+  const { handleGetMealsCombos } = useGetMeals();
+
+  //* destructuring
+
+  //* variables
+
+  //* on you go
   // context
   useEffect(() => {
     const updateContext = async () => {
@@ -27,13 +40,18 @@ const SharePage = () => {
           user.favCombos,
           "collection"
         );
-      dispatch({
-        type: "UPDATE_MEALS_AND_COMBOS",
-        payload: {
-          meals: formattedCollectedMeals,
-          combos: formattedCombos,
-        },
-      });
+      if (Object.keys(formattedCollectedMeals).length > 0) {
+        dispatchMeal({
+          type: "UPDATE_MEALS",
+          payload: formattedCollectedMeals,
+        });
+      }
+      if (Object.keys(formattedCombos).length > 0) {
+        dispatchCombo({
+          type: "UPDATE_COMBOS",
+          payload: formattedCombos,
+        });
+      }
     };
 
     updateContext();

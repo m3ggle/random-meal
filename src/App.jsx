@@ -1,4 +1,3 @@
-import { Helmet } from "react-helmet";
 import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import { useContext, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -9,6 +8,7 @@ import MealdetailsInterception from "./components/MealdetailsInterception";
 import Navbar from "./components/Navbar";
 import NotSign from "./components/NotSign";
 import PrivateRoute from "./components/PrivateRoute";
+import { useMealContext } from "./context/meals/MealContext";
 import SpoonacularContext from "./context/SpoonacularContext";
 import { db } from "./firebase.config";
 import { useAuthStatus } from "./hooks/useAuthStatus";
@@ -24,14 +24,20 @@ import SharePage from "./pages/SharePage";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import styles from "./styles";
-import { useMealContext } from "./context/meals/MealContext";
 
 function App() {
-  // Todo: outsource
+  //* context
   const { dispatch } = useContext(SpoonacularContext);
-  const {dispatchMeal} = useMealContext()
+  const { dispatchMeal } = useMealContext();
+
+  //* states
+  //* import fct/hooks
   const { loggedIn, checkingStatus } = useAuthStatus();
 
+  //* destructuring
+  //* variables
+  //* on you go
+  // Todo: outsource
   // set global context
   const getUserInformation = async (user) => {
     const docSnapFavMeals = await getDoc(doc(db, "users", user.uid));
@@ -47,9 +53,8 @@ function App() {
   };
 
   useEffect(() => {
-    
     if (loggedIn) {
-      console.log("wam bam")
+      console.log("wam bam");
       getUserInformation(loggedIn);
     }
   }, [loggedIn]);
@@ -59,15 +64,11 @@ function App() {
     const unsub = onSnapshot(doc(db, "meals", "ids"), (doc) => {
       let allMealIds = doc.data();
       allMealIds = allMealIds.allMealIds;
-      dispatch({
-        type: "UPDATE_STORED_MEAL_IDS",
-        payload: [...allMealIds],
-      });
       dispatchMeal({
         type: "UPDATE_STORED_MEAL_IDS",
         payload: [...allMealIds],
       });
-    });    
+    });
 
     return () => unsub();
   }, []);
@@ -114,7 +115,7 @@ function App() {
               </Route>
             </Routes>
           </Router>
-            <ToastContainer limit={4} />
+          <ToastContainer limit={4} />
         </div>
       )}
     </div>

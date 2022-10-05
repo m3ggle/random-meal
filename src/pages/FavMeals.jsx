@@ -5,22 +5,33 @@ import FavMealsOne from "../components/FavMealsOne";
 import FavMealsThree from "../components/FavMealsThree";
 import SearchFilter from "../components/SearchFilter";
 import TwoChoice from "../components/TwoChoice";
+import { useComboContext } from "../context/combos/ComboContext";
 import { useMealContext } from "../context/meals/MealContext";
 import SpoonacularContext from "../context/SpoonacularContext";
 import { useGetMeals } from "../hooks/useGetMeals";
 
 const FavMeals = () => {
-  const { user, combos, dispatch } = useContext(SpoonacularContext);
-  const { handleGetMealsCombos } = useGetMeals();
+  //* context
+  const { user, dispatch } = useContext(SpoonacularContext);
   const { meals, dispatchMeal } = useMealContext();
+  const { combos, dispatchCombo } = useComboContext();
+
+  //* states
   const [filteredMeals, setFilteredMeals] = useState();
   const [filteredCombos, setFilteredCombos] = useState();
   const [internalFavorite, setInternalFavorite] = useState([]);
   const [internalCombos, setInternalCombos] = useState([]);
   const [twoChoice, setTwoChoice] = useState("first");
 
+  //* import fct/hooks
+  const { handleGetMealsCombos } = useGetMeals();
+
+  //* destructuring
+
+  //* variables
   const navigate = useNavigate();
 
+  //* on you go
   // check signed in
   useEffect(() => {
     const auth = getAuth();
@@ -58,6 +69,7 @@ const FavMeals = () => {
   }, []);
 
   const updateContext = async () => {
+    console.log(user.favMeals);
     const { formattedCollectedMeals, formattedCombos } =
       await handleGetMealsCombos(
         meals,
@@ -66,17 +78,18 @@ const FavMeals = () => {
         user.favCombos,
         "favorite"
       );
-    dispatch({
-      type: "UPDATE_MEALS_AND_COMBOS",
-      payload: {
-        meals: formattedCollectedMeals,
-        combos: formattedCombos,
-      },
-    });
-    dispatchMeal({
-      type: "UPDATE_MEALS",
-      payload: formattedCollectedMeals,
-    });
+    if (Object.keys(formattedCollectedMeals).length > 0) {
+      dispatchMeal({
+        type: "UPDATE_MEALS",
+        payload: formattedCollectedMeals,
+      });
+    }
+    if (Object.keys(formattedCombos).length > 0) {
+      dispatchCombo({
+        type: "UPDATE_COMBOS",
+        payload: formattedCombos,
+      });
+    }
   };
 
   // set/updatefavorite Meals (internal)
