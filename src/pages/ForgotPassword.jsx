@@ -4,6 +4,7 @@ import BgImage from "../assets/images/InImage.webp";
 import Input from "../components/Input";
 import SignButtons from "../components/SignButtons";
 import styles from "../styles";
+import { Link } from "react-router-dom";
 
 const ForgotPassword = () => {
   const [formData, setFormData] = useState({
@@ -64,6 +65,14 @@ const ForgotPassword = () => {
             formData={formData}
             stateArray={[formData.email.state]}
           />
+
+          <Link
+            to={"/"}
+            className={`${styles.paragraph12} text-lightTextCol w-fit ${styles.flexCenter}`}
+          >
+            <i class="fa-solid fa-house mr-1"></i>
+            <p className="underline underline-offset-2">Go Back Home</p>
+          </Link>
         </div>
       </div>
     </div>

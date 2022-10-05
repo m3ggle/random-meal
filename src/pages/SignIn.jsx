@@ -86,7 +86,6 @@ const SignIn = () => {
               label={true}
             />
 
-            {/* Forget Password Text */}
             <Link
               to={"/forgotPassword"}
               className={`${styles.paragraph12} text-lightTextCol underline underline-offset-2 w-fit`}
@@ -100,7 +99,6 @@ const SignIn = () => {
             stateArray={[email.state, password.state]}
           />
 
-          {/* Forget Password Text */}
           <Link
             to={"/"}
             className={`${styles.paragraph12} text-lightTextCol w-fit ${styles.flexCenter}`}
