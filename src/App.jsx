@@ -108,7 +108,7 @@ function App() {
               </Route>
             </Routes>
           </Router>
-          <ToastContainer />
+            <ToastContainer limit={4} />
         </div>
       )}
     </div>

@@ -7,11 +7,11 @@ import {
   startAfter,
 } from "firebase/firestore";
 import React, { useContext, useEffect, useState } from "react";
-import { Helmet } from "react-helmet";
 import { getRandomDayMeal } from "../context/SpoonacularAction";
 import SpoonacularContext from "../context/SpoonacularContext";
 import { db } from "../firebase.config";
 import { useUploadToFirestore } from "../firestoreHooks/useUploadToFirestore";
+import { useBuyinglist } from "../hooks/useBuyinglist";
 import useCleanUp from "../hooks/useCleanUp";
 import { useGetMeals } from "../hooks/useGetMeals";
 import { useLikeStatus } from "../hooks/useLikeStatus";
@@ -19,8 +19,9 @@ import HomeCards0T640 from "../utilities/HomeCards0T640";
 
 const RandomMeal = () => {
   const { cleanUpMeals } = useCleanUp();
-  const { user, meals, dispatch, allMealIds, pagenation } =
+  const { user, meals, buyinglist, dispatch, allMealIds, pagenation } =
     useContext(SpoonacularContext);
+  const { handleBuyinglistCombo } = useBuyinglist();
   const { storeInDb } = useUploadToFirestore();
   const { singleMeals } = useLikeStatus();
   const { filterOutMeals, mealContextFormatter } = useGetMeals();
@@ -126,7 +127,17 @@ const RandomMeal = () => {
     });
   };
 
-  
+  const handleBuy = () => {
+    const newBuyinglist = handleBuyinglistCombo({
+      buyinglist,
+      mealsInCombo: [
+        meals[spoonResults[0]],
+        meals[spoonResults[1]],
+        meals[spoonResults[2]],
+      ],
+    });
+    dispatch({ type: "UPDATE_BUYINGLIST", payload: newBuyinglist });
+  };
 
   return (
     <div className="w-full h-screen bg-bgPrimaryCol flex justify-evenly ">
@@ -144,6 +155,7 @@ const RandomMeal = () => {
         meals={meals}
         data={spoonResults}
         callbackButton={callbackClickedButton}
+        callbackBuy={handleBuy}
       />
     </div>
   );

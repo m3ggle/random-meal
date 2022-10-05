@@ -1,23 +1,18 @@
 import { motion } from "framer-motion";
 import React from "react";
 import { FaHeart, FaShoppingCart } from "react-icons/fa";
-import styles from "../styles";
-import { v4 as uuidv4 } from "uuid";
-import Card0T640 from "./cards/Card0T640";
-import Loading from "../components/Loading";
 import { toast } from "react-toastify";
+import { v4 as uuidv4 } from "uuid";
+import Loading from "../components/Loading";
+import styles from "../styles";
+import Card0T640 from "./cards/Card0T640";
 
 /* 0-640px */
 
-const HomeCards0T640 = ({
-  meals,
-  data,
-  callbackButton,
-}) => {
-
-    const handleToastMsg = () => {
-      toast.info("😊 This Feature is coming in soon");
-    };
+const HomeCards0T640 = ({ meals, data, callbackButton, callbackBuy }) => {
+  const handleToastMsg = () => {
+    toast.info("😊 This Feature is coming in soon");
+  };
   return (
     <div className="w-full max-w-[640px] xl:max-w-full flex items-center xl:justify-center flex-col py-[20px] md:py-10">
       {/* meals */}
@@ -40,6 +35,7 @@ const HomeCards0T640 = ({
       {/* button */}
       <div className="w-full h-[60px] flex justify-center items-center gap-x-6 z-40 600:mt-3 xl:mt-8 absolute bottom-[92px] 600:bottom-[120px] md:static ">
         <motion.div
+          onClick={callbackBuy}
           whileTap={{ scale: 0.94 }}
           className={`w-[24px] h-[24px] ${styles.flexCenter}`}
         >
