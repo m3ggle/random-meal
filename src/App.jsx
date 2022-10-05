@@ -8,6 +8,7 @@ import MealdetailsInterception from "./components/MealdetailsInterception";
 import Navbar from "./components/Navbar";
 import NotSign from "./components/NotSign";
 import PrivateRoute from "./components/PrivateRoute";
+import { useBuyinglistContext } from "./context/buyinglist/buyinglistContext";
 import { useMealContext } from "./context/meals/MealContext";
 import SpoonacularContext from "./context/SpoonacularContext";
 import { db } from "./firebase.config";
@@ -29,6 +30,7 @@ function App() {
   //* context
   const { dispatch } = useContext(SpoonacularContext);
   const { dispatchMeal } = useMealContext();
+  const { dispatchBuyinglist } = useBuyinglistContext();
 
   //* states
   //* import fct/hooks
@@ -47,6 +49,12 @@ function App() {
         type: "UPDATE_USER_INFORMATION_INIT",
         payload: { ...userInfo },
       });
+      if (userInfo.buyinglist.length > 0) {
+        dispatchBuyinglist({
+          type: "UPDATE_BUYINGLIST",
+          payload: [...userInfo.buyinglist],
+        });
+      }
     } else {
       toast.error("🤷‍♂️ Could not find your data!");
     }
@@ -54,7 +62,6 @@ function App() {
 
   useEffect(() => {
     if (loggedIn) {
-      console.log("wam bam");
       getUserInformation(loggedIn);
     }
   }, [loggedIn]);

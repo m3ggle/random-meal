@@ -3,6 +3,7 @@ import React, { useContext } from "react";
 import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
+import { useBuyinglistContext } from "../../context/buyinglist/buyinglistContext";
 import SpoonacularContext from "../../context/SpoonacularContext";
 import { useBuyinglist } from "../../hooks/useBuyinglist";
 import { useLike } from "../../hooks/useLike";
@@ -10,7 +11,8 @@ import styles from "../../styles";
 
 const SingleCard = ({ meal, navigationOn, callBackId }) => {
   //* context
-  const { user, buyinglist, dispatch } = useContext(SpoonacularContext);
+  const { user, dispatch } = useContext(SpoonacularContext);
+  const { buyinglist, dispatchBuyinglist } = useBuyinglistContext();
 
   //* states
   //* import fct/hooks
@@ -29,7 +31,7 @@ const SingleCard = ({ meal, navigationOn, callBackId }) => {
       title: mealinformation.title,
       ingredients,
     });
-    dispatch({ type: "UPDATE_BUYINGLIST", payload: newBuyinglist });
+    dispatchBuyinglist({ type: "UPDATE_BUYINGLIST", payload: newBuyinglist });
   };
 
   const handleHeartClick = () => {

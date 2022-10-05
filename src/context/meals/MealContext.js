@@ -2,6 +2,7 @@ import { createContext, useContext, useReducer } from "react";
 import mealReducer from "./MealReducer";
 
 const MealContext = createContext()
+MealContext.displayName = "MealContext"
 
 export function useMealContext() {
   return useContext(MealContext);

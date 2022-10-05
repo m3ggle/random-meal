@@ -2,6 +2,7 @@ import { createContext, useContext, useReducer } from "react";
 import comboReducer from "./ComboReducer";
 
 const ComboContext = createContext();
+ComboContext.displayName = "ComboContext"
 
 export function useComboContext() {
   return useContext(ComboContext);

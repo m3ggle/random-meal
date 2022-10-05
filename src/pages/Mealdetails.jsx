@@ -9,12 +9,14 @@ import { v4 as uuidv4 } from "uuid";
 import SpoonacularContext from "../context/SpoonacularContext";
 import { db } from "../firebase.config";
 import styles from "../styles";
+import { useBuyinglistContext } from "../context/buyinglist/buyinglistContext";
 
 const Mealdetails = ({ data, navigateTo }) => {
   // Todo: anhand der params id herausnehmen und in firestore meal holen (wenn in data nichts drin ist)
   const navigate = useNavigate();
   const { mealinformation, ingredients, nutrients, instructions } = data;
-  const { buyinglist, dispatch } = useContext(SpoonacularContext);
+  const { dispatch } = useContext(SpoonacularContext);
+  const { buyinglist, dispatchBuyinglist } = useBuyinglistContext();
   const [specificBuyinglist, setSpecificBuyinglist] = useState();
 
   useEffect(() => {
@@ -76,7 +78,10 @@ const Mealdetails = ({ data, navigateTo }) => {
               unitShort: ingUnit,
             });
             toast.success("🥦 New Ingredient added to buyinglist");
-            dispatch({ type: "UPDATE_BUYINGLIST", payload: buyinglist });
+            dispatchBuyinglist({
+              type: "UPDATE_BUYINGLIST",
+              payload: buyinglist,
+            });
             uploadUpdate(buyinglist);
             created = true;
           } else {
@@ -98,7 +103,7 @@ const Mealdetails = ({ data, navigateTo }) => {
         };
         buyinglist.push(mealForBuyinglist);
         toast.success("🍩 New Meal and Ingredient added to buyinglist");
-        dispatch({ type: "UPDATE_BUYINGLIST", payload: buyinglist });
+        dispatchBuyinglist({ type: "UPDATE_BUYINGLIST", payload: buyinglist });
         uploadUpdate(buyinglist);
       }
     } else if (buyinglist.length >= 5) {
@@ -119,7 +124,7 @@ const Mealdetails = ({ data, navigateTo }) => {
         },
       ];
       toast.success("🍕 New Meal and Ingredient added to buyinglist");
-      dispatch({ type: "UPDATE_BUYINGLIST", payload: buyinglist });
+      dispatchBuyinglist({ type: "UPDATE_BUYINGLIST", payload: buyinglist });
       uploadUpdate(buyinglist);
     }
 

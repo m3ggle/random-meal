@@ -7,6 +7,7 @@ import {
   startAfter,
 } from "firebase/firestore";
 import React, { useContext, useEffect, useState } from "react";
+import { useBuyinglistContext } from "../context/buyinglist/buyinglistContext";
 import { useMealContext } from "../context/meals/MealContext";
 import { getRandomDayMeal } from "../context/SpoonacularAction";
 import SpoonacularContext from "../context/SpoonacularContext";
@@ -21,8 +22,9 @@ import HomeCards0T640 from "../utilities/HomeCards0T640";
 const RandomMeal = () => {
   //* context
   const { meals, dispatchMeal, allMealIds } = useMealContext();
-  const { user, buyinglist, dispatch, pagenation } =
+  const { user, dispatch, pagenation } =
     useContext(SpoonacularContext);
+  const { buyinglist, dispatchBuyinglist } = useBuyinglistContext();
 
   //* states
   const [spoonResults, setspoonResults] = useState([77188, 580283, 596149]);
@@ -147,7 +149,7 @@ const RandomMeal = () => {
         meals[spoonResults[2]],
       ],
     });
-    dispatch({ type: "UPDATE_BUYINGLIST", payload: newBuyinglist });
+    dispatchBuyinglist({ type: "UPDATE_BUYINGLIST", payload: newBuyinglist });
   };
 
   return (

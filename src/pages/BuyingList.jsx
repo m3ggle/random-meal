@@ -6,13 +6,15 @@ import { FaTimes } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
 import LunchImg from "../assets/images/lunchExample.webp";
+import { useBuyinglistContext } from "../context/buyinglist/buyinglistContext";
 import SpoonacularContext from "../context/SpoonacularContext";
 import { db } from "../firebase.config";
 import styles from "../styles";
 
 const BuyingList = () => {
   // Todo: clean up fromData mess
-  const { buyinglist, dispatch } = useContext(SpoonacularContext);
+  const { dispatch } = useContext(SpoonacularContext);
+  const { buyinglist, dispatchBuyinglist } = useBuyinglistContext();
 
   const [newIngredient, setNewIngredient] = useState({
     ingredient: {
@@ -119,7 +121,7 @@ const BuyingList = () => {
     }
 
     if (created) {
-      dispatch({ type: "UPDATE_BUYINGLIST", payload: buyinglist });
+      dispatchBuyinglist({ type: "UPDATE_BUYINGLIST", payload: buyinglist });
       uploadUpdate(buyinglist);
       // setNewIngredient((prevState) => ({
       //   ...prevState,
@@ -157,7 +159,7 @@ const BuyingList = () => {
       newBuyinglist.push(updatedMeal);
     }
 
-    dispatch({ type: "UPDATE_BUYINGLIST", payload: newBuyinglist });
+    dispatchBuyinglist({ type: "UPDATE_BUYINGLIST", payload: newBuyinglist });
     uploadUpdate(newBuyinglist);
   };
 

@@ -3,6 +3,7 @@ import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
 import Loading from "../../components/Loading";
+import { useBuyinglistContext } from "../../context/buyinglist/buyinglistContext";
 import { useMealContext } from "../../context/meals/MealContext";
 import SpoonacularContext from "../../context/SpoonacularContext";
 import { useBuyinglist } from "../../hooks/useBuyinglist";
@@ -12,7 +13,7 @@ import CardThree from "./CardThree";
 
 const CardThreeContainer = ({ combo }) => {
   //* context
-  const { buyinglist, dispatch } = useContext(SpoonacularContext);
+  const { buyinglist, dispatchBuyinglist } = useBuyinglistContext();
   const { meals } = useMealContext();
 
   //* states
@@ -32,7 +33,7 @@ const CardThreeContainer = ({ combo }) => {
         meals[combo.dinner],
       ],
     });
-    dispatch({ type: "UPDATE_BUYINGLIST", payload: newBuyinglist });
+    dispatchBuyinglist({ type: "UPDATE_BUYINGLIST", payload: newBuyinglist });
   };
 
   const handleToastMsg = () => {
