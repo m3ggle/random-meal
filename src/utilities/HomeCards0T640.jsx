@@ -5,6 +5,7 @@ import styles from "../styles";
 import { v4 as uuidv4 } from "uuid";
 import Card0T640 from "./cards/Card0T640";
 import Loading from "../components/Loading";
+import { toast } from "react-toastify";
 
 /* 0-640px */
 
@@ -13,6 +14,10 @@ const HomeCards0T640 = ({
   data,
   callbackButton,
 }) => {
+
+    const handleToastMsg = () => {
+      toast.info("😊 This Feature is coming in soon");
+    };
   return (
     <div className="w-full max-w-[640px] xl:max-w-full flex items-center xl:justify-center flex-col py-[20px] md:py-10">
       {/* meals */}
@@ -20,10 +25,7 @@ const HomeCards0T640 = ({
       {meals[data[0]] && meals[data[1]] && meals[data[2]] ? (
         <div className="w-full flex flex-col xl:flex-row flex-grow xl:flex-grow-0 items-center xl:justify-center gap-y-[3%] xl:gap-x-[48px]">
           {data.map((mealId) => (
-            <Card0T640
-              key={uuidv4()}
-              meal={meals[mealId]}
-            />
+            <Card0T640 key={uuidv4()} meal={meals[mealId]} />
           ))}
         </div>
       ) : (
@@ -57,6 +59,7 @@ const HomeCards0T640 = ({
           </p>
         </motion.div>
         <motion.div
+          onClick={handleToastMsg}
           whileTap={{ scale: 0.94 }}
           className={`w-[24px] h-[24px] ${styles.flexCenter}`}
         >

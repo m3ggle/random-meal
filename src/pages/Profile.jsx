@@ -1,5 +1,3 @@
-
-import { Helmet } from "react-helmet";
 import { getAuth, onAuthStateChanged, updateEmail } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { getStorage, ref } from "firebase/storage";
@@ -9,14 +7,14 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import ODonutLogo from "../assets/images/ODonut.webp";
 import Input from "../components/Input";
+import SpoonacularContext from "../context/SpoonacularContext";
 import { db } from "../firebase.config";
 import styles from "../styles";
-import SpoonacularContext from "../context/SpoonacularContext";
 
 const Profile = () => {
   const auth = getAuth();
   const navigate = useNavigate();
-  const { dispatch } = useContext(SpoonacularContext)
+  const { dispatch } = useContext(SpoonacularContext);
 
   // Todo: Save Button is only available if all the inputs are change and in a state of default
   //  ? how about, default is going to be "def" and the change defaults going to be "defaultChange" => check: fullName.state.includes("default") && ...
@@ -263,6 +261,10 @@ const Profile = () => {
     navigate("/signIn");
   };
 
+  const handleToastMsg = () => {
+    toast.info("🤨 Currently not available");
+  };
+
   return (
     <div className="w-full h-screen bg-bgPrimaryCol flex flex-col overflow-scroll pt-8 md:pt-0">
       {/* <Helmet>
@@ -425,7 +427,7 @@ const Profile = () => {
           </p>
           {/* Buttons */}
           {/* Button */}
-          <div className="w-full flex flex-col">
+          <div onClick={handleToastMsg} className="w-full flex flex-col">
             <div className="w-full flex flex-col">
               <button
                 type="button"
@@ -437,7 +439,7 @@ const Profile = () => {
           </div>
 
           {/* Button */}
-          <div className="w-full flex flex-col">
+          <div onClick={handleToastMsg} className="w-full flex flex-col">
             <div className="w-full flex flex-col">
               <button
                 type="button"

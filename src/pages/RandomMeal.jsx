@@ -126,6 +126,8 @@ const RandomMeal = () => {
     });
   };
 
+  
+
   return (
     <div className="w-full h-screen bg-bgPrimaryCol flex justify-evenly ">
       {/* <Helmet>

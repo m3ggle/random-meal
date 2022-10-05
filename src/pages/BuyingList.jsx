@@ -1,8 +1,7 @@
 import { getAuth } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { motion } from "framer-motion";
-import { Helmet } from "react-helmet";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaTimes } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
@@ -10,13 +9,10 @@ import LunchImg from "../assets/images/lunchExample.webp";
 import SpoonacularContext from "../context/SpoonacularContext";
 import { db } from "../firebase.config";
 import styles from "../styles";
-import Button from "../utilities/Buttons";
-import { useEffect } from "react";
 
 const BuyingList = () => {
   // Todo: clean up fromData mess
   const { buyinglist, dispatch } = useContext(SpoonacularContext);
-
 
   const [newIngredient, setNewIngredient] = useState({
     ingredient: {
@@ -91,7 +87,7 @@ const BuyingList = () => {
   useEffect(() => {
     // navbar
     dispatch({ type: "UPDATE_NAVBARSTATUS", payload: true });
-  }, [])
+  }, []);
 
   const handleAdd = (ingName, ingAmount, ingUnit) => {
     let created = false;
@@ -163,6 +159,10 @@ const BuyingList = () => {
 
     dispatch({ type: "UPDATE_BUYINGLIST", payload: newBuyinglist });
     uploadUpdate(newBuyinglist);
+  };
+
+  const handleToastMsg = () => {
+    toast.info("😊 This Feature is coming in soon");
   };
 
   return (
@@ -319,7 +319,13 @@ const BuyingList = () => {
                 <i className="fa-solid fa-circle-info"></i>
                 {newIngredient.errorMsg}
               </div>
-              <Button text="Export your Shopping List" />
+              <button
+                onClick={handleToastMsg}
+                type="Button"
+                className={`${styles.flexCenter} w-full bg-slate-600 py-[10px] h-[46px] rounded-xl text-lightTextCol font-semibold text-[14px] btnPrimaryCol hover:bg-[#293D2B]`}
+              >
+                Export your Shopping List
+              </button>
             </div>
           </div>
         </div>

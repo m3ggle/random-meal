@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { FaHeart, FaShoppingCart } from "react-icons/fa";
+import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
 import Loading from "../../components/Loading";
 import SpoonacularContext from "../../context/SpoonacularContext";
@@ -26,6 +27,10 @@ const CardThreeContainer = ({ combo }) => {
     });
     dispatch({ type: "UPDATE_BUYINGLIST", payload: newBuyinglist });
   };
+
+      const handleToastMsg = () => {
+        toast.info("😊 This Feature is coming in soon");
+      };
 
   return (
     <>
@@ -60,6 +65,7 @@ const CardThreeContainer = ({ combo }) => {
                 {combo.likeCount}
               </p>
               <FaHeart
+                onClick={handleToastMsg}
                 size={width > 700 ? "22px" : "16px"}
                 className={`cursor-pointer ${
                   combo.liked ? "text-failure" : "text-iconTransCol"
