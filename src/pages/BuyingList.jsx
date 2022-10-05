@@ -166,7 +166,7 @@ const BuyingList = () => {
   };
 
   return (
-    <div className="w-full h-screen flex">
+    <div className={`${styles.flexCenter} w-full h-screen`}>
       {/* <Helmet>
         <title>Buyinglist</title>
         <meta name="description" content="" />
@@ -331,7 +331,7 @@ const BuyingList = () => {
         </div>
       </div>
       <div
-        className="hidden md:flex w-full h-full bg-black bg-center bg-cover"
+        className="hidden 900:flex w-full h-full bg-black bg-center bg-cover"
         style={{ backgroundImage: `url(${LunchImg})` }}
       >
         <div className="w-full h-full buyinglistImgGradient"></div>
