@@ -24,7 +24,7 @@ const FavMeals = () => {
   useEffect(() => {
     const auth = getAuth();
     if (!auth.currentUser) {
-      navigate("/signIn");
+      navigate("/sign-in");
     }
 
     // const testDrive = async () => {

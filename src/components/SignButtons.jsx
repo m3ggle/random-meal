@@ -24,21 +24,21 @@ const SignButtons = ({ formData, stateArray }) => {
       googleBtn: "Sign Up with Google",
       littleText1: "Already have an Account?",
       littleText2: "Sign In instead!",
-      redirect: "/signIn",
+      redirect: "/sign-in",
     },
     signIn: {
       btn: "Sign In",
       googleBtn: "Sign In with Google",
       littleText1: "Don't have a Account?",
       littleText2: "Sign Up instead!",
-      redirect: "/signUp",
+      redirect: "/sign-up",
     },
     forgotPassword: {
       btn: "Send E-Mail",
       googleBtn: "Sign In with Google",
       littleText1: "Don't have a Account?",
       littleText2: "Sign Up instead!",
-      redirect: "/signUp",
+      redirect: "/sign-up",
     },
   });
   const { handleGoogle } = useHandleGoogleSubmit();
@@ -55,13 +55,13 @@ const SignButtons = ({ formData, stateArray }) => {
     console.log(stateArray)
     if (distributor({validation: "userInformation", values: stateArray, condition: "all"})) {
       const auth = getAuth();
-      if (location.pathname === "/signUp") {
+      if (location.pathname === "/sign-up") {
         handleSignUp(auth);
       }
-      if (location.pathname === "/signIn") {
+      if (location.pathname === "/sign-in") {
         handleSignIn(auth);
       }
-      if (location.pathname === "/forgotPassword") {
+      if (location.pathname === "/forgot-password") {
         handleForgotPassword(auth);
       }
       navigate("/");
@@ -141,9 +141,9 @@ const SignButtons = ({ formData, stateArray }) => {
         } `}
         onClick={handleSubmit}
       >
-        {location.pathname === "/signIn"
+        {location.pathname === "/sign-in"
           ? text.signIn.btn
-          : location.pathname === "/signUp"
+          : location.pathname === "/sign-up"
           ? text.signUp.btn
           : text.forgotPassword.btn}
       </div>
@@ -155,33 +155,33 @@ const SignButtons = ({ formData, stateArray }) => {
         <div className={`${styles.flexCenter} w-5 h-5 pb-[2px]`}>
           <FaGoogle size="15px" />
         </div>
-        {location.pathname === "/signIn"
+        {location.pathname === "/sign-in"
           ? text.signIn.googleBtn
-          : location.pathname === "/signUp"
+          : location.pathname === "/sign-up"
           ? text.signUp.googleBtn
           : text.forgotPassword.googleBtn}
       </div>
       <Link
         to={
-          location.pathname === "/signIn"
+          location.pathname === "/sign-in"
             ? text.signIn.redirect
-            : location.pathname === "/signUp"
+            : location.pathname === "/sign-up"
             ? text.signUp.redirect
             : text.forgotPassword.redirect
         }
         className="flex gap-x-1 text-inputCol"
       >
         <p className={`${styles.paragraph12}`}>
-          {location.pathname === "/signIn"
+          {location.pathname === "/sign-in"
             ? text.signIn.littleText1
-            : location.pathname === "/signUp"
+            : location.pathname === "/sign-up"
             ? text.signUp.littleText1
             : text.forgotPassword.littleText1}
         </p>
         <p className={`${styles.paragraph12} underline underline-offset-1`}>
-          {location.pathname === "/signIn"
+          {location.pathname === "/sign-in"
             ? text.signIn.littleText2
-            : location.pathname === "/signUp"
+            : location.pathname === "/sign-up"
             ? text.signUp.littleText2
             : text.forgotPassword.littleText2}
         </p>

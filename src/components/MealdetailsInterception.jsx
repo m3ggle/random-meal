@@ -33,7 +33,7 @@ const MealdetailsInterception = () => {
       setNavigateTo("/")
       setLoading(false);
     } else {
-      navigate("/notFound");
+      navigate("/not-found");
     }
   };
 

@@ -21,9 +21,9 @@ const Navbar = () => {
   const [activeSite, setActiveSite] = useState({
     site: useLocation().pathname,
     hidden:
-      location.pathname.includes("/signIn") ||
-      location.pathname.includes("/signUp") ||
-      location.pathname.includes("/forgotPassword"),
+      location.pathname.includes("/sign-in") ||
+      location.pathname.includes("/sign-up") ||
+      location.pathname.includes("/forgot-password"),
   });
   const { site, hidden } = activeSite;
 
@@ -32,9 +32,9 @@ const Navbar = () => {
     const activeSiteCopy = {
       site: location.pathname,
       hidden:
-        location.pathname.includes("/signIn") ||
-        location.pathname.includes("/signUp") ||
-        location.pathname.includes("/forgotPassword"),
+        location.pathname.includes("/sign-in") ||
+        location.pathname.includes("/sign-up") ||
+        location.pathname.includes("/forgot-password"),
     };
     setActiveSite({ ...activeSiteCopy });
   }, [location]);

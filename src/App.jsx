@@ -93,15 +93,15 @@ function App() {
               <Route path="/favorites" element={<PrivateRoute />}>
                 <Route path="/favorites" element={<FavMeals />} />
               </Route>
-              <Route path="/forgotPassword" element={<ForgotPassword />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/home" element={<RandomMeal />} />
               <Route path="/" element={<RandomMeal />} />
               <Route path="/sharepage" element={<SharePage />} />
-              <Route path="/signIn" element={<SignIn />} />
-              <Route path="/signUp" element={<SignUp />} />
+              <Route path="/sign-in" element={<SignIn />} />
+              <Route path="/sign-up" element={<SignUp />} />
               <Route path="/creation/:stepName" element={<Creation />} />
               <Route path="/sign" element={<NotSign />} />
-              <Route path="/notFound" element={<NotFound />} />
+              <Route path="/not-found" element={<NotFound />} />
               <Route path="/*" element={<NotFound />} />
               <Route path="/profile" element={<PrivateRoute />}>
                 <Route path="/profile" element={<Profile />} />

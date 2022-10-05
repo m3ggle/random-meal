@@ -3,7 +3,7 @@ import { Navigate, Outlet } from "react-router-dom"; //Navigate is the old redir
 
 const PrivateRoute = () => {
   const auth = getAuth();
-  return auth ? <Outlet /> : <Navigate to="/signIn" />;
+  return auth ? <Outlet /> : <Navigate to="/sign-in" />;
 };
 
 export default PrivateRoute;

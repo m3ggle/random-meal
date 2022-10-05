@@ -110,7 +110,7 @@ const SignUp = () => {
             />
             {/* Forget Password Text */}
             <Link
-              to={"/forgotPassword"}
+              to={"/forgot-password"}
               className={`${styles.paragraph12} text-lightTextCol underline underline-offset-2 w-fit`}
             >
               Forgot Password?

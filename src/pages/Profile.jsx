@@ -136,7 +136,7 @@ const Profile = () => {
         handleCompletion(user);
       } else {
         // if not logged in, modal that will give him the option to sign in or up or go back
-        navigate("/signIn");
+        navigate("/sign-in");
         toast.error("You Have To Be Logged In");
       }
     });
@@ -183,7 +183,7 @@ const Profile = () => {
                 .then()
                 .catch((error) => {
                   console.log(error);
-                  navigate("/signIn");
+                  navigate("/sign-in");
                 });
               await setDoc(
                 doc(db, "users", user.uid),
@@ -258,7 +258,7 @@ const Profile = () => {
 
   const handleLogOut = () => {
     auth.signOut();
-    navigate("/signIn");
+    navigate("/sign-in");
   };
 
   const handleToastMsg = () => {

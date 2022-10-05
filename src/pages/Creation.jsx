@@ -59,7 +59,7 @@ const Creation = () => {
       }
       setCurrentIteration(params.stepName);
     } else {
-      navigate("/notFound");
+      navigate("/not-found");
     }
   }, [params.stepName, direction, navigate]);
 
