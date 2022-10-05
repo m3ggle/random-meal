@@ -1,16 +1,16 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Catalog from "../components/Catalog";
 import SearchFilter from "../components/SearchFilter";
 import ShareCombos from "../components/ShareCombos";
 import TwoChoice from "../components/TwoChoice";
 import { useComboContext } from "../context/combos/ComboContext";
 import { useMealContext } from "../context/meals/MealContext";
-import SpoonacularContext from "../context/SpoonacularContext";
+import { useUserContext } from "../context/user/UserContext";
 import { useGetMeals } from "../hooks/useGetMeals";
 
 const SharePage = () => {
   //* context
-  const { user, dispatch } = useContext(SpoonacularContext);
+  const { user, dispatchUser } = useUserContext();
   const { meals, dispatchMeal } = useMealContext();
   const { combos, dispatchCombo } = useComboContext();
 
@@ -57,7 +57,7 @@ const SharePage = () => {
     updateContext();
 
     // navbar
-    dispatch({ type: "UPDATE_NAVBARSTATUS", payload: true });
+    dispatchUser({ type: "UPDATE_NAVBARSTATUS", payload: true });
   }, []);
 
   // set/updatefavorite Meals (internal)
@@ -94,7 +94,7 @@ const SharePage = () => {
       return Math.abs(a - b);
     };
     if (difference(lastKnowScroll, currentY) > 120) {
-      dispatch({
+      dispatchUser({
         type: "UPDATE_NAVBARSTATUS",
         payload: lastKnowScroll < e.currentTarget.scrollTop ? false : true,
       });

@@ -1,5 +1,5 @@
 import { doc, getDoc, onSnapshot } from "firebase/firestore";
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -10,7 +10,7 @@ import NotSign from "./components/NotSign";
 import PrivateRoute from "./components/PrivateRoute";
 import { useBuyinglistContext } from "./context/buyinglist/buyinglistContext";
 import { useMealContext } from "./context/meals/MealContext";
-import SpoonacularContext from "./context/SpoonacularContext";
+import { useUserContext } from "./context/user/UserContext";
 import { db } from "./firebase.config";
 import { useAuthStatus } from "./hooks/useAuthStatus";
 import BuyingList from "./pages/BuyingList";
@@ -28,7 +28,7 @@ import styles from "./styles";
 
 function App() {
   //* context
-  const { dispatch } = useContext(SpoonacularContext);
+  const { dispatchUser } = useUserContext();
   const { dispatchMeal } = useMealContext();
   const { dispatchBuyinglist } = useBuyinglistContext();
 
@@ -45,8 +45,8 @@ function App() {
     const docSnapFavMeals = await getDoc(doc(db, "users", user.uid));
     if (docSnapFavMeals.exists()) {
       let userInfo = docSnapFavMeals.data();
-      dispatch({
-        type: "UPDATE_USER_INFORMATION_INIT",
+      dispatchUser({
+        type: "UPDATE_USER_INFORMATION",
         payload: { ...userInfo },
       });
       if (userInfo.buyinglist.length > 0) {
@@ -96,7 +96,6 @@ function App() {
           <Router>
             <Navbar />
             <Routes>
-              <Route path="/randomMeal" element={<RandomMeal />} />
               <Route path="/buyinglist" element={<BuyingList />} />
               <Route
                 path="/mealdetails/:id"
@@ -104,13 +103,14 @@ function App() {
               >
                 <Route path="/mealdetails/:id" element={<Mealdetails />} />
               </Route>
+              <Route path="/randomMeal" element={<RandomMeal />} />
+              <Route path="/home" element={<RandomMeal />} />
+              <Route path="/" element={<RandomMeal />} />
               <Route path="/favorites" element={<PrivateRoute />}>
                 <Route path="/favorites" element={<FavMeals />} />
               </Route>
-              <Route path="/forgot-password" element={<ForgotPassword />} />
-              <Route path="/home" element={<RandomMeal />} />
-              <Route path="/" element={<RandomMeal />} />
               <Route path="/sharepage" element={<SharePage />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/sign-in" element={<SignIn />} />
               <Route path="/sign-up" element={<SignUp />} />
               <Route path="/creation/:stepName" element={<Creation />} />

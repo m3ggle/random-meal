@@ -1,17 +1,17 @@
 import { motion } from "framer-motion";
-import React, { useContext } from "react";
+import React from "react";
 import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { useBuyinglistContext } from "../../context/buyinglist/buyinglistContext";
-import SpoonacularContext from "../../context/SpoonacularContext";
+import { useUserContext } from "../../context/user/UserContext";
 import { useBuyinglist } from "../../hooks/useBuyinglist";
 import { useLike } from "../../hooks/useLike";
 import styles from "../../styles";
 
 const Card0T640 = ({ meal }) => {
   //* context
-  const { user, dispatch } = useContext(SpoonacularContext);
+  const { user, dispatchUser } = useUserContext();
   const { buyinglist, dispatchBuyinglist } = useBuyinglistContext();
 
   //* states
@@ -37,7 +37,7 @@ const Card0T640 = ({ meal }) => {
   const handleHeartClick = () => {
     const { userInfo } = handleHeart(user, liked, meal);
     if (Object.keys(userInfo).length > 0) {
-      dispatch({
+      dispatchUser({
         type: "UPDATE_USER_INFORMATION",
         payload: { ...userInfo },
       });

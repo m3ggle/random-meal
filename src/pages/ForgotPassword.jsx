@@ -1,10 +1,9 @@
-import { Helmet } from "react-helmet";
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import BgImage from "../assets/images/InImage.webp";
 import Input from "../components/Input";
 import SignButtons from "../components/SignButtons";
 import styles from "../styles";
-import { Link } from "react-router-dom";
 
 const ForgotPassword = () => {
   const [formData, setFormData] = useState({

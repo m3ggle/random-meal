@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FaHome,
   FaPinterestP,
@@ -11,11 +11,11 @@ import {
 import { Link, useLocation } from "react-router-dom";
 import ODonutLogo from "../assets/images/ODonut.webp";
 import InstagramIcon from "../assets/svg/instagramIcon.svg";
-import SpoonacularContext from "../context/SpoonacularContext";
+import { useUserContext } from "../context/user/UserContext";
 import styles from "../styles";
 
 const Navbar = () => {
-  const { navbarStatus } = useContext(SpoonacularContext);
+  const { navbarStatus } = useUserContext();
   const location = useLocation();
 
   const [activeSite, setActiveSite] = useState({

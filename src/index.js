@@ -4,20 +4,23 @@ import App from "./App";
 import { BuyinglistProvider } from "./context/buyinglist/buyinglistContext";
 import { ComboProvider } from "./context/combos/ComboContext";
 import { MealProvider } from "./context/meals/MealContext";
-import { SpoonacularProvider } from "./context/SpoonacularContext";
+import { PagenationProvider } from "./context/pagenation/PagenationContext";
+import { UserProvider } from "./context/user/UserContext";
 import "./index.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <SpoonacularProvider>
+    <UserProvider>
       <MealProvider>
         <ComboProvider>
           <BuyinglistProvider>
+            <PagenationProvider>
             <App />
+            </PagenationProvider>
           </BuyinglistProvider>
         </ComboProvider>
       </MealProvider>
-    </SpoonacularProvider>
+    </UserProvider>
   </React.StrictMode>
 );

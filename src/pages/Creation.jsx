@@ -1,7 +1,7 @@
 import { uuidv4 } from "@firebase/util";
 import { getAuth } from "firebase/auth";
 import { motion } from "framer-motion";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaCheck, FaChevronLeft, FaTimes } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -10,7 +10,7 @@ import Input from "../components/Input";
 import SearchFilter from "../components/SearchFilter";
 import { useComboContext } from "../context/combos/ComboContext";
 import { useMealContext } from "../context/meals/MealContext";
-import SpoonacularContext from "../context/SpoonacularContext";
+import { useUserContext } from "../context/user/UserContext";
 import { useUploadToFirestore } from "../firestoreHooks/useUploadToFirestore";
 import { useGetMeals } from "../hooks/useGetMeals";
 import useWindowDimensions from "../hooks/useWindowDimensions";
@@ -19,10 +19,10 @@ import CardThreeContainer from "../utilities/cards/CardThreeContainer";
 
 const Creation = () => {
   //* context
-  const { user, creation, dispatch } = useContext(SpoonacularContext);
+  const { user, creation, dispatchUser } = useUserContext();
   const { meals, dispatchMeal } = useMealContext();
   const { combos, dispatchCombo } = useComboContext();
-  
+
   //* states
   const [currentIteration, setCurrentIteration] = useState("mealtitle");
   const [direction] = useState([
@@ -61,11 +61,11 @@ const Creation = () => {
   //* destructuring
   const { breakfast, lunch, dinner } = creation;
   const { title, userInformation } = formData;
-  
+
   //* variables
   const navigate = useNavigate();
   const params = useParams();
-  
+
   //* on you go
   const handleCallBack = (cb) => setFormData(cb);
   // set currentIteration or redirect to notFound
@@ -85,7 +85,7 @@ const Creation = () => {
     if (userInformation) {
       let creationCopy = { ...creation };
       creationCopy.mealtitle.text = title.inputValue;
-      dispatch({ type: "UPDATE_CREATION", payload: creationCopy });
+      dispatchUser({ type: "UPDATE_CREATION", payload: creationCopy });
       goForward();
     }
   };
@@ -148,7 +148,7 @@ const Creation = () => {
   const callBackId = (mealId) => {
     let creationCopy = { ...creation };
     creationCopy[currentIteration].id = mealId;
-    dispatch({ type: "UPDATE_CREATION", payload: creationCopy });
+    dispatchUser({ type: "UPDATE_CREATION", payload: creationCopy });
 
     goForward();
   };
@@ -218,7 +218,7 @@ const Creation = () => {
     creationCopy.dinner.id = 0;
     creationCopy.preview.combo = {};
 
-    dispatch({ type: "UPDATE_CREATION", payload: creationCopy });
+    dispatchUser({ type: "UPDATE_CREATION", payload: creationCopy });
   };
 
   const checkValidation = () => {
@@ -250,7 +250,7 @@ const Creation = () => {
   const addComboIdToFavCombos = () => {
     const favCombosCopy = user.favCombos;
     favCombosCopy.push(createdCombo.comboId);
-    dispatch({ type: "UPDATE_FAVCOMBOS", payload: [...favCombosCopy] });
+    dispatchUser({ type: "UPDATE_FAVCOMBOS", payload: [...favCombosCopy] });
     uploadFavCombos(favCombosCopy);
   };
 

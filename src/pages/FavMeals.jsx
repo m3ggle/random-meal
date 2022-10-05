@@ -1,5 +1,5 @@
 import { getAuth } from "firebase/auth";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import FavMealsOne from "../components/FavMealsOne";
 import FavMealsThree from "../components/FavMealsThree";
@@ -7,12 +7,12 @@ import SearchFilter from "../components/SearchFilter";
 import TwoChoice from "../components/TwoChoice";
 import { useComboContext } from "../context/combos/ComboContext";
 import { useMealContext } from "../context/meals/MealContext";
-import SpoonacularContext from "../context/SpoonacularContext";
+import { useUserContext } from "../context/user/UserContext";
 import { useGetMeals } from "../hooks/useGetMeals";
 
 const FavMeals = () => {
   //* context
-  const { user, dispatch } = useContext(SpoonacularContext);
+  const { user, dispatchUser } = useUserContext();
   const { meals, dispatchMeal } = useMealContext();
   const { combos, dispatchCombo } = useComboContext();
 
@@ -65,7 +65,7 @@ const FavMeals = () => {
     }
 
     // navbar
-    dispatch({ type: "UPDATE_NAVBARSTATUS", payload: true });
+    dispatchUser({ type: "UPDATE_NAVBARSTATUS", payload: true });
   }, []);
 
   const updateContext = async () => {
@@ -134,7 +134,7 @@ const FavMeals = () => {
       return Math.abs(a - b);
     };
     if (difference(lastKnowScroll, currentY) > 120) {
-      dispatch({
+      dispatchUser({
         type: "UPDATE_NAVBARSTATUS",
         payload: lastKnowScroll < e.currentTarget.scrollTop ? false : true,
       });

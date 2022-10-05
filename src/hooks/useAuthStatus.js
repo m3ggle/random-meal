@@ -10,7 +10,6 @@ export const useAuthStatus = () => {
 
   useEffect(() => {
     if (isMounted) {
-      console.log("in here");
       const auth = getAuth();
       onAuthStateChanged(auth, async (user) => {
         if (user) {

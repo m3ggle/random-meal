@@ -71,7 +71,6 @@ export const useGetMeals = () => {
       // filter
       let meals = [];
       let missingMeals = [];
-      console.log(favMeals)
 
       // get meals from firestore
       if (type === "favMeals") {

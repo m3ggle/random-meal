@@ -1,21 +1,18 @@
-import { Helmet } from "react-helmet";
 import { getAuth } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaCheck, FaShare, FaShoppingCart, FaTimes } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
-import SpoonacularContext from "../context/SpoonacularContext";
+import { useBuyinglistContext } from "../context/buyinglist/buyinglistContext";
 import { db } from "../firebase.config";
 import styles from "../styles";
-import { useBuyinglistContext } from "../context/buyinglist/buyinglistContext";
 
 const Mealdetails = ({ data, navigateTo }) => {
   // Todo: anhand der params id herausnehmen und in firestore meal holen (wenn in data nichts drin ist)
   const navigate = useNavigate();
   const { mealinformation, ingredients, nutrients, instructions } = data;
-  const { dispatch } = useContext(SpoonacularContext);
   const { buyinglist, dispatchBuyinglist } = useBuyinglistContext();
   const [specificBuyinglist, setSpecificBuyinglist] = useState();
 

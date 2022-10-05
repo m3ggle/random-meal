@@ -6,11 +6,12 @@ import {
   query,
   startAfter,
 } from "firebase/firestore";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useBuyinglistContext } from "../context/buyinglist/buyinglistContext";
 import { useMealContext } from "../context/meals/MealContext";
+import { usePagenationContext } from "../context/pagenation/PagenationContext";
 import { getRandomDayMeal } from "../context/SpoonacularAction";
-import SpoonacularContext from "../context/SpoonacularContext";
+import { useUserContext } from "../context/user/UserContext";
 import { db } from "../firebase.config";
 import { useUploadToFirestore } from "../firestoreHooks/useUploadToFirestore";
 import { useBuyinglist } from "../hooks/useBuyinglist";
@@ -22,8 +23,8 @@ import HomeCards0T640 from "../utilities/HomeCards0T640";
 const RandomMeal = () => {
   //* context
   const { meals, dispatchMeal, allMealIds } = useMealContext();
-  const { user, dispatch, pagenation } =
-    useContext(SpoonacularContext);
+  const { user, dispatchUser } = useUserContext();
+  const { pagenation } = usePagenationContext();
   const { buyinglist, dispatchBuyinglist } = useBuyinglistContext();
 
   //* states
@@ -60,7 +61,7 @@ const RandomMeal = () => {
 
   useEffect(() => {
     // navbar
-    dispatch({ type: "UPDATE_NAVBARSTATUS", payload: true });
+    dispatchUser({ type: "UPDATE_NAVBARSTATUS", payload: true });
   }, []);
 
   // const testDrive = async () => {

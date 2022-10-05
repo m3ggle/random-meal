@@ -1,11 +1,10 @@
-import React, { useContext } from "react";
+import React from "react";
 import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
 import Loading from "../../components/Loading";
 import { useBuyinglistContext } from "../../context/buyinglist/buyinglistContext";
 import { useMealContext } from "../../context/meals/MealContext";
-import SpoonacularContext from "../../context/SpoonacularContext";
 import { useBuyinglist } from "../../hooks/useBuyinglist";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import styles from "../../styles";

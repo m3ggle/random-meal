@@ -1,19 +1,19 @@
 import { getAuth } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { motion } from "framer-motion";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaTimes } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
 import LunchImg from "../assets/images/lunchExample.webp";
 import { useBuyinglistContext } from "../context/buyinglist/buyinglistContext";
-import SpoonacularContext from "../context/SpoonacularContext";
+import { useUserContext } from "../context/user/UserContext";
 import { db } from "../firebase.config";
 import styles from "../styles";
 
 const BuyingList = () => {
   // Todo: clean up fromData mess
-  const { dispatch } = useContext(SpoonacularContext);
+  const { dispatchUser } = useUserContext();
   const { buyinglist, dispatchBuyinglist } = useBuyinglistContext();
 
   const [newIngredient, setNewIngredient] = useState({
@@ -88,7 +88,7 @@ const BuyingList = () => {
 
   useEffect(() => {
     // navbar
-    dispatch({ type: "UPDATE_NAVBARSTATUS", payload: true });
+    dispatchUser({ type: "UPDATE_NAVBARSTATUS", payload: true });
   }, []);
 
   const handleAdd = (ingName, ingAmount, ingUnit) => {

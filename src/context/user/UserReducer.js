@@ -1,12 +1,6 @@
-const spoonacularReducer = (state, action) => {
+const userReducer = (state, action) => {
   const { type, payload} = action
   switch (type) {
-    case "UPDATE_USER_INFORMATION_INIT":
-      return {
-        ...state,
-        user: payload,
-        buyinglist: payload.buyinglist,
-      };
     case "UPDATE_USER_INFORMATION":
       return {
         ...state,
@@ -77,4 +71,4 @@ const spoonacularReducer = (state, action) => {
   }
 };
 
-export default spoonacularReducer;
+export default userReducer;
