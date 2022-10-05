@@ -6,32 +6,7 @@ const userReducer = (state, action) => {
         ...state,
         user: payload,
       };
-    case "UPDATE_RANDOM_MEALS":
-      return {
-        ...state,
-        spoonacularResult: payload,
-      };
-    case "UPDATE_STORED_MEAL_IDS":
-      return {
-        ...state,
-        allMealIds: payload,
-      };
-    case "UPDATE_BUYINGLIST":
-      return {
-        ...state,
-        buyinglist: payload,
-      };
-    case "UPDATE_FAVMEALS":
-      return {
-        ...state,
-        favMeals: payload,
-      };
-    case "UPDATE_FAVMEALS_AND_FAVORITEMEALS":
-      return {
-        ...state,
-        favMeals: payload.favMeals,
-        favoriteMeals: payload.favoriteMeals,
-      };
+    // why only favcombos and favmeals nowwhere to be found
     case "UPDATE_FAVCOMBOS": 
       return {
         ...state,
@@ -40,17 +15,6 @@ const userReducer = (state, action) => {
           favCombos: [...payload]
         }
       }
-    case "UPDATE_COMBOS":
-      return {
-        ...state,
-        combos: payload
-      };
-    case "UPDATE_MEALS_AND_COMBOS":
-      return {
-        ...state,
-        meals: { ...state.meals, ...payload.meals },
-        combos: { ...state.combos, ...payload.combos },
-      };
     case "UPDATE_CREATION": 
       return {
         ...state,
