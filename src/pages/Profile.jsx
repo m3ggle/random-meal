@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import ODonutLogo from "../assets/images/ODonut.webp";
 import Input from "../components/Input";
+import { useNavbarContext } from "../context/navbar/NavbarContext";
 import { useUserContext } from "../context/user/UserContext";
 import { db } from "../firebase.config";
 import styles from "../styles";
@@ -14,7 +15,7 @@ import styles from "../styles";
 const Profile = () => {
   const auth = getAuth();
   const navigate = useNavigate();
-  const { dispatchUser } = useUserContext();
+  const { dispatchNavbar} = useNavbarContext()
 
   // Todo: Save Button is only available if all the inputs are change and in a state of default
   //  ? how about, default is going to be "def" and the change defaults going to be "defaultChange" => check: fullName.state.includes("default") && ...
@@ -142,7 +143,7 @@ const Profile = () => {
     });
 
     // navbar
-    dispatchUser({ type: "UPDATE_NAVBARSTATUS", payload: true });
+    dispatchNavbar({ type: "UPDATE_NAVBARSTATUS", payload: true });
   }, []);
 
   const handleCompletion = async (user) => {
@@ -265,8 +266,27 @@ const Profile = () => {
     toast.info("🤨 Currently not available");
   };
 
+  // navbar
+  const [lastKnowScroll, setLastKnowScroll] = useState(0);
+  const updateShowNavbar = (e) => {
+    const currentY = e.currentTarget.scrollTop;
+    var difference = function (a, b) {
+      return Math.abs(a - b);
+    };
+    if (difference(lastKnowScroll, currentY) > 120) {
+      dispatchNavbar({
+        type: "UPDATE_NAVBARSTATUS",
+        payload: lastKnowScroll < e.currentTarget.scrollTop ? false : true,
+      });
+      setLastKnowScroll(e.currentTarget.scrollTop);
+    }
+  };
+
   return (
-    <div className="w-full h-screen bg-bgPrimaryCol flex flex-col overflow-scroll pt-8 md:pt-0">
+    <div
+      onScroll={updateShowNavbar}
+      className="w-full h-screen bg-bgPrimaryCol flex flex-col overflow-scroll pt-8 md:pt-0"
+    >
       {/* <Helmet>
         <title>Profile</title>
         <meta name="description" content="" />

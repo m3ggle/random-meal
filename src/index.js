@@ -4,6 +4,7 @@ import App from "./App";
 import { BuyinglistProvider } from "./context/buyinglist/buyinglistContext";
 import { ComboProvider } from "./context/combos/ComboContext";
 import { MealProvider } from "./context/meals/MealContext";
+import { NavbarProvider } from "./context/navbar/NavbarContext";
 import { PagenationProvider } from "./context/pagenation/PagenationContext";
 import { UserProvider } from "./context/user/UserContext";
 import "./index.css";
@@ -16,7 +17,9 @@ root.render(
         <ComboProvider>
           <BuyinglistProvider>
             <PagenationProvider>
-            <App />
+              <NavbarProvider>
+                <App />
+              </NavbarProvider>
             </PagenationProvider>
           </BuyinglistProvider>
         </ComboProvider>

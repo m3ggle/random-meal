@@ -7,14 +7,16 @@ import SearchFilter from "../components/SearchFilter";
 import TwoChoice from "../components/TwoChoice";
 import { useComboContext } from "../context/combos/ComboContext";
 import { useMealContext } from "../context/meals/MealContext";
+import { useNavbarContext } from "../context/navbar/NavbarContext";
 import { useUserContext } from "../context/user/UserContext";
 import { useGetMeals } from "../hooks/useGetMeals";
 
 const FavMeals = () => {
   //* context
-  const { user, dispatchUser } = useUserContext();
+  const { user } = useUserContext();
   const { meals, dispatchMeal } = useMealContext();
   const { combos, dispatchCombo } = useComboContext();
+  const { dispatchNavbar } = useNavbarContext();
 
   //* states
   const [filteredMeals, setFilteredMeals] = useState();
@@ -65,7 +67,7 @@ const FavMeals = () => {
     }
 
     // navbar
-    dispatchUser({ type: "UPDATE_NAVBARSTATUS", payload: true });
+    dispatchNavbar({ type: "UPDATE_NAVBARSTATUS", payload: true });
   }, []);
 
   const updateContext = async () => {
@@ -134,7 +136,7 @@ const FavMeals = () => {
       return Math.abs(a - b);
     };
     if (difference(lastKnowScroll, currentY) > 120) {
-      dispatchUser({
+      dispatchNavbar({
         type: "UPDATE_NAVBARSTATUS",
         payload: lastKnowScroll < e.currentTarget.scrollTop ? false : true,
       });

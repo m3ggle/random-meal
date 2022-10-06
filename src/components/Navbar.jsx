@@ -11,11 +11,12 @@ import {
 import { Link, useLocation } from "react-router-dom";
 import ODonutLogo from "../assets/images/ODonut.webp";
 import InstagramIcon from "../assets/svg/instagramIcon.svg";
-import { useUserContext } from "../context/user/UserContext";
+import { useNavbarContext } from "../context/navbar/NavbarContext";
 import styles from "../styles";
 
 const Navbar = () => {
-  const { navbarStatus } = useUserContext();
+  const { navbarStatus } = useNavbarContext();
+
   const location = useLocation();
 
   const [activeSite, setActiveSite] = useState({

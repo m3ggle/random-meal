@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
 import LunchImg from "../assets/images/lunchExample.webp";
 import { useBuyinglistContext } from "../context/buyinglist/buyinglistContext";
+import { useNavbarContext } from "../context/navbar/NavbarContext";
 import { useUserContext } from "../context/user/UserContext";
 import { db } from "../firebase.config";
 import styles from "../styles";
@@ -14,6 +15,7 @@ import styles from "../styles";
 const BuyingList = () => {
   // Todo: clean up fromData mess
   const { dispatchUser } = useUserContext();
+  const { dispatchNavbar } = useNavbarContext();
   const { buyinglist, dispatchBuyinglist } = useBuyinglistContext();
 
   const [newIngredient, setNewIngredient] = useState({
@@ -88,7 +90,7 @@ const BuyingList = () => {
 
   useEffect(() => {
     // navbar
-    dispatchUser({ type: "UPDATE_NAVBARSTATUS", payload: true });
+    dispatchNavbar({ type: "UPDATE_NAVBARSTATUS", payload: true });
   }, []);
 
   const handleAdd = (ingName, ingAmount, ingUnit) => {
@@ -167,8 +169,27 @@ const BuyingList = () => {
     toast.info("😊 This Feature is coming in soon");
   };
 
+  // navbar
+  const [lastKnowScroll, setLastKnowScroll] = useState(0);
+  const updateShowNavbar = (e) => {
+    const currentY = e.currentTarget.scrollTop;
+    var difference = function (a, b) {
+      return Math.abs(a - b);
+    };
+    if (difference(lastKnowScroll, currentY) > 120) {
+      dispatchNavbar({
+        type: "UPDATE_NAVBARSTATUS",
+        payload: lastKnowScroll < e.currentTarget.scrollTop ? false : true,
+      });
+      setLastKnowScroll(e.currentTarget.scrollTop);
+    }
+  };
+
   return (
-    <div className={`${styles.flexCenter} w-full h-screen`}>
+    <div
+      onScroll={updateShowNavbar}
+      className={`${styles.flexCenter} w-full h-screen`}
+    >
       {/* <Helmet>
         <title>Buyinglist</title>
         <meta name="description" content="" />

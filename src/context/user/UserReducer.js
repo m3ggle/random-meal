@@ -20,11 +20,6 @@ const userReducer = (state, action) => {
         ...state,
         creation: {...payload}
       }
-    case "UPDATE_NAVBARSTATUS": 
-      return {
-        ...state,
-        navbarStatus: payload
-      }
     // case "SINGLE_MEAL_PAGENATION": 
     //   return {
     //     ...state,
