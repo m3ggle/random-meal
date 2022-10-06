@@ -8,13 +8,11 @@ import { v4 as uuidv4 } from "uuid";
 import LunchImg from "../assets/images/lunchExample.webp";
 import { useBuyinglistContext } from "../context/buyinglist/buyinglistContext";
 import { useNavbarContext } from "../context/navbar/NavbarContext";
-import { useUserContext } from "../context/user/UserContext";
 import { db } from "../firebase.config";
 import styles from "../styles";
 
 const BuyingList = () => {
   // Todo: clean up fromData mess
-  const { dispatchUser } = useUserContext();
   const { dispatchNavbar } = useNavbarContext();
   const { buyinglist, dispatchBuyinglist } = useBuyinglistContext();
 

@@ -45,7 +45,6 @@ export const UserProvider = ({ children }) => {
         combo: {},
       },
     },
-    navbarStatus: true,
   };
 
   const [state, dispatchUser] = useReducer(userReducer, initialState);

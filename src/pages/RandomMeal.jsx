@@ -9,6 +9,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { useBuyinglistContext } from "../context/buyinglist/buyinglistContext";
 import { useMealContext } from "../context/meals/MealContext";
+import { useNavbarContext } from "../context/navbar/NavbarContext";
 import { usePagenationContext } from "../context/pagenation/PagenationContext";
 import { getRandomDayMeal } from "../context/SpoonacularAction";
 import { useUserContext } from "../context/user/UserContext";
@@ -26,6 +27,7 @@ const RandomMeal = () => {
   const { user, dispatchUser } = useUserContext();
   const { pagenation } = usePagenationContext();
   const { buyinglist, dispatchBuyinglist } = useBuyinglistContext();
+  const { dispatchNavbar} = useNavbarContext()
 
   //* states
   const [spoonResults, setspoonResults] = useState([77188, 580283, 596149]);
@@ -61,7 +63,7 @@ const RandomMeal = () => {
 
   useEffect(() => {
     // navbar
-    dispatchUser({ type: "UPDATE_NAVBARSTATUS", payload: true });
+    dispatchNavbar({ type: "UPDATE_NAVBARSTATUS", payload: true });
   }, []);
 
   // const testDrive = async () => {
