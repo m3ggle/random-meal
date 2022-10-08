@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loading from "./components/Loading";
-import MealdetailsInterception from "./pages/mealdetails/MealdetailsInterception";
 import Navbar from "./components/Navbar";
 import NotSign from "./components/NotSign";
 import PrivateRoute from "./components/PrivateRoute";
@@ -97,12 +96,7 @@ function App() {
             <Navbar />
             <Routes>
               <Route path="/buyinglist" element={<BuyingList />} />
-              <Route
-                path="/mealdetails/:id"
-                element={<MealdetailsInterception />}
-              >
-                <Route path="/mealdetails/:id" element={<Mealdetails />} />
-              </Route>
+              <Route path="/mealdetails/:id" element={<Mealdetails />} />
               <Route path="/randomMeal" element={<RandomMeal />} />
               <Route path="/home" element={<RandomMeal />} />
               <Route path="/" element={<RandomMeal />} />

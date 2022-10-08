@@ -1,4 +1,4 @@
-import { collection, getDocs, limit, query, where } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, limit, query, where } from "firebase/firestore";
 import { db } from "../firebase.config";
 
 // Todo: caller should provide startafter
@@ -83,11 +83,25 @@ export const useDownloadFromFirestore = () => {
     }
   };
 
+  const getSingleMealById = async (mealId) => {
+    if (mealId) {
+      const docRef = doc(db, "meals", mealId.toString());
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        return docSnap.data()
+      } else {
+        return undefined
+      }
+    }
+  }
+
   return {
     getTenFavCombos,
     getTenCombosFromCollection,
     getTenFavMeals,
     getTenMealsFromCollection,
     getMealsById,
+    getSingleMealById,
   };
 };
