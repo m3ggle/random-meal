@@ -1,9 +1,9 @@
 import { doc, getDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom"; //Navigate is the old redirect
-import { db } from "../firebase.config";
-import Mealdetails from "../pages/Mealdetails"
-import Loading from "./Loading";
+import { useLocation, useNavigate, useParams } from "react-router-dom"; //Navigate is the old redirect
+import { db } from "../../firebase.config";
+import Mealdetails from "./Mealdetails";
+import Loading from "../../components/Loading";
 
 const MealdetailsInterception = () => {
   const location = useLocation();
@@ -12,7 +12,7 @@ const MealdetailsInterception = () => {
 
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(location.state);
-  const [navigateTo, setNavigateTo] = useState(undefined)
+  const [navigateTo, setNavigateTo] = useState(undefined);
 
   useEffect(() => {
     const getData = async () => {
@@ -30,14 +30,18 @@ const MealdetailsInterception = () => {
     const docSnap = (await getDoc(docRef)).data();
     if (docSnap !== undefined) {
       setData(docSnap);
-      setNavigateTo("/")
+      setNavigateTo("/");
       setLoading(false);
     } else {
       navigate("/not-found");
     }
   };
 
-  return loading ? <Loading /> : <Mealdetails data={data} navigateTo={navigateTo} />;
+  return loading ? (
+    <Loading />
+  ) : (
+    <Mealdetails data={data} navigateTo={navigateTo} />
+  );
 };
 
 export default MealdetailsInterception;
