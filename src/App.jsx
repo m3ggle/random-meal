@@ -12,7 +12,7 @@ import { useMealContext } from "./context/meals/MealContext";
 import { useUserContext } from "./context/user/UserContext";
 import { db } from "./firebase.config";
 import { useAuthStatus } from "./hooks/useAuthStatus";
-import BuyingList from "./pages/BuyingList";
+import BuyingList from "./pages/buyinglist/BuyingList";
 import Creation from "./pages/Creation";
 import FavMeals from "./pages/FavMeals";
 import ForgotPassword from "./pages/ForgotPassword";

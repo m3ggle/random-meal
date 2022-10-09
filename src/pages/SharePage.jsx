@@ -5,16 +5,15 @@ import ShareCombos from "../components/ShareCombos";
 import TwoChoice from "../components/TwoChoice";
 import { useComboContext } from "../context/combos/ComboContext";
 import { useMealContext } from "../context/meals/MealContext";
-import { useNavbarContext } from "../context/navbar/NavbarContext";
 import { useUserContext } from "../context/user/UserContext";
 import { useGetMeals } from "../hooks/useGetMeals";
+import { useUpdateNavbar } from "../hooks/useUpdateNavbar";
 
 const SharePage = () => {
   //* context
   const { user } = useUserContext();
   const { meals, dispatchMeal } = useMealContext();
   const { combos, dispatchCombo } = useComboContext();
-  const { dispatchNavbar } = useNavbarContext();
 
   //* states
   const [filteredMeals, setFilteredMeals] = useState([]);
@@ -25,6 +24,7 @@ const SharePage = () => {
 
   //* import fct/hooks
   const { handleGetMealsCombos } = useGetMeals();
+  const { updateShowNavbar } = useUpdateNavbar();
 
   //* destructuring
 
@@ -57,9 +57,6 @@ const SharePage = () => {
     };
 
     updateContext();
-
-    // navbar
-    dispatchNavbar({ type: "UPDATE_NAVBARSTATUS", payload: true });
   }, []);
 
   // set/updatefavorite Meals (internal)
@@ -86,22 +83,6 @@ const SharePage = () => {
   };
   const handleCallbackFilteredCombos = (newlyFiltered) => {
     setFilteredCombos(newlyFiltered);
-  };
-
-  // navbar
-  const [lastKnowScroll, setLastKnowScroll] = useState(0);
-  const updateShowNavbar = (e) => {
-    const currentY = e.currentTarget.scrollTop;
-    var difference = function (a, b) {
-      return Math.abs(a - b);
-    };
-    if (difference(lastKnowScroll, currentY) > 120) {
-      dispatchNavbar({
-        type: "UPDATE_NAVBARSTATUS",
-        payload: lastKnowScroll < e.currentTarget.scrollTop ? false : true,
-      });
-      setLastKnowScroll(e.currentTarget.scrollTop);
-    }
   };
 
   return (

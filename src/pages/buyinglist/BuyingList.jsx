@@ -1,21 +1,22 @@
-import { getAuth } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
 import { motion } from "framer-motion";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FaTimes } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
-import LunchImg from "../assets/images/lunchExample.webp";
-import { useBuyinglistContext } from "../context/buyinglist/buyinglistContext";
-import { useNavbarContext } from "../context/navbar/NavbarContext";
-import { db } from "../firebase.config";
-import styles from "../styles";
+import LunchImg from "../../assets/images/lunchExample.webp";
+import { useBuyinglistContext } from "../../context/buyinglist/buyinglistContext";
+import { useUpdateNavbar } from "../../hooks/useUpdateNavbar";
+import styles from "../../styles";
+import { useAddAndRemove } from "./helper/useAddAndRemove";
 
 const BuyingList = () => {
   // Todo: clean up fromData mess
-  const { dispatchNavbar } = useNavbarContext();
-  const { buyinglist, dispatchBuyinglist } = useBuyinglistContext();
+  const { buyinglist } = useBuyinglistContext();
+  const { handleAdd, handleDelete } = useAddAndRemove();
 
+  const { updateShowNavbar } = useUpdateNavbar();
+
+  // ! outsource, but at last
   const [newIngredient, setNewIngredient] = useState({
     ingredient: {
       text: "",
@@ -66,133 +67,24 @@ const BuyingList = () => {
     }));
   };
 
-  // buyinglist
-  const uploadUpdate = async (buyinglist) => {
-    try {
-      const auth = getAuth();
-      if (auth.currentUser) {
-        await setDoc(
-          doc(db, "users", auth.currentUser.uid),
-          {
-            buyinglist: buyinglist,
-          },
-          { merge: true }
-        );
-      } else {
-        toast.error("😤 Not logged in");
-      }
-    } catch (error) {
-      toast.error("🍅 Could not upload the Update");
-    }
-  };
-
-  useEffect(() => {
-    // navbar
-    dispatchNavbar({ type: "UPDATE_NAVBARSTATUS", payload: true });
-  }, []);
-
-  const handleAdd = (ingName, ingAmount, ingUnit) => {
-    let created = false;
-    const ingredientObj = {
-      name: ingName,
-      amount: parseInt(ingAmount),
-      unitShort: ingUnit,
-    };
-    if (newIngredient.correctness) {
-      if (buyinglist.length <= 5) {
-        buyinglist.some((meal, index) => {
-          if (meal["Others"]) {
-            // others exist
-            buyinglist[index][Object.keys(meal)].push(ingredientObj);
-            created = true;
-          }
-        });
-        if (!created) {
-          buyinglist.push({
-            Others: [ingredientObj],
-          });
-          created = true;
-        }
-      } else {
-        toast.info(
-          "🍓 You reached the maximum number of Meals in your Buyinglist"
-        );
-      }
-    }
-
-    if (created) {
-      dispatchBuyinglist({ type: "UPDATE_BUYINGLIST", payload: buyinglist });
-      uploadUpdate(buyinglist);
-      // setNewIngredient((prevState) => ({
-      //   ...prevState,
-      //   ingredient: { ...prevState.ingredient, text: "", correctness: false },
-      //   amount: { ...prevState.amount, text: "", correctness: false },
-      //   unit: { ...prevState.unit, text: "", correctness: false },
-      // }));
-    }
-  };
-
-  const handleDelete = ({ mealName, ingredientName }) => {
-    let updatedMeal;
-    const newBuyinglist = buyinglist.filter((meal) => {
-      if (Object.keys(meal)[0] === mealName) {
-        if (ingredientName !== undefined) {
-          // delete ingredient
-          let ings = meal[Object.keys(meal)[0]].filter((ingredient) => {
-            if (ingredient.name === ingredientName) {
-              return false;
-            } else if (ingredient.name !== ingredientName) {
-              return true;
-            }
-          });
-          updatedMeal = { [Object.keys(meal)[0]]: [...ings] };
-          return false;
-        } else if (ingredientName === undefined) {
-          // delete meal
-          return false;
-        }
-      } else {
-        return true;
-      }
-    });
-    if (ingredientName !== undefined) {
-      newBuyinglist.push(updatedMeal);
-    }
-
-    dispatchBuyinglist({ type: "UPDATE_BUYINGLIST", payload: newBuyinglist });
-    uploadUpdate(newBuyinglist);
-  };
-
   const handleToastMsg = () => {
     toast.info("😊 This Feature is coming in soon");
   };
 
-  // navbar
-  const [lastKnowScroll, setLastKnowScroll] = useState(0);
-  const updateShowNavbar = (e) => {
-    const currentY = e.currentTarget.scrollTop;
-    var difference = function (a, b) {
-      return Math.abs(a - b);
-    };
-    if (difference(lastKnowScroll, currentY) > 120) {
-      dispatchNavbar({
-        type: "UPDATE_NAVBARSTATUS",
-        payload: lastKnowScroll < e.currentTarget.scrollTop ? false : true,
-      });
-      setLastKnowScroll(e.currentTarget.scrollTop);
-    }
-  };
-
+  // ! outsource
+  // buyinglistCard.jsx
+  // outsource input with newIngredient state
+  // exportButton.jsx
   return (
-    <div
-      onScroll={updateShowNavbar}
-      className={`${styles.flexCenter} w-full h-screen`}
-    >
+    <div className={`${styles.flexCenter} w-full h-screen`}>
       {/* <Helmet>
         <title>Buyinglist</title>
         <meta name="description" content="" />
       </Helmet> */}
-      <div className="relative w-full md:max-w-[534px] lg:max-w-[600px] h-screen overflow-scroll bg-bgPrimaryCol pt-10 pb-28 md:pb-10  flex flex-col">
+      <div
+        onScroll={updateShowNavbar}
+        className="relative w-full md:max-w-[534px] lg:max-w-[600px] h-screen overflow-scroll bg-bgPrimaryCol pt-10 pb-28 md:pb-10  flex flex-col"
+      >
         <div className="flex flex-col">
           {/* titel */}
           <div className="w-full text-center">
@@ -314,13 +206,7 @@ const BuyingList = () => {
                     newIngredient.correctness ? { scale: 0.98 } : { scale: 1 }
                   }
                   type="button"
-                  onClick={() =>
-                    handleAdd(
-                      newIngredient.ingredient.text,
-                      newIngredient.amount.text,
-                      newIngredient.unit.text
-                    )
-                  }
+                  onClick={() => handleAdd(newIngredient)}
                   className={`min-w-[50px] min-h-[46px] rounded-xl ${
                     styles.flexCenter
                   } text-lightTextCol ${

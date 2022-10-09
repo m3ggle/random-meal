@@ -7,16 +7,15 @@ import SearchFilter from "../components/SearchFilter";
 import TwoChoice from "../components/TwoChoice";
 import { useComboContext } from "../context/combos/ComboContext";
 import { useMealContext } from "../context/meals/MealContext";
-import { useNavbarContext } from "../context/navbar/NavbarContext";
 import { useUserContext } from "../context/user/UserContext";
 import { useGetMeals } from "../hooks/useGetMeals";
+import { useUpdateNavbar } from "../hooks/useUpdateNavbar";
 
 const FavMeals = () => {
   //* context
   const { user } = useUserContext();
   const { meals, dispatchMeal } = useMealContext();
   const { combos, dispatchCombo } = useComboContext();
-  const { dispatchNavbar } = useNavbarContext();
 
   //* states
   const [filteredMeals, setFilteredMeals] = useState();
@@ -27,6 +26,7 @@ const FavMeals = () => {
 
   //* import fct/hooks
   const { handleGetMealsCombos } = useGetMeals();
+  const { updateShowNavbar } = useUpdateNavbar();
 
   //* destructuring
 
@@ -40,34 +40,13 @@ const FavMeals = () => {
     if (!auth.currentUser) {
       navigate("/sign-in");
     }
-
-    // const testDrive = async () => {
-    //   const results = await getTenMealsFromCollection()
-    //   console.log(results)
-    // }
-
-    // testDrive()
   }, []);
-
-  // const getTenMealsFromCollection = async () => {
-  //   let meals = [];
-  //   const collectionRef = collection(db, "meals");
-  //   const q = query(collectionRef, limit(10), startAfter(10));
-  //   const querySnapshot = await getDocs(q);
-  //   querySnapshot.forEach((doc) => {
-  //     meals.push(doc.data());
-  //   });
-  //   return meals;
-  // };
 
   // context
   useEffect(() => {
     if (user.favMeals) {
       updateContext();
     }
-
-    // navbar
-    dispatchNavbar({ type: "UPDATE_NAVBARSTATUS", payload: true });
   }, []);
 
   const updateContext = async () => {
@@ -126,22 +105,6 @@ const FavMeals = () => {
   };
   const handleCallbackFilteredCombos = (newlyFiltered) => {
     setFilteredCombos(newlyFiltered);
-  };
-
-  // navbar
-  const [lastKnowScroll, setLastKnowScroll] = useState(0);
-  const updateShowNavbar = (e) => {
-    const currentY = e.currentTarget.scrollTop;
-    var difference = function (a, b) {
-      return Math.abs(a - b);
-    };
-    if (difference(lastKnowScroll, currentY) > 120) {
-      dispatchNavbar({
-        type: "UPDATE_NAVBARSTATUS",
-        payload: lastKnowScroll < e.currentTarget.scrollTop ? false : true,
-      });
-      setLastKnowScroll(e.currentTarget.scrollTop);
-    }
   };
 
   return (
