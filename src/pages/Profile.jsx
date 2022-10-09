@@ -10,12 +10,14 @@ import Input from "../components/Input";
 import { useNavbarContext } from "../context/navbar/NavbarContext";
 import { useUserContext } from "../context/user/UserContext";
 import { db } from "../firebase.config";
+import { useUpdateNavbar } from "../hooks/useUpdateNavbar";
 import styles from "../styles";
 
 const Profile = () => {
   const auth = getAuth();
   const navigate = useNavigate();
-  const { dispatchNavbar} = useNavbarContext()
+  const { updateShowNavbar } = useUpdateNavbar();
+  
 
   // Todo: Save Button is only available if all the inputs are change and in a state of default
   //  ? how about, default is going to be "def" and the change defaults going to be "defaultChange" => check: fullName.state.includes("default") && ...
@@ -141,9 +143,6 @@ const Profile = () => {
         toast.error("You Have To Be Logged In");
       }
     });
-
-    // navbar
-    dispatchNavbar({ type: "UPDATE_NAVBARSTATUS", payload: true });
   }, []);
 
   const handleCompletion = async (user) => {
@@ -264,22 +263,6 @@ const Profile = () => {
 
   const handleToastMsg = () => {
     toast.info("🤨 Currently not available");
-  };
-
-  // navbar
-  const [lastKnowScroll, setLastKnowScroll] = useState(0);
-  const updateShowNavbar = (e) => {
-    const currentY = e.currentTarget.scrollTop;
-    var difference = function (a, b) {
-      return Math.abs(a - b);
-    };
-    if (difference(lastKnowScroll, currentY) > 120) {
-      dispatchNavbar({
-        type: "UPDATE_NAVBARSTATUS",
-        payload: lastKnowScroll < e.currentTarget.scrollTop ? false : true,
-      });
-      setLastKnowScroll(e.currentTarget.scrollTop);
-    }
   };
 
   return (

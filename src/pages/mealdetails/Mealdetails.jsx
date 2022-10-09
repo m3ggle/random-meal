@@ -8,7 +8,7 @@ import { initSpecificBuyinglist } from "./helper/InitSpecificBuyinglist";
 import { useGetMeal } from "./helper/useGetMeal";
 import MealdetailsView from "./view/MealdetailsView";
 
-const Mealdetails = ({ navigateTo }) => {
+const Mealdetails = ( ) => {
   const { meals } = useMealContext();
   const { buyinglist, dispatchBuyinglist } = useBuyinglistContext();
   const [specificBuyinglist, setSpecificBuyinglist] = useState();
