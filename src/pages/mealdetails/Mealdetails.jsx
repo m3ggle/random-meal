@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useBuyinglistContext } from "../../context/buyinglist/buyinglistContext";
 import { useMealContext } from "../../context/meals/MealContext";
@@ -16,6 +16,7 @@ const Mealdetails = ({ navigateTo }) => {
   const { getMeal } = useGetMeal();
   const params = useParams();
   const [mealInfo, setMealInfo] = useState(undefined);
+  const location = useLocation();
 
   useEffect(() => {
     const getMealLogic = async () => {
@@ -71,6 +72,7 @@ const Mealdetails = ({ navigateTo }) => {
         meal={mealInfo}
         onIngredientClick={handleIngredientClick}
         specificBuyinglist={specificBuyinglist}
+        navigationBack={location.state}
       />
     </div>
   );

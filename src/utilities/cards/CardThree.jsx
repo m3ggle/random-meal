@@ -51,7 +51,7 @@ const CardThree = ({ meal }) => {
     >
       <div
         id="overlay"
-        onClick={() => navigate(`/mealdetails/${mealinformation.id}`)}
+        onClick={() => navigate(`/mealdetails/${mealinformation.id}`, { state: { navigateBack: true } })}
         className="absolute top-0 left-0 w-full h-full imgOverlayRandomMeal z-10"
       ></div>
 

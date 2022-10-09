@@ -43,8 +43,11 @@ const SingleCard = ({ meal, navigationOn, callBackId }) => {
   };
 
   const handleNavigation = () => {
+    // navigationOn: if it should navigate to the mealdetails or if it should call the callback and not navigate (kinda like a select)
     if (navigationOn) {
-      navigate(`/mealdetails/${mealinformation.id}`);
+      navigate(`/mealdetails/${mealinformation.id}`, {
+        state: { navigateBack: true },
+      });
     } else {
       callBackId(mealinformation.id);
     }

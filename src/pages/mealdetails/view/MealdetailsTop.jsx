@@ -2,9 +2,11 @@ import React from "react";
 import { FaTimes } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
-const MealdetailsTop = ({ image }) => {
+const MealdetailsTop = ({ image, navigationBack }) => {
   const navigate = useNavigate();
-  const handleNavigate = () => navigate("/");
+  const handleNavigate = () => {
+    navigationBack ? navigate(-1) : navigate("/")
+  };
 
   return (
     <div

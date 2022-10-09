@@ -51,11 +51,11 @@ const Card0T640 = ({ meal }) => {
       whileTap={{ scale: 0.99 }}
       state={meal}
       className="relative w-[90%] h-[30%] md:h-[30%] rounded-[20px] bg-bgPrimaryCol bg-center bg-cover overflow-hidden DayMealsShadow cursor-pointer xl:w-[308px] xl:min-h-[423px] xl:max-h-[423px] xl:flex xl:justify-center py-0"
-      style={{ backgroundImage: `url(${mealinformation.image})` }}
+      style={{ backgroundImage: `url(${mealinformation.image})`}}
     >
       <div
         id="overlay"
-        onClick={() => navigate(`/mealdetails/${mealinformation.id}`)}
+        onClick={() => navigate(`/mealdetails/${mealinformation.id}`, {state: { navigateBack: true }})}
         className="absolute top-0 left-0 w-full h-full imgOverlayRandomMeal z-10"
       ></div>
 
