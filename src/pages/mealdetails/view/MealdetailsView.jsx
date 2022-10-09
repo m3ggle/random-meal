@@ -20,7 +20,7 @@ const MealdetailsView = ({
         {meal ? (
           <>
             <MealdetailsTop
-              image={meal.mealinformation.image}
+              meal={meal}
               navigationBack={navigationBack}
             />
 
