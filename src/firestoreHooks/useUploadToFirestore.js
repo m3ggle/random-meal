@@ -1,5 +1,5 @@
 import { getAuth } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { useMealContext } from "../context/meals/MealContext";
 import { db } from "../firebase.config";
@@ -83,36 +83,50 @@ export const useUploadToFirestore = () => {
 
   const storeInDb = async (result, allMealIds) => {
     try {
-      let missingIds = [];
-      const missingMeals = result.filter((meal) => {
-        if (!allMealIds.includes(meal.mealinformation.id)) {
-          missingIds.push(meal.mealinformation.id);
-          return meal;
+      let meals = [];
+
+      // get all meals, meals which are not yet stored in the db will give back undefined
+      await Promise.all([
+        getDoc(doc(db, "meals", allMealIds[0].toString())),
+        getDoc(doc(db, "meals", allMealIds[1].toString())),
+        getDoc(doc(db, "meals", allMealIds[2].toString())),
+      ]).then((values) => {
+        values.map((meal) => {
+          meals.push(meal.data());
+        });
+      });
+
+      // get all the indexes of missing meals
+      let missingMealIds = [];
+      meals.map((potentialMeal, index) => {
+        potentialMeal === undefined && missingMealIds.push(allMealIds[index]);
+      });
+
+      // filtered whole meals
+      let filteredMeals = []
+      Object.values(result).map((meal) => {
+        if (missingMealIds.includes(meal.mealinformation.id)) {
+          filteredMeals.push({
+            [meal.mealinformation.id]: {
+              ...meal
+            }
+          })
         }
       });
-      
-      dispatchMeal({
-        type: "UPDATE_STORED_MEAL_IDS",
-        payload: [...missingIds],
-      });
-      
-      const newAllMealIds = [...allMealIds, ...missingIds];
 
-      if (missingMeals.length > 0) {
-        await Promise.all([
-          missingMeals.map((meal) => {
-            return setDoc(
-              doc(db, "meals", meal.mealinformation.id.toString()),
-              { ...meal }
-            );
-          }),
-          setDoc(
-            doc(db, "meals", "ids"),
-            { allMealIds: [...newAllMealIds] },
-            { merge: true }
-          ),
-        ]);
-      }
+      console.log(result)
+      console.log(filteredMeals)
+
+      // upload meals
+      await Promise.all([
+        filteredMeals.map((meal) => {
+          return setDoc(
+            doc(db, "meals", (meal[Object.keys(meal)[0]].mealinformation.id).toString()),
+            meal[Object.keys(meal)[0]]
+          );
+        }),
+      ])
+
     } catch (error) {
       console.log(error);
     }

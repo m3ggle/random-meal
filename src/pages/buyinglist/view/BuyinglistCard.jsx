@@ -3,12 +3,10 @@ import { FaTimes } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { useBuyinglistContext } from "../../../context/buyinglist/buyinglistContext";
-import { useMealContext } from "../../../context/meals/MealContext";
 import styles from "../../../styles";
 import { useAddAndRemove } from "../helper/useAddAndRemove";
 
 const BuyinglistCard = () => {
-  const { meals: mealContext } = useMealContext();
   const { buyinglist } = useBuyinglistContext();
   const { handleDelete } = useAddAndRemove();
 

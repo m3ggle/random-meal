@@ -1,12 +1,15 @@
 import { getAuth } from "firebase/auth";
 import {
   collection,
+  deleteDoc,
+  doc,
   getDocs,
   limit,
   query,
   startAfter,
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
+import Loading from "../components/Loading";
 import { useBuyinglistContext } from "../context/buyinglist/buyinglistContext";
 import { useMealContext } from "../context/meals/MealContext";
 import { useNavbarContext } from "../context/navbar/NavbarContext";
@@ -23,15 +26,13 @@ import HomeCards0T640 from "../utilities/HomeCards0T640";
 
 const RandomMeal = () => {
   //* context
-  const { meals, dispatchMeal, allMealIds } = useMealContext();
-  const { user, dispatchUser } = useUserContext();
+  const { meals, dispatchMeal } = useMealContext();
+  const { user } = useUserContext();
   const { pagenation } = usePagenationContext();
   const { buyinglist, dispatchBuyinglist } = useBuyinglistContext();
-  const { dispatchNavbar} = useNavbarContext()
+  const { dispatchNavbar } = useNavbarContext();
 
   //* states
-  const [spoonResults, setspoonResults] = useState([77188, 580283, 596149]);
-
   //* import fct/hooks
   const { cleanUpMeals } = useCleanUp();
   const { handleBuyinglistCombo } = useBuyinglist();
@@ -57,11 +58,18 @@ const RandomMeal = () => {
       type: "UPDATE_MEALS",
       payload: { ...formattedMeals },
     });
+    const allMealIds = getAllIds(cleanedUpMeals);
     storeInDb(cleanedUpMeals, allMealIds);
-    setspoonResults(getAllIds(cleanedUpMeals));
+    localStorage.setItem("spoonResult", JSON.stringify(allMealIds));
   };
 
   useEffect(() => {
+    if (localStorage.getItem("spoonResult") === null) {
+      localStorage.setItem(
+        "spoonResult",
+        JSON.stringify([77190, 580283, 596149])
+      );
+    }
     // navbar
     dispatchNavbar({ type: "UPDATE_NAVBARSTATUS", payload: true });
   }, []);
@@ -147,9 +155,9 @@ const RandomMeal = () => {
     const newBuyinglist = handleBuyinglistCombo({
       buyinglist,
       mealsInCombo: [
-        meals[spoonResults[0]],
-        meals[spoonResults[1]],
-        meals[spoonResults[2]],
+        meals[JSON.parse(localStorage.getItem("spoonResult"))[0]],
+        meals[JSON.parse(localStorage.getItem("spoonResult"))[1]],
+        meals[JSON.parse(localStorage.getItem("spoonResult"))[2]],
       ],
     });
     dispatchBuyinglist({ type: "UPDATE_BUYINGLIST", payload: newBuyinglist });
@@ -167,12 +175,17 @@ const RandomMeal = () => {
       >
         Click me
       </div> */}
-      <HomeCards0T640
-        meals={meals}
-        data={spoonResults}
-        callbackButton={callbackClickedButton}
-        callbackBuy={handleBuy}
-      />
+
+      {JSON.parse(localStorage.getItem("spoonResult")) === null ? (
+        <Loading />
+      ) : (
+        <HomeCards0T640
+          meals={meals}
+          data={JSON.parse(localStorage.getItem("spoonResult"))}
+          callbackButton={callbackClickedButton}
+          callbackBuy={handleBuy}
+        />
+      )}
     </div>
   );
 };

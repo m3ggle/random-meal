@@ -67,16 +67,19 @@ function App() {
 
   // get all meal ids for comparing in useStore
   useEffect(() => {
-    const unsub = onSnapshot(doc(db, "meals", "ids"), (doc) => {
-      let allMealIds = doc.data();
-      allMealIds = allMealIds.allMealIds;
-      dispatchMeal({
-        type: "UPDATE_STORED_MEAL_IDS",
-        payload: [...allMealIds],
-      });
-    });
+    // const unsub = onSnapshot(doc(db, "meals", "ids"), (doc) => {
+    //   let allMealIds = doc.data();
+    //   allMealIds = allMealIds.allMealIds;
+    //   dispatchMeal({
+    //     type: "UPDATE_STORED_MEAL_IDS",
+    //     payload: [...allMealIds],
+    //   });
+    // });
 
-    return () => unsub();
+    return () => {
+      // unsub()
+      localStorage.removeItem("spoonResult");
+    };
   }, []);
 
   return (
