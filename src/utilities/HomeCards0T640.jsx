@@ -13,6 +13,9 @@ const HomeCards0T640 = ({ meals, data, callbackButton, callbackBuy }) => {
   const handleToastMsg = () => {
     toast.info("😊 This Feature is coming in soon");
   };
+
+  // if check meals[data[0]]... in mealContext, if not then get them from firestore
+
   return (
     <div className="w-full max-w-[640px] xl:max-w-full flex items-center xl:justify-center flex-col py-[20px] md:py-10">
       {/* meals */}

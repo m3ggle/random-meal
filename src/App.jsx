@@ -65,22 +65,13 @@ function App() {
     }
   }, [loggedIn]);
 
-  // get all meal ids for comparing in useStore
-  useEffect(() => {
-    // const unsub = onSnapshot(doc(db, "meals", "ids"), (doc) => {
-    //   let allMealIds = doc.data();
-    //   allMealIds = allMealIds.allMealIds;
-    //   dispatchMeal({
-    //     type: "UPDATE_STORED_MEAL_IDS",
-    //     payload: [...allMealIds],
-    //   });
-    // });
-
-    return () => {
-      // unsub()
-      localStorage.removeItem("spoonResult");
-    };
-  }, []);
+  // when loading and when closing the window
+  window.onunload = function () {
+    localStorage.clear();
+  };
+  window.onbeforeunload = function () {
+    localStorage.clear();
+  };
 
   return (
     <div className={`w-full h-screen ${styles.flexCenter} bg-navCol`}>

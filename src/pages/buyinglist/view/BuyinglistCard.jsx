@@ -27,7 +27,7 @@ const BuyinglistCard = () => {
           {/* mealname */}
           <div className="flex justify-between items-center py-1 border-b-2 text-lightTextCol z-10">
             <p
-              onClick={() => handleClick(meal, Object.keys(meal)[0])}
+              // onClick={() => handleClick(meal, Object.keys(meal)[0])}
               className={`${styles.paragraph16} flex flex-grow`}
             >
               {Object.keys(meal)[0]}

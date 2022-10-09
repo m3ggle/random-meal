@@ -1,8 +1,6 @@
 import { getAuth } from "firebase/auth";
 import {
   collection,
-  deleteDoc,
-  doc,
   getDocs,
   limit,
   query,
