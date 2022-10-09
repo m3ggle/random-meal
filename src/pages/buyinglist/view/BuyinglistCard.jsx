@@ -22,10 +22,10 @@ const BuyinglistCard = () => {
       {buyinglist.map((meal) => (
         <div
           key={uuidv4()}
-          className="flex flex-col py-5 px-8 gap-4 bg-bgPrimaryCol rounded-[20px] buyinglistMealShadow"
+          className="buyinglistMealShadow flex flex-col gap-4 rounded-[20px] bg-bgPrimaryCol py-5 px-8"
         >
           {/* mealname */}
-          <div className="flex justify-between items-center py-1 border-b-2 text-lightTextCol z-10">
+          <div className="z-10 flex items-center justify-between border-b-2 py-1 text-lightTextCol">
             <p
               // onClick={() => handleClick(meal, Object.keys(meal)[0])}
               className={`${styles.paragraph16} flex flex-grow`}
@@ -34,12 +34,12 @@ const BuyinglistCard = () => {
             </p>
             <div
               onClick={() => handleDelete({ mealName: Object.keys(meal)[0] })}
-              className="w-12 flex items-center justify-center cursor-pointer z-20"
+              className="z-20 flex w-12 cursor-pointer items-center justify-center"
             >
               <FaTimes size="14px" />
             </div>
           </div>
-          <div className="flex flex-col pl-6 gap-[5px]">
+          <div className="flex flex-col gap-[5px] pl-6">
             {meal[Object.keys(meal)[0]].map((ingredient) => (
               <div
                 key={uuidv4()}
@@ -66,7 +66,7 @@ const BuyinglistCard = () => {
                       ingredientName: ingredient.name,
                     })
                   }
-                  className="w-12 flex items-center justify-center cursor-pointer"
+                  className="flex w-12 cursor-pointer items-center justify-center"
                 >
                   <FaTimes size="12px" />
                 </motion.div>

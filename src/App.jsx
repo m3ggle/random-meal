@@ -1,4 +1,4 @@
-import { doc, getDoc, onSnapshot } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
@@ -74,7 +74,7 @@ function App() {
   };
 
   return (
-    <div className={`w-full h-screen ${styles.flexCenter} bg-navCol`}>
+    <div className={`h-screen w-full ${styles.flexCenter} bg-navCol`}>
       {/* <Helmet>
         <title>Random Meal</title>
         <meta name="description" content="" />
@@ -84,7 +84,7 @@ function App() {
         <Loading />
       ) : (
         <div
-          className={`realative h-full max-w-[1440px] w-full flex bg-bgPrimaryCol overflow-hidden`}
+          className={`realative flex h-full w-full max-w-[1440px] overflow-hidden bg-bgPrimaryCol`}
         >
           <Router>
             <Navbar />

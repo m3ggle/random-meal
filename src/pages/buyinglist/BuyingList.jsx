@@ -9,14 +9,14 @@ const BuyingList = () => {
   const { updateShowNavbar } = useUpdateNavbar();
 
   return (
-    <div className={`${styles.flexCenter} w-full h-screen`}>
+    <div className={`${styles.flexCenter} h-screen w-full`}>
       {/* <Helmet>
         <title>Buyinglist</title>
         <meta name="description" content="" />
       </Helmet> */}
       <div
         onScroll={updateShowNavbar}
-        className="relative w-full md:max-w-[534px] lg:max-w-[600px] h-screen overflow-scroll bg-bgPrimaryCol pt-10 pb-28 md:pb-10 flex flex-col"
+        className="relative flex h-screen w-full flex-col overflow-scroll bg-bgPrimaryCol pt-10 pb-28 md:max-w-[534px] md:pb-10 lg:max-w-[600px]"
       >
         <div className="flex flex-col">
           {/* titel */}
@@ -27,7 +27,7 @@ const BuyingList = () => {
           </div>
 
           {/* cards */}
-          <div className="flex flex-col gap-y-4 p-5 overflow-auto">
+          <div className="flex flex-col gap-y-4 overflow-auto p-5">
             <BuyinglistCard />
 
             <BuyinglistNewIngredient />
@@ -35,10 +35,10 @@ const BuyingList = () => {
         </div>
       </div>
       <div
-        className="hidden 900:flex w-full h-full bg-black bg-center bg-cover"
+        className="hidden h-full w-full bg-black bg-cover bg-center 900:flex"
         style={{ backgroundImage: `url(${LunchImg})` }}
       >
-        <div className="w-full h-full buyinglistImgGradient"></div>
+        <div className="buyinglistImgGradient h-full w-full"></div>
       </div>
     </div>
   );

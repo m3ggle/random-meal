@@ -52,8 +52,14 @@ const SignButtons = ({ formData, stateArray }) => {
         condition: "all",
       })
     );
-    console.log(stateArray)
-    if (distributor({validation: "userInformation", values: stateArray, condition: "all"})) {
+    console.log(stateArray);
+    if (
+      distributor({
+        validation: "userInformation",
+        values: stateArray,
+        condition: "all",
+      })
+    ) {
       const auth = getAuth();
       if (location.pathname === "/sign-up") {
         handleSignUp(auth);
@@ -130,14 +136,14 @@ const SignButtons = ({ formData, stateArray }) => {
   };
 
   return (
-    <div className="flex flex-col py-[10px] gap-y-[10px]">
+    <div className="flex flex-col gap-y-[10px] py-[10px]">
       <div
         className={`${
           styles.flexCenter
-        } w-full py-[10px] rounded-xl text-lightTextCol font-semibold text-[14px] ${
+        } w-full rounded-xl py-[10px] text-[14px] font-semibold text-lightTextCol ${
           userInformation
-            ? "btnPrimaryCol buttonShadow hover:bg-[#293D2B] cursor-pointer"
-            : "bg-transparent border-[1px] border-solid cursor-default"
+            ? "btnPrimaryCol buttonShadow cursor-pointer hover:bg-[#293D2B]"
+            : "cursor-default border-[1px] border-solid bg-transparent"
         } `}
         onClick={handleSubmit}
       >
@@ -150,9 +156,9 @@ const SignButtons = ({ formData, stateArray }) => {
       {/* Google */}
       <div
         onClick={() => handleGoogle()}
-        className={`${styles.flexCenter} w-full py-[10px] rounded-xl text-lightTextCol font-semibold text-[14px] border-solid border-[1px] gap-x-1 cursor-pointer`}
+        className={`${styles.flexCenter} w-full cursor-pointer gap-x-1 rounded-xl border-[1px] border-solid py-[10px] text-[14px] font-semibold text-lightTextCol`}
       >
-        <div className={`${styles.flexCenter} w-5 h-5 pb-[2px]`}>
+        <div className={`${styles.flexCenter} h-5 w-5 pb-[2px]`}>
           <FaGoogle size="15px" />
         </div>
         {location.pathname === "/sign-in"

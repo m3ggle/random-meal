@@ -57,24 +57,24 @@ const SingleCard = ({ meal, navigationOn, callBackId }) => {
     <motion.div
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
-      className="w-90% md:w-[193px] h-[160px] md:h-[264px] bg-cover bg-center flex justify-center rounded-xl relative cardShadow overflow-hidden cursor-pointer"
+      className="w-90% cardShadow relative flex h-[160px] cursor-pointer justify-center overflow-hidden rounded-xl bg-cover bg-center md:h-[264px] md:w-[193px]"
       style={{ backgroundImage: `url(${mealinformation.image})` }}
     >
       <div
         id="overlay"
         onClick={handleNavigation}
-        className="absolute top-0 left-0 w-full h-full imgOverlayRandomMeal z-10"
+        className="imgOverlayRandomMeal absolute top-0 left-0 z-10 h-full w-full"
       ></div>
 
       {/* name and tag */}
-      <div className="w-full md:w-[170px] md:bg-lightTextCol rounded-xl absolute top-[69.5%] md:top-[68%] flex flex-start px-[10px] py-3 flex-col gap-y-[2px] md:cardNameShadow z-20">
+      <div className="flex-start md:cardNameShadow absolute top-[69.5%] z-20 flex w-full flex-col gap-y-[2px] rounded-xl px-[10px] py-3 md:top-[68%] md:w-[170px] md:bg-lightTextCol">
         <p
-          className={`text-[20px] md:text-[16px] text-lightTextCol md:text-darkTextCol font-semibold whitespace-nowrap truncate`}
+          className={`truncate whitespace-nowrap text-[20px] font-semibold text-lightTextCol md:text-[16px] md:text-darkTextCol`}
         >
           {mealinformation.title}
         </p>
         <div
-          className={`hidden 700:flex gap-1 w-full overflow-hidden flex-nowrap`}
+          className={`hidden w-full flex-nowrap gap-1 overflow-hidden 700:flex`}
         >
           {mealinformation.dishTypes.map((type) => {
             if (
@@ -87,7 +87,7 @@ const SingleCard = ({ meal, navigationOn, callBackId }) => {
               return (
                 <div
                   key={uuidv4()}
-                  className={`px-4 py-1 w-fit ${
+                  className={`w-fit px-4 py-1 ${
                     type === "Dinner"
                       ? "tagDinner"
                       : type === "Lunch"
@@ -106,12 +106,12 @@ const SingleCard = ({ meal, navigationOn, callBackId }) => {
       {/* icons */}
       <div
         id="icons"
-        className="w-fit h-fit flex flex-col absolute top-[8%] left-[86%] 500:top-[12%] 500:left-[90%] md:left-[78%] md:top-[5%] xl:top-[6%] xl:left-[82%]"
+        className="absolute top-[8%] left-[86%] flex h-fit w-fit flex-col 500:top-[12%] 500:left-[90%] md:left-[78%] md:top-[5%] xl:top-[6%] xl:left-[82%]"
       >
         <motion.div
           onClick={() => handleHeartClick()}
           whileTap={{ scale: 0.94 }}
-          className={`w-[34px] h-[34px] ${styles.flexCenter} z-20 ${
+          className={`h-[34px] w-[34px] ${styles.flexCenter} z-20 ${
             liked ? "text-failure" : "text-iconTransCol"
           } cursor-pointer`}
         >
@@ -120,7 +120,7 @@ const SingleCard = ({ meal, navigationOn, callBackId }) => {
         <motion.div
           onClick={() => handleBuy()}
           whileTap={{ scale: 0.94 }}
-          className={`w-[34px] h-[34px] ${styles.flexCenter} z-20 text-iconTransCol cursor-pointer active:text-[#2B598C]`}
+          className={`h-[34px] w-[34px] ${styles.flexCenter} z-20 cursor-pointer text-iconTransCol active:text-[#2B598C]`}
         >
           <FaShoppingCart size="24px" />
         </motion.div>

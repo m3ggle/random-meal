@@ -9,10 +9,10 @@ const MealdetailsHeader = ({ meal }) => {
   const { nutrients } = meal.nutrients;
 
   return (
-    <div className="w-full flex flex-col gap-y-2">
+    <div className="flex w-full flex-col gap-y-2">
       <div className="flex flex-row items-center gap-x-2"></div>
       <p
-        className={`${styles.heading32} text-lightTextCol flex flex-row gap-x-2 items-center w-fit cursor-pointer`}
+        className={`${styles.heading32} flex w-fit cursor-pointer flex-row items-center gap-x-2 text-lightTextCol`}
       >
         {title}
         <a href={sourceUrl} target="_blank" rel="noopener noreferrer">
@@ -41,7 +41,7 @@ const MealdetailsHeader = ({ meal }) => {
             return (
               <div
                 key={uuidv4()}
-                className={`px-4 py-1 w-fit ${
+                className={`w-fit px-4 py-1 ${
                   type === "Dinner"
                     ? "tagDinner"
                     : type === "Lunch"
@@ -59,7 +59,7 @@ const MealdetailsHeader = ({ meal }) => {
         {nutrients.map((nut) => (
           <div
             key={uuidv4()}
-            className={`px-4 py-1 w-fit tagInfo rounded-full ${styles.tag12}`}
+            className={`tagInfo w-fit rounded-full px-4 py-1 ${styles.tag12}`}
           >
             {nut.name}: {nut.amount.toFixed(0)}
             {nut.unit}

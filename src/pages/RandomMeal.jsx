@@ -162,7 +162,7 @@ const RandomMeal = () => {
   };
 
   return (
-    <div className="w-full h-screen bg-bgPrimaryCol flex justify-evenly ">
+    <div className="flex h-screen w-full justify-evenly bg-bgPrimaryCol ">
       {/* <Helmet>
         <title>Random Meal</title>
         <meta name="description" content="" />

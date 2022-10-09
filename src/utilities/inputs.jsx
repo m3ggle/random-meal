@@ -1,11 +1,11 @@
 import {
+  FaCheck,
   FaEdit,
   FaExclamationCircle,
   FaExclamationTriangle,
   FaFilter,
   FaSearch,
   FaTimes,
-  FaCheck,
 } from "react-icons/fa";
 import styles from "../styles";
 
@@ -13,75 +13,75 @@ import styles from "../styles";
 
 function inputs() {
   return (
-    <div className="flex justify-center items-center h-screen  w-full">
-      <div className="bg-slate-800 w-[512px] h-[512px] rounded-xl flex justify-center items-center flex-col gap-y-8 p-6">
+    <div className="flex h-screen w-full items-center  justify-center">
+      <div className="flex h-[512px] w-[512px] flex-col items-center justify-center gap-y-8 rounded-xl bg-slate-800 p-6">
         {/* input closed (icon txt) */}
-        <div className="w-full flex flex-col gap-y-[8px] ">
+        <div className="flex w-full flex-col gap-y-[8px] ">
           {/* Label */}
           <label className={`text-inputCol ${styles.paragraph14} hidden`}>
             Search
           </label>
-          <div className="text-inputCol w-full border-solid border-[1px] flex items-center rounded-xl px-[10px] gap-[8px] py-[12px]">
+          <div className="flex w-full items-center gap-[8px] rounded-xl border-[1px] border-solid px-[10px] py-[12px] text-inputCol">
             {/* icon */}
-            <div className={`w-[20px] h-[20px]  ${styles.flexCenter}`}>
+            <div className={`h-[20px] w-[20px]  ${styles.flexCenter}`}>
               <FaSearch className="text-inputCol" size="15px" />
             </div>
             {/* text */}
             <input
               type="text"
-              className={`bg-transparent w-full h-[20px] focus:outline-none text-lightTextCol ${styles.paragraph14} placeholder:text-inputCol`}
+              className={`h-[20px] w-full bg-transparent text-lightTextCol focus:outline-none ${styles.paragraph14} placeholder:text-inputCol`}
               placeholder="Search For Combinations..."
             />
           </div>
           <div
-            className={`text-inputCol ${styles.paragraph14} flex items-center gap-x-[8px] hidden`}
+            className={`text-inputCol ${styles.paragraph14} flex hidden items-center gap-x-[8px]`}
           >
-            <FaExclamationTriangle className="pb-[2px] text-failure hidden" />
-            <FaExclamationCircle className="pb-[2px] text-warning hidden" />
+            <FaExclamationTriangle className="hidden pb-[2px] text-failure" />
+            <FaExclamationCircle className="hidden pb-[2px] text-warning" />
             Please Enter The Correct Password
           </div>
         </div>
 
         {/* input closed (icon txt + filter) */}
-        <div className="w-full flex flex-col gap-y-[8px] ">
+        <div className="flex w-full flex-col gap-y-[8px] ">
           {/* Label */}
           <label className={`text-inputCol ${styles.paragraph14} hidden`}>
             Search
           </label>
-          <div className="w-full flex gap-x-[10px]">
-            <div className="text-inputCol w-full border-solid border-[1px] flex items-center rounded-xl px-[10px] gap-[8px] py-[12px]">
+          <div className="flex w-full gap-x-[10px]">
+            <div className="flex w-full items-center gap-[8px] rounded-xl border-[1px] border-solid px-[10px] py-[12px] text-inputCol">
               {/* icon */}
-              <div className={`w-[20px] h-[20px]  ${styles.flexCenter}`}>
+              <div className={`h-[20px] w-[20px]  ${styles.flexCenter}`}>
                 <FaSearch className="text-inputCol" size="15px" />
               </div>
               {/* text */}
               <input
                 type="text"
-                className={`bg-transparent w-full h-[20px] focus:outline-none text-lightTextCol ${styles.paragraph14} placeholder:text-inputCol`}
+                className={`h-[20px] w-full bg-transparent text-lightTextCol focus:outline-none ${styles.paragraph14} placeholder:text-inputCol`}
                 placeholder="Search For Combinations..."
               />
             </div>
             <div
-              className={`relative w-[50px] h-[46px] border-[1px] rounded-xl ${styles.flexCenter} text-lightTextCol z-[60]`}
+              className={`relative h-[46px] w-[50px] rounded-xl border-[1px] ${styles.flexCenter} z-[60] text-lightTextCol`}
             >
               <FaFilter size="14px" />
               {/* Filter */}
-              <div className="flex hidden w-[256px] absolute bg-bgSecondaryDarkCol informationBoxShadow rounded-2xl top-[110%] right-0 flex-col p-4">
+              <div className="informationBoxShadow absolute top-[110%] right-0 flex hidden w-[256px] flex-col rounded-2xl bg-bgSecondaryDarkCol p-4">
                 <p
-                  className={`${styles.heading14} border-b-[1px] border-lightTextCol mb-2`}
+                  className={`${styles.heading14} mb-2 border-b-[1px] border-lightTextCol`}
                 >
                   Filter for:
                 </p>
                 {/* content */}
                 <div className="flex flex-col">
                   {/* one line */}
-                  <div className="flex items-center hover:bg-[#3E4150] hover:px-2 rounded-[4px] py-2 cursor-pointer">
+                  <div className="flex cursor-pointer items-center rounded-[4px] py-2 hover:bg-[#3E4150] hover:px-2">
                     <p className={`${styles.paragraph14} w-[110px]`}>
                       Breakfast
                     </p>
-                    <div className="flex flex-grow gap-x-4 items-center justify-between">
+                    <div className="flex flex-grow items-center justify-between gap-x-4">
                       <div
-                        className={`px-4 py-1 w-fit tagBreakfast rounded-full ${styles.tag10}`}
+                        className={`tagBreakfast w-fit rounded-full px-4 py-1 ${styles.tag10}`}
                       >
                         Breakfast
                       </div>
@@ -91,11 +91,11 @@ function inputs() {
                     </div>
                   </div>
                   {/* one line */}
-                  <div className="flex items-center hover:bg-[#3E4150] rounded-[4px] py-2 cursor-pointer hover:px-2">
+                  <div className="flex cursor-pointer items-center rounded-[4px] py-2 hover:bg-[#3E4150] hover:px-2">
                     <p className={`${styles.paragraph14} w-[110px]`}>Lunch</p>
-                    <div className="flex flex-grow gap-x-4 items-center justify-between">
+                    <div className="flex flex-grow items-center justify-between gap-x-4">
                       <div
-                        className={`px-4 py-1 w-fit tagLunch rounded-full ${styles.tag10}`}
+                        className={`tagLunch w-fit rounded-full px-4 py-1 ${styles.tag10}`}
                       >
                         Lunch
                       </div>
@@ -105,11 +105,11 @@ function inputs() {
                     </div>
                   </div>
                   {/* one line */}
-                  <div className="flex items-center hover:bg-[#3E4150] rounded-[4px] py-2 cursor-pointer hover:px-2">
+                  <div className="flex cursor-pointer items-center rounded-[4px] py-2 hover:bg-[#3E4150] hover:px-2">
                     <p className={`${styles.paragraph14} w-[110px]`}>Dinner</p>
-                    <div className="flex flex-grow gap-x-4 items-center justify-between">
+                    <div className="flex flex-grow items-center justify-between gap-x-4">
                       <div
-                        className={`px-4 py-1 w-fit tagDinner rounded-full ${styles.tag10}`}
+                        className={`tagDinner w-fit rounded-full px-4 py-1 ${styles.tag10}`}
                       >
                         Dinner
                       </div>
@@ -119,13 +119,13 @@ function inputs() {
                     </div>
                   </div>
                   {/* one line */}
-                  <div className="flex items-center hover:bg-[#3E4150] rounded-[4px] py-2 cursor-pointer hover:px-2">
+                  <div className="flex cursor-pointer items-center rounded-[4px] py-2 hover:bg-[#3E4150] hover:px-2">
                     <p className={`${styles.paragraph14} w-[110px]`}>
                       Vegeterian
                     </p>
-                    <div className="flex flex-grow gap-x-4 items-center justify-between">
+                    <div className="flex flex-grow items-center justify-between gap-x-4">
                       <div
-                        className={`px-4 py-1 w-fit tagBreakfast rounded-full ${styles.tag10}`}
+                        className={`tagBreakfast w-fit rounded-full px-4 py-1 ${styles.tag10}`}
                       >
                         Vegeterian
                       </div>
@@ -135,11 +135,11 @@ function inputs() {
                     </div>
                   </div>
                   {/* one line */}
-                  <div className="flex items-center hover:bg-[#3E4150] rounded-[4px] py-2 cursor-pointer hover:px-2">
+                  <div className="flex cursor-pointer items-center rounded-[4px] py-2 hover:bg-[#3E4150] hover:px-2">
                     <p className={`${styles.paragraph14} w-[110px]`}>Vegan</p>
-                    <div className="flex flex-grow gap-x-4 items-center justify-between">
+                    <div className="flex flex-grow items-center justify-between gap-x-4">
                       <div
-                        className={`px-4 py-1 w-fit tagBreakfast rounded-full ${styles.tag10}`}
+                        className={`tagBreakfast w-fit rounded-full px-4 py-1 ${styles.tag10}`}
                       >
                         Vegan
                       </div>
@@ -153,100 +153,100 @@ function inputs() {
             </div>
           </div>
           <div
-            className={`text-inputCol ${styles.paragraph14} flex items-center gap-x-[8px] hidden`}
+            className={`text-inputCol ${styles.paragraph14} flex hidden items-center gap-x-[8px]`}
           >
-            <FaExclamationTriangle className="pb-[2px] text-failure hidden" />
-            <FaExclamationCircle className="pb-[2px] text-warning hidden" />
+            <FaExclamationTriangle className="hidden pb-[2px] text-failure" />
+            <FaExclamationCircle className="hidden pb-[2px] text-warning" />
             Please Enter The Correct Password
           </div>
         </div>
 
         {/* input closed (icon txt icon) */}
-        <div className="w-full flex flex-col gap-y-[8px] ">
+        <div className="flex w-full flex-col gap-y-[8px] ">
           {/* Label */}
           <label className={`text-inputCol ${styles.paragraph14} hidden`}>
             Search
           </label>
-          <div className="text-inputCol w-full border-solid border-[1px] flex items-center rounded-xl px-[10px] gap-[8px] py-[12px]">
+          <div className="flex w-full items-center gap-[8px] rounded-xl border-[1px] border-solid px-[10px] py-[12px] text-inputCol">
             {/* icon */}
-            <div className={`w-[20px] h-[20px]  ${styles.flexCenter}`}>
+            <div className={`h-[20px] w-[20px]  ${styles.flexCenter}`}>
               <FaSearch className="text-inputCol" size="15px" />
             </div>
             {/* text */}
             <input
               type="text"
-              className={`bg-transparent w-full h-[20px] focus:outline-none text-lightTextCol ${styles.paragraph14} placeholder:text-inputCol`}
+              className={`h-[20px] w-full bg-transparent text-lightTextCol focus:outline-none ${styles.paragraph14} placeholder:text-inputCol`}
               placeholder="Search For Combinations..."
             />
             {/* icon */}
-            <div className={`w-[20px] h-[20px]  ${styles.flexCenter}`}>
+            <div className={`h-[20px] w-[20px]  ${styles.flexCenter}`}>
               <FaEdit className="text-inputCol" size="15px" />
             </div>
           </div>
           <div
-            className={`text-inputCol ${styles.paragraph14} flex items-center gap-x-[8px] hidden`}
+            className={`text-inputCol ${styles.paragraph14} flex hidden items-center gap-x-[8px]`}
           >
-            <FaExclamationTriangle className="pb-[2px] text-failure hidden" />
-            <FaExclamationCircle className="pb-[2px] text-warning hidden" />
+            <FaExclamationTriangle className="hidden pb-[2px] text-failure" />
+            <FaExclamationCircle className="hidden pb-[2px] text-warning" />
             Please Enter The Correct Password
           </div>
         </div>
 
         {/* input open (icon txt) */}
-        <div className="w-full flex flex-col">
+        <div className="flex w-full flex-col">
           {/* Label */}
           <label className={`text-inputCol ${styles.paragraph14} hidden`}>
             Search
           </label>
-          <div className="text-inputCol w-full border-solid border-b-[1px] flex items-center  px-[10px] gap-[8px] py-[12px]">
+          <div className="flex w-full items-center gap-[8px] border-b-[1px] border-solid  px-[10px] py-[12px] text-inputCol">
             {/* icon */}
-            <div className={`w-[20px] h-[20px]  ${styles.flexCenter}`}>
+            <div className={`h-[20px] w-[20px]  ${styles.flexCenter}`}>
               <FaSearch className="text-inputCol" size="15px" />
             </div>
             {/* text */}
             <input
               type="text"
-              className={`bg-transparent w-full h-[20px] focus:outline-none text-lightTextCol ${styles.paragraph14} placeholder:text-inputCol`}
+              className={`h-[20px] w-full bg-transparent text-lightTextCol focus:outline-none ${styles.paragraph14} placeholder:text-inputCol`}
               placeholder="Search For Combinations..."
             />
           </div>
           <div
-            className={`text-inputCol ${styles.paragraph14} flex items-center gap-x-[8px] hidden`}
+            className={`text-inputCol ${styles.paragraph14} flex hidden items-center gap-x-[8px]`}
           >
-            <FaExclamationTriangle className="pb-[2px] text-failure hidden" />
-            <FaExclamationCircle className="pb-[2px] text-warning hidden" />
+            <FaExclamationTriangle className="hidden pb-[2px] text-failure" />
+            <FaExclamationCircle className="hidden pb-[2px] text-warning" />
             Please Enter The Correct Password
           </div>
         </div>
 
         {/* input open (icon txt icon) */}
-        <div className="w-full flex flex-col">
+        <div className="flex w-full flex-col">
           {/* Label */}
           <label className={`text-inputCol ${styles.paragraph14} hidden`}>
             Search
           </label>
-          <div className="text-inputCol w-full border-solid border-b-[1px] flex items-center  px-[10px] gap-[8px] py-[12px]">
+          <div className="flex w-full items-center gap-[8px] border-b-[1px] border-solid  px-[10px] py-[12px] text-inputCol">
             {/* icon */}
-            <div className={`w-[20px] h-[20px]  ${styles.flexCenter}`}>
+            <div className={`h-[20px] w-[20px]  ${styles.flexCenter}`}>
               <FaSearch className="text-inputCol" size="15px" />
             </div>
             {/* text */}
             <input
               type="text"
-              className={`bg-transparent w-full h-[20px] focus:outline-none text-lightTextCol ${styles.paragraph14} placeholder:text-inputCol`}
+              className={`h-[20px] w-full bg-transparent text-lightTextCol focus:outline-none ${styles.paragraph14} placeholder:text-inputCol`}
               placeholder="Search For Combinations..."
             />
             <div
-              className={`w-[20px] h-[20px] ${styles.flexCenter} cursor-pointer`}
+              className={`h-[20px] w-[20px] ${styles.flexCenter} cursor-pointer`}
             >
-              <FaEdit className="text-inputCol w-[15px]" />
+              <FaEdit className="w-[15px] text-inputCol" />
             </div>
           </div>
           <div
-            className={`text-inputCol ${styles.paragraph14} flex items-center gap-x-[8px] hidden`}
+            className={`text-inputCol ${styles.paragraph14} flex hidden items-center gap-x-[8px]`}
           >
-            <FaExclamationTriangle className="pb-[2px] text-failure hidden" />
-            <FaExclamationCircle className="pb-[2px] text-warning hidden" />
+            <FaExclamationTriangle className="hidden pb-[2px] text-failure" />
+            <FaExclamationCircle className="hidden pb-[2px] text-warning" />
             Please Enter The Correct Password
           </div>
         </div>

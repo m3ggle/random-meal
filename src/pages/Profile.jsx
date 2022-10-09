@@ -7,8 +7,6 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import ODonutLogo from "../assets/images/ODonut.webp";
 import Input from "../components/Input";
-import { useNavbarContext } from "../context/navbar/NavbarContext";
-import { useUserContext } from "../context/user/UserContext";
 import { db } from "../firebase.config";
 import { useUpdateNavbar } from "../hooks/useUpdateNavbar";
 import styles from "../styles";
@@ -17,7 +15,6 @@ const Profile = () => {
   const auth = getAuth();
   const navigate = useNavigate();
   const { updateShowNavbar } = useUpdateNavbar();
-  
 
   // Todo: Save Button is only available if all the inputs are change and in a state of default
   //  ? how about, default is going to be "def" and the change defaults going to be "defaultChange" => check: fullName.state.includes("default") && ...
@@ -268,16 +265,16 @@ const Profile = () => {
   return (
     <div
       onScroll={updateShowNavbar}
-      className="w-full h-screen bg-bgPrimaryCol flex flex-col overflow-scroll pt-8 md:pt-0"
+      className="flex h-screen w-full flex-col overflow-scroll bg-bgPrimaryCol pt-8 md:pt-0"
     >
       {/* <Helmet>
         <title>Profile</title>
         <meta name="description" content="" />
       </Helmet> */}
       {/* top */}
-      <div className={`${styles.flexCenter} w-full h-[300px]`}>
+      <div className={`${styles.flexCenter} h-[300px] w-full`}>
         <div
-          className="w-[180px] h-[180px] bg-cover bg-center"
+          className="h-[180px] w-[180px] bg-cover bg-center"
           style={{ backgroundImage: `url(${ODonutLogo})` }}
           onClick={handleProfilePicClick}
         >
@@ -298,10 +295,10 @@ const Profile = () => {
 
       {/* bottom */}
       <form
-        className={`w-full flex items-center xl:items-start justify-center flex-col xl:flex-row gap-[10px] pb-[120px] md:pb-[40px] px-[22px] md:px-[0px]`}
+        className={`flex w-full flex-col items-center justify-center gap-[10px] px-[22px] pb-[120px] md:px-[0px] md:pb-[40px] xl:flex-row xl:items-start`}
       >
         {/* first Column */}
-        <div className="w-full sm:w-[400px] flex flex-col p-[10px] gap-y-[16px]">
+        <div className="flex w-full flex-col gap-y-[16px] p-[10px] sm:w-[400px]">
           <p className={`w-full ${styles.paragraph14} text-lightTextCol`}>
             User Information
           </p>
@@ -366,10 +363,10 @@ const Profile = () => {
             whileTap={userInformation ? { scale: 0.98 } : { scale: 1 }}
             className={`${
               styles.flexCenter
-            } w-full py-[10px] rounded-xl text-lightTextCol font-semibold text-[14px] ${
+            } w-full rounded-xl py-[10px] text-[14px] font-semibold text-lightTextCol ${
               userInformation
-                ? "btnPrimaryCol buttonShadow hover:bg-btnHover cursor-pointer"
-                : "bg-transparent border-[1px] border-solid cursor-default"
+                ? "btnPrimaryCol buttonShadow cursor-pointer hover:bg-btnHover"
+                : "cursor-default border-[1px] border-solid bg-transparent"
             } `}
             onClick={() => handleSubmit("userInformation")}
           >
@@ -378,7 +375,7 @@ const Profile = () => {
         </div>
 
         {/* Second Column */}
-        <div className="w-full sm:w-[400px] flex flex-col p-[10px] gap-y-[16px]">
+        <div className="flex w-full flex-col gap-y-[16px] p-[10px] sm:w-[400px]">
           <p className={`w-full ${styles.paragraph14} text-lightTextCol`}>
             Social Media
           </p>
@@ -414,27 +411,27 @@ const Profile = () => {
             whileTap={social ? { scale: 0.98 } : { scale: 1 }}
             className={`${
               styles.flexCenter
-            } w-full py-[10px] rounded-xl text-lightTextCol font-semibold text-[14px] ${
+            } w-full rounded-xl py-[10px] text-[14px] font-semibold text-lightTextCol ${
               social
-                ? "btnPrimaryCol buttonShadow hover:bg-btnHover cursor-pointer"
-                : "bg-transparent border-[1px] border-solid cursor-default"
+                ? "btnPrimaryCol buttonShadow cursor-pointer hover:bg-btnHover"
+                : "cursor-default border-[1px] border-solid bg-transparent"
             } `}
             onClick={() => handleSubmit("social")}
           >
             Save Changes
           </motion.div>
         </div>
-        <div className="w-full sm:w-[400px] flex flex-col p-[10px] gap-y-[16px]">
+        <div className="flex w-full flex-col gap-y-[16px] p-[10px] sm:w-[400px]">
           <p className={`w-full ${styles.paragraph14} text-lightTextCol`}>
             Legal Information and Logout
           </p>
           {/* Buttons */}
           {/* Button */}
-          <div onClick={handleToastMsg} className="w-full flex flex-col">
-            <div className="w-full flex flex-col">
+          <div onClick={handleToastMsg} className="flex w-full flex-col">
+            <div className="flex w-full flex-col">
               <button
                 type="button"
-                className={`w-full h-[40px] text-lightTextCol text-[14px] font-semibold border-solid border-[1px] rounded-xl`}
+                className={`h-[40px] w-full rounded-xl border-[1px] border-solid text-[14px] font-semibold text-lightTextCol`}
               >
                 Terms of Service
               </button>
@@ -442,11 +439,11 @@ const Profile = () => {
           </div>
 
           {/* Button */}
-          <div onClick={handleToastMsg} className="w-full flex flex-col">
-            <div className="w-full flex flex-col">
+          <div onClick={handleToastMsg} className="flex w-full flex-col">
+            <div className="flex w-full flex-col">
               <button
                 type="button"
-                className={`w-full h-[40px] text-lightTextCol text-[14px] font-semibold border-solid border-[1px] rounded-xl`}
+                className={`h-[40px] w-full rounded-xl border-[1px] border-solid text-[14px] font-semibold text-lightTextCol`}
               >
                 Privacy Policy
               </button>
@@ -454,14 +451,14 @@ const Profile = () => {
           </div>
 
           {/* Button */}
-          <div className="w-full flex flex-col">
-            <div className="w-full flex flex-col">
+          <div className="flex w-full flex-col">
+            <div className="flex w-full flex-col">
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={handleLogOut}
                 type="button"
-                className={`w-full h-[40px] text-lightTextCol text-[14px] font-semibold btnPrimaryCol hover:bg-btnHover buyinglistBtnHover buttonShadow rounded-xl`}
+                className={`btnPrimaryCol buyinglistBtnHover buttonShadow h-[40px] w-full rounded-xl text-[14px] font-semibold text-lightTextCol hover:bg-btnHover`}
               >
                 Logout
               </motion.button>
@@ -469,8 +466,8 @@ const Profile = () => {
           </div>
 
           {/* input open (txt) */}
-          <div className="w-full flex flex-col">
-            <div className="text-inputCol w-full border-solid border-b-[1px] flex items-center  px-[10px] gap-[8px] py-[12px]">
+          <div className="flex w-full flex-col">
+            <div className="flex w-full items-center gap-[8px] border-b-[1px] border-solid  px-[10px] py-[12px] text-inputCol">
               <p className={`${styles.paragraph14}`}>
                 RF Inc © 2022. All rights reserved
               </p>

@@ -6,7 +6,7 @@ import Loading from "./Loading";
 const ShareCombos = ({ filteredCombos }) => {
   return (
     <div
-      className={`1400:grid flex gap-2 grid-cols-2 flex-wrap w-full px-6 500:px-10 300:gap-5 600:gap-6 justify-center max-w-[1350px]`}
+      className={`flex w-full max-w-[1350px] grid-cols-2 flex-wrap justify-center gap-2 px-6 300:gap-5 500:px-10 600:gap-6 1400:grid`}
     >
       {filteredCombos.length > 0 ? (
         filteredCombos.map((combo) => (
@@ -16,7 +16,7 @@ const ShareCombos = ({ filteredCombos }) => {
         <Loading />
       )}
       {/* puffer */}
-      <div className="h-24 600:h-28 w-full"></div>
+      <div className="h-24 w-full 600:h-28"></div>
     </div>
   );
 };

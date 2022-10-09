@@ -6,7 +6,7 @@ import Loading from "./Loading";
 const FavMealsOne = ({ filteredMeals, navigationOn, callBackId }) => {
   return (
     <div
-      className={`flex gap-2 flex-col md:flex-row md:flex-wrap w-full px-10 md:gap-6 justify-center max-w-[1350px]`}
+      className={`flex w-full max-w-[1350px] flex-col justify-center gap-2 px-10 md:flex-row md:flex-wrap md:gap-6`}
     >
       {filteredMeals ? (
         <>
@@ -24,7 +24,7 @@ const FavMealsOne = ({ filteredMeals, navigationOn, callBackId }) => {
       )}
 
       {/* puffer */}
-      <div className="h-24 600:h-28 w-full"></div>
+      <div className="h-24 w-full 600:h-28"></div>
     </div>
   );
 };

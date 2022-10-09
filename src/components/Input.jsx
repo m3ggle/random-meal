@@ -25,16 +25,16 @@ const Input = ({ ...take }) => {
     callbackFct(handleInputFocus({ e, formData, validation }));
   };
   const handelChange = (e) => {
-    callbackFct(
-      handleInputChange({ e, formData, validation })
-    );
+    callbackFct(handleInputChange({ e, formData, validation }));
   };
   const handleBlur = (e) => {
-    callbackFct(handleInputBlur({ e, formData, stateArray, condition, validation }));
+    callbackFct(
+      handleInputBlur({ e, formData, stateArray, condition, validation })
+    );
   };
 
   return (
-    <div className="w-full flex flex-col">
+    <div className="flex w-full flex-col">
       {/* Label */}
       {label && (
         <label className={`text-inputCol ${styles.paragraph12}`}>
@@ -42,7 +42,7 @@ const Input = ({ ...take }) => {
         </label>
       )}
       <div
-        className={`text-inputCol w-full border-solid border-b-[1px] ${
+        className={`w-full border-b-[1px] border-solid text-inputCol ${
           specificInputObject.state === "warning"
             ? "border-warning"
             : specificInputObject.state === "success"
@@ -50,12 +50,12 @@ const Input = ({ ...take }) => {
             : specificInputObject.state === "failure"
             ? "border-failure"
             : "border-default"
-        } flex items-center px-[10px] gap-[8px] py-[12px]`}
+        } flex items-center gap-[8px] px-[10px] py-[12px]`}
       >
         {/* icon */}
-        <div className={`w-[20px] h-[20px]  ${styles.flexCenter}`}>
+        <div className={`h-[20px] w-[20px]  ${styles.flexCenter}`}>
           <i
-            className={`${specificInputObject.icon} text-inputCol text-[15px]`}
+            className={`${specificInputObject.icon} text-[15px] text-inputCol`}
           ></i>
         </div>
         {/* text */}
@@ -66,7 +66,7 @@ const Input = ({ ...take }) => {
           onFocus={handleFocus}
           onBlur={handleBlur}
           type={specificInputObject.type}
-          className={`bg-transparent w-full h-[20px] focus:outline-none text-lightTextCol ${styles.paragraph14} placeholder:text-inputPlaceholderCol`}
+          className={`h-[20px] w-full bg-transparent text-lightTextCol focus:outline-none ${styles.paragraph14} placeholder:text-inputPlaceholderCol`}
           placeholder={specificInputObject.placeholder}
         />
         <div className={`h-[20px] ${styles.flexCenter} gap-2`}>
@@ -83,7 +83,7 @@ const Input = ({ ...take }) => {
           specificInputObject.state === "failure" ? "flex" : "hidden"
         }  items-center gap-x-[8px] px-2`}
       >
-        <div className={`w-[20px] h-[20px] ${styles.flexCenter}`}>
+        <div className={`h-[20px] w-[20px] ${styles.flexCenter}`}>
           <FaExclamationTriangle className=" text-failure" />
         </div>
         <p className={`${styles.paragraph12} text-inputCol`}>

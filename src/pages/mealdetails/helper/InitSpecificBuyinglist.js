@@ -17,6 +17,6 @@ export const initSpecificBuyinglist = (
       });
     });
   }
-    
-    return list 
+
+  return list;
 };

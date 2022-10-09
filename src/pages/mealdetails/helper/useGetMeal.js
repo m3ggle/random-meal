@@ -7,7 +7,7 @@ export const useGetMeal = () => {
     if (mealContext[id]) {
       return mealContext[id];
     }
-      console.log("does not exist in the context")
+    console.log("does not exist in the context");
     const firestoreResult = await getSingleMealById(id);
     if (firestoreResult) {
       return firestoreResult;

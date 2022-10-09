@@ -23,16 +23,16 @@ function MealdetailsIngredientsPics({
           ingIndex: index,
         })
       }
-      className="flex flex-col max-w-20 items-center gap-1"
+      className="max-w-20 flex flex-col items-center gap-1"
     >
       <div
-        className="w-20 h-20 rounded-full bg-center bg-cover bg-gray-400 overflow-hidden"
+        className="h-20 w-20 overflow-hidden rounded-full bg-gray-400 bg-cover bg-center"
         style={{
           backgroundImage: `url(https://spoonacular.com/cdn/ingredients_500x500/${ingImage})`,
         }}
       >
         <div
-          className={`w-full h-full rounded-full bg-[#28293380] opacity-0 hover:opacity-100 cursor-pointer ${styles.flexCenter}`}
+          className={`h-full w-full cursor-pointer rounded-full bg-[#28293380] opacity-0 hover:opacity-100 ${styles.flexCenter}`}
         >
           {ing.inShoppingCart ? (
             <FaCheck size="30%" className="text-lightTextCol" />
@@ -44,12 +44,12 @@ function MealdetailsIngredientsPics({
       </div>
       <div className="flex flex-col gap-y-0">
         <p
-          className={`${styles.paragraph14} text-lightTextCol w-20 text-center`}
+          className={`${styles.paragraph14} w-20 text-center text-lightTextCol`}
         >
           {ing.measures.amount.toFixed(1) + " " + ing.measures.unitShort}
         </p>
         <p
-          className={`${styles.paragraph14} text-lightTextCol w-20 text-center leading-4`}
+          className={`${styles.paragraph14} w-20 text-center leading-4 text-lightTextCol`}
         >
           {ing.name}
         </p>

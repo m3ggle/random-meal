@@ -5,10 +5,10 @@ import MealdetailsIngredientsPics from "./MealdetailsIngredientsPics";
 
 const MealdetailsIngredients = ({ specificBuyinglist, onIngredientClick }) => {
   return (
-    <div className="w-full flex flex-col gap-y-2">
+    <div className="flex w-full flex-col gap-y-2">
       <p className={`${styles.heading24} text-lightTextCol`}>Ingredients</p>
       {/* ingredients pics */}
-      <div className="max-w-[540px] w-full flex flex-wrap gap-2">
+      <div className="flex w-full max-w-[540px] flex-wrap gap-2">
         {specificBuyinglist?.map((ing, index) => {
           return (
             <MealdetailsIngredientsPics

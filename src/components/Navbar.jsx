@@ -43,29 +43,29 @@ const Navbar = () => {
   return (
     <div className={`${hidden ? "hidden" : "flex"} w-0px md:w-[80px]`}>
       {/* desktop Navbar */}
-      <div className="hidden md:flex w-[80px] md:fixed md:h-screen  bg-navCol py-[32px] flex-col justify-between z-[60]">
+      <div className="z-[60] hidden w-[80px] flex-col justify-between  bg-navCol py-[32px] md:fixed md:flex md:h-screen">
         {/* navbar top */}
-        <div className="w-full h-fit flex flex-col items-center gap-y-[24px]">
+        <div className="flex h-fit w-full flex-col items-center gap-y-[24px]">
           {/* Logo */}
-          <div className={`w-[80px] h-[80px] ${styles.flexCenter}`}>
-            <img src={ODonutLogo} alt="Logo" className="w-[54px] h-[54px]" />
+          <div className={`h-[80px] w-[80px] ${styles.flexCenter}`}>
+            <img src={ODonutLogo} alt="Logo" className="h-[54px] w-[54px]" />
           </div>
 
           {/* Items */}
-          <div className="flex flex-col align-center">
+          <div className="align-center flex flex-col">
             {/* profile */}
             <Link
               to={"/profile"}
-              className={`w-[80px] h-[80px] ${
+              className={`h-[80px] w-[80px] ${
                 styles.flexCenter
               }  cursor-pointer ${
                 site === "/profile" ? "bg-navCol" : "bg-bgPrimaryCol"
               }`}
             >
               <div
-                className={`w-[80px] h-[80px] ${styles.flexCenter} ${
+                className={`h-[80px] w-[80px] ${styles.flexCenter} ${
                   site === "/profile"
-                    ? "bg-bgPrimaryCol rounded-l-[50px]"
+                    ? "rounded-l-[50px] bg-bgPrimaryCol"
                     : "bg-navCol"
                 } 
               ${site === "/buyinglist" ? "rounded-br-[50px]" : ""} 
@@ -81,17 +81,17 @@ const Navbar = () => {
             {/* buyinglist */}
             <Link
               to={"/buyinglist"}
-              className={`w-[80px] h-[80px] ${styles.flexCenter}  cursor-pointer
+              className={`h-[80px] w-[80px] ${styles.flexCenter}  cursor-pointer
             ${
               site === "/buyinglist" ? "bg-navCol" : "bg-bgPrimaryCol"
             }            
             `}
             >
               <div
-                className={`w-[80px] h-[80px] ${styles.flexCenter} 
+                className={`h-[80px] w-[80px] ${styles.flexCenter} 
               ${
                 site === "/buyinglist"
-                  ? "bg-bgPrimaryCol rounded-l-[50px]"
+                  ? "rounded-l-[50px] bg-bgPrimaryCol"
                   : "bg-navCol"
               }
                 ${site === "/profile" ? "rounded-tr-[50px]" : ""} 
@@ -108,17 +108,17 @@ const Navbar = () => {
             {/* home */}
             <Link
               to={"/home"}
-              className={`w-[80px] h-[80px] ${styles.flexCenter}  cursor-pointer
+              className={`h-[80px] w-[80px] ${styles.flexCenter}  cursor-pointer
             ${
               site === "/home" || site === "/" ? "bg-navCol" : "bg-bgPrimaryCol"
             }            
             `}
             >
               <div
-                className={`w-[80px] h-[80px] ${styles.flexCenter} 
+                className={`h-[80px] w-[80px] ${styles.flexCenter} 
               ${
                 site === "/home" || site === "/"
-                  ? "bg-bgPrimaryCol rounded-l-[50px]"
+                  ? "rounded-l-[50px] bg-bgPrimaryCol"
                   : "bg-navCol"
               }
                 ${site === "/buyinglist" ? "rounded-tr-[50px]" : ""} 
@@ -135,17 +135,17 @@ const Navbar = () => {
             {/* favorites */}
             <Link
               to={"/favorites"}
-              className={`w-[80px] h-[80px] ${styles.flexCenter}  cursor-pointer
+              className={`h-[80px] w-[80px] ${styles.flexCenter}  cursor-pointer
             ${
               site === "/favorites" ? "bg-navCol" : "bg-bgPrimaryCol"
             }            
             `}
             >
               <div
-                className={`w-[80px] h-[80px] ${styles.flexCenter} 
+                className={`h-[80px] w-[80px] ${styles.flexCenter} 
               ${
                 site === "/favorites"
-                  ? "bg-bgPrimaryCol rounded-l-[50px]"
+                  ? "rounded-l-[50px] bg-bgPrimaryCol"
                   : "bg-navCol"
               }
                 ${site === "/home" || site === "/" ? "rounded-tr-[50px]" : ""} 
@@ -162,17 +162,17 @@ const Navbar = () => {
             {/* sharepage */}
             <Link
               to={"/sharepage"}
-              className={`w-[80px] h-[80px] ${styles.flexCenter}  cursor-pointer
+              className={`h-[80px] w-[80px] ${styles.flexCenter}  cursor-pointer
             ${
               site === "/sharepage" ? "bg-navCol" : "bg-bgPrimaryCol"
             }            
             `}
             >
               <div
-                className={`w-[80px] h-[80px] ${styles.flexCenter} 
+                className={`h-[80px] w-[80px] ${styles.flexCenter} 
               ${
                 site === "/sharepage"
-                  ? "bg-bgPrimaryCol rounded-l-[50px]"
+                  ? "rounded-l-[50px] bg-bgPrimaryCol"
                   : "bg-navCol"
               }
                 ${site === "/favorites" ? "rounded-tr-[50px]" : ""} 
@@ -188,7 +188,7 @@ const Navbar = () => {
         </div>
 
         {/* navbar bottom */}
-        <div className="flex flex-col w-full gap-y-[35px] items-center">
+        <div className="flex w-full flex-col items-center gap-y-[35px]">
           <a
             href="https://www.pinterest.de/megglebande/"
             target="_blank"
@@ -217,12 +217,12 @@ const Navbar = () => {
       <div
         className={`${
           navbarStatus ? "flex" : "hidden"
-        } md:hidden absolute bottom-0 w-full h-24 600:h-28 max-h-[112px] flex justify-center z-[60] bg-bgPrimaryCol py-3 600:pb-0 rounded-t-[20px]`}
+        } absolute bottom-0 z-[60] flex h-24 max-h-[112px] w-full justify-center rounded-t-[20px] bg-bgPrimaryCol py-3 600:h-28 600:pb-0 md:hidden`}
       >
-        <div className="flex justify-between py-[10px] px-[20px] min-w-[340px] w-[90%] max-w-[450px] h-20 rounded-xl bg-bgSecondaryDarkCol">
+        <div className="flex h-20 w-[90%] min-w-[340px] max-w-[450px] justify-between rounded-xl bg-bgSecondaryDarkCol py-[10px] px-[20px]">
           <Link
             to={"/sharepage"}
-            className={`w-[60px] h-[60px] ${styles.flexCenter} ${
+            className={`h-[60px] w-[60px] ${styles.flexCenter} ${
               site === "/sharepage" ? "rounded-full bg-bgPrimaryCol" : ""
             } cursor-pointer`}
           >
@@ -233,7 +233,7 @@ const Navbar = () => {
           </Link>
           <Link
             to={"/favorites"}
-            className={`w-[60px] h-[60px] ${styles.flexCenter} ${
+            className={`h-[60px] w-[60px] ${styles.flexCenter} ${
               site === "/favorites" ? "rounded-full bg-bgPrimaryCol" : ""
             } cursor-pointer`}
           >
@@ -244,7 +244,7 @@ const Navbar = () => {
           </Link>
           <Link
             to={"/home"}
-            className={`w-[60px] h-[60px] ${styles.flexCenter} ${
+            className={`h-[60px] w-[60px] ${styles.flexCenter} ${
               site === "/home" ? "rounded-full bg-bgPrimaryCol" : ""
             } cursor-pointer`}
           >
@@ -255,7 +255,7 @@ const Navbar = () => {
           </Link>
           <Link
             to={"/buyinglist"}
-            className={`w-[60px] h-[60px] ${styles.flexCenter} ${
+            className={`h-[60px] w-[60px] ${styles.flexCenter} ${
               site === "/buyinglist" ? "rounded-full bg-bgPrimaryCol" : ""
             } cursor-pointer`}
           >
@@ -266,7 +266,7 @@ const Navbar = () => {
           </Link>
           <Link
             to={"/profile"}
-            className={`w-[60px] h-[60px] ${styles.flexCenter} ${
+            className={`h-[60px] w-[60px] ${styles.flexCenter} ${
               site === "/profile" ? "rounded-full bg-bgPrimaryCol" : ""
             } cursor-pointer`}
           >

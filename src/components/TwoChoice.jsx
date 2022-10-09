@@ -1,6 +1,6 @@
+import { motion } from "framer-motion";
 import React, { useState } from "react";
 import styles from "../styles";
-import { motion } from "framer-motion";
 
 const TwoChoice = ({ callbackTwoChoice, firstChoice, secondChoice }) => {
   const [selectedCount, setSelectedCount] = useState("first");
@@ -15,15 +15,15 @@ const TwoChoice = ({ callbackTwoChoice, firstChoice, secondChoice }) => {
       <motion.div
         whileTap={{ scale: 0.98 }}
         onClick={() => handleClick("first")}
-        className={`${styles.flexCenter} w-[120px] h-6 border-b-2 ${
+        className={`${styles.flexCenter} h-6 w-[120px] border-b-2 ${
           selectedCount !== "first" && "border-[#626476]"
         } cursor-pointer`}
       >
         <p
           className={`text-[16px] ${
             selectedCount === "first"
-              ? "text-lightTextCol font-semibold"
-              : "text-[#626476] font-normal"
+              ? "font-semibold text-lightTextCol"
+              : "font-normal text-[#626476]"
           }`}
         >
           {firstChoice}
@@ -32,15 +32,15 @@ const TwoChoice = ({ callbackTwoChoice, firstChoice, secondChoice }) => {
       <motion.div
         whileTap={{ scale: 0.98 }}
         onClick={() => handleClick("second")}
-        className={`${styles.flexCenter} w-[120px] h-6 border-b-2 ${
+        className={`${styles.flexCenter} h-6 w-[120px] border-b-2 ${
           selectedCount !== "second" && "border-[#626476]"
         } cursor-pointer`}
       >
         <p
           className={`text-[16px] ${
             selectedCount === "second"
-              ? "text-lightTextCol font-semibold"
-              : "text-[#626476] font-normal"
+              ? "font-semibold text-lightTextCol"
+              : "font-normal text-[#626476]"
           }`}
         >
           {secondChoice}

@@ -6,14 +6,14 @@ import styles from "../../../styles";
 const MealdetailsInstructions = ({ instructions }) => {
   const { steps } = instructions;
   return (
-    <div className="w-full flex flex-col gap-y-2">
+    <div className="flex w-full flex-col gap-y-2">
       <p className={`${styles.heading24} text-lightTextCol`}>How it's done</p>
       {/* Steps */}
-      <div className="flex lg:grid grid-cols-2 flex-col gap-3">
+      <div className="flex grid-cols-2 flex-col gap-3 lg:grid">
         {steps.map((instruction, index) => (
           <div
             key={uuidv4()}
-            className="w-full max-w-[540px] flex flex-col buyinglistMealShadow p-[24px] gap-y-4 rounded-xl"
+            className="buyinglistMealShadow flex w-full max-w-[540px] flex-col gap-y-4 rounded-xl p-[24px]"
           >
             {/* txt */}
             <p className={`${styles.paragraph16} text-lightTextCol`}>
@@ -21,20 +21,20 @@ const MealdetailsInstructions = ({ instructions }) => {
               {instruction.step}
             </p>
             {/* Equipment and Ingredients */}
-            <div className="w-full flex flex-wrap gap-4">
+            <div className="flex w-full flex-wrap gap-4">
               {/* Equipment */}
               {instruction.equipment.length > 0 && (
-                <div className="flex flex-col gap-y-2 max-w-[168px]">
+                <div className="flex max-w-[168px] flex-col gap-y-2">
                   <p className={`${styles.paragraph14} text-lightTextCol`}>
                     Equipment
                   </p>
-                  <div className="w-fit flex gap-x-2">
+                  <div className="flex w-fit gap-x-2">
                     {instruction.equipment.map((equip, index) => {
                       const equipImage = equip.image;
                       return (
                         <div
                           key={uuidv4()}
-                          className="relative w-20 h-20 rounded-full bg-center bg-cover bg-gray-400 overflow-hidden"
+                          className="relative h-20 w-20 overflow-hidden rounded-full bg-gray-400 bg-cover bg-center"
                           style={{
                             backgroundImage: `url(https://spoonacular.com/cdn/equipment_500x500/${equipImage})`,
                           }}
@@ -50,19 +50,19 @@ const MealdetailsInstructions = ({ instructions }) => {
                   <p className={`${styles.paragraph14} text-lightTextCol`}>
                     Ingredients
                   </p>
-                  <div className="w-fit flex flex-wrap gap-2">
+                  <div className="flex w-fit flex-wrap gap-2">
                     {instruction.ingredients.map((ingredient, index) => {
                       const ingredientImage = ingredient.image;
                       return (
                         <div
                           key={uuidv4()}
-                          className="w-20 h-20 rounded-full bg-center bg-cover bg-gray-400 overflow-hidden"
+                          className="h-20 w-20 overflow-hidden rounded-full bg-gray-400 bg-cover bg-center"
                           style={{
                             backgroundImage: `url(https://spoonacular.com/cdn/ingredients_500x500/${ingredientImage})`,
                           }}
                         >
                           <div
-                            className={`w-full h-full rounded-full bg-[#28293380] opacity-0 hover:opacity-100 cursor-pointer ${styles.flexCenter}`}
+                            className={`h-full w-full cursor-pointer rounded-full bg-[#28293380] opacity-0 hover:opacity-100 ${styles.flexCenter}`}
                           >
                             <FaShoppingCart
                               size="30%"

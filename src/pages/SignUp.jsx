@@ -1,4 +1,3 @@
-import { Helmet } from "react-helmet";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import BgImage from "../assets/images/InImage.webp";
@@ -54,7 +53,7 @@ const SignUp = () => {
 
   return (
     <div
-      className="relative w-full h-screen bg-cover bg-center"
+      className="relative h-screen w-full bg-cover bg-center"
       style={{ backgroundImage: `url(${BgImage})` }}
     >
       {/* <Helmet>
@@ -62,24 +61,24 @@ const SignUp = () => {
         <meta name="description" content="" />
       </Helmet> */}
       <div
-        className={`sm:absolute top-[5%] sm:left-[5%] md:left-[10%] ${styles.flexCenter} flex-col px-[40px] sm:px-[80px] gap-y-[10px] w-full sm:w-[510px] h-screen sm:h-[612px] signBg sm:rounded-[30px]`}
+        className={`top-[5%] sm:absolute sm:left-[5%] md:left-[10%] ${styles.flexCenter} signBg h-screen w-full flex-col gap-y-[10px] px-[40px] sm:h-[612px] sm:w-[510px] sm:rounded-[30px] sm:px-[80px]`}
       >
         {/* title */}
-        <div className={`${styles.flexCenter} flex-col p-[10px] gap-y-[10px]`}>
+        <div className={`${styles.flexCenter} flex-col gap-y-[10px] p-[10px]`}>
           <p
-            className={`${styles.heading24} handy:${styles.heading32} text-lightTextCol text-center`}
+            className={`${styles.heading24} handy:${styles.heading32} text-center text-lightTextCol`}
           >
             Create A New Account
           </p>
-          <p className={`${styles.paragraph14} text-lightTextCol text-center`}>
+          <p className={`${styles.paragraph14} text-center text-lightTextCol`}>
             Everything Free Until You Say Otherwise
           </p>
         </div>
 
         {/* inputs and stuff */}
-        <form className="w-full flex flex-col gap-[10px] p-[10px]">
+        <form className="flex w-full flex-col gap-[10px] p-[10px]">
           {/* inputs */}
-          <div className="flex flex-col py-[10px] gap-y-[10px]">
+          <div className="flex flex-col gap-y-[10px] py-[10px]">
             {/* TestSubject */}
             <Input
               callbackFct={handleCallBack}
@@ -111,7 +110,7 @@ const SignUp = () => {
             {/* Forget Password Text */}
             <Link
               to={"/forgot-password"}
-              className={`${styles.paragraph12} text-lightTextCol underline underline-offset-2 w-fit`}
+              className={`${styles.paragraph12} w-fit text-lightTextCol underline underline-offset-2`}
             >
               Forgot Password?
             </Link>
@@ -124,7 +123,7 @@ const SignUp = () => {
 
           <Link
             to={"/"}
-            className={`${styles.paragraph12} text-lightTextCol w-fit ${styles.flexCenter}`}
+            className={`${styles.paragraph12} w-fit text-lightTextCol ${styles.flexCenter}`}
           >
             <i className="fa-solid fa-house mr-1"></i>
             <p className="underline underline-offset-2">Go Back Home</p>

@@ -1,18 +1,18 @@
+import { motion } from "framer-motion";
 import React from "react";
 import { FaPlus } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 import useWindowDimensions from "../hooks/useWindowDimensions";
 import styles from "../styles";
-import { motion } from "framer-motion";
 import CardThreeContainer from "../utilities/cards/CardThreeContainer";
-import { v4 as uuidv4 } from "uuid";
 
 const FavMealsThree = ({ filteredCombos }) => {
   const navigate = useNavigate();
   const { width, height } = useWindowDimensions();
   return (
     <div
-      className={`1400:grid flex gap-2 grid-cols-2 flex-wrap w-full px-6 500:px-10 overflow-scroll 300:gap-5 600:gap-6 justify-center max-w-[1350px]`}
+      className={`flex w-full max-w-[1350px] grid-cols-2 flex-wrap justify-center gap-2 overflow-scroll px-6 300:gap-5 500:px-10 600:gap-6 1400:grid`}
     >
       {filteredCombos?.map((combo) => (
         <CardThreeContainer key={uuidv4()} combo={combo} />
@@ -23,7 +23,7 @@ const FavMealsThree = ({ filteredCombos }) => {
         onClick={() => navigate("/creation/mealtitle")}
         className={`absolute  ${
           height > 600 && width > 767 ? "top-[88%]" : "top-[78%]"
-        } left-[74%] 600:left-[84%] btnPrimaryCol buttonShadow hover:bg-[#293D2B] w-14 h-14 600:w-20 600:h-20 z-30 rounded-full ${
+        } btnPrimaryCol buttonShadow left-[74%] z-30 h-14 w-14 rounded-full hover:bg-[#293D2B] 600:left-[84%] 600:h-20 600:w-20 ${
           styles.flexCenter
         } z-[80] cursor-pointer`}
       >
@@ -33,7 +33,7 @@ const FavMealsThree = ({ filteredCombos }) => {
         />
       </motion.div>
       {/* puffer */}
-      <div className="h-24 600:h-28 w-full"></div>
+      <div className="h-24 w-full 600:h-28"></div>
     </div>
   );
 };

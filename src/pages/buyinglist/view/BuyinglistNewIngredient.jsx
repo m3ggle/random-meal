@@ -62,12 +62,12 @@ const BuyinglistNewIngredient = () => {
   };
 
   return (
-    <div className="w-full flex flex-col gap-y-[8px] mt-3">
-      <div className="w-full flex gap-x-[10px]">
+    <div className="mt-3 flex w-full flex-col gap-y-[8px]">
+      <div className="flex w-full gap-x-[10px]">
         {/* ingredient */}
-        <div className="text-inputCol flex-grow border-solid border-[1px] flex items-center rounded-xl px-[10px] gap-[8px] py-[12px]">
+        <div className="flex flex-grow items-center gap-[8px] rounded-xl border-[1px] border-solid px-[10px] py-[12px] text-inputCol">
           {/* icon */}
-          <div className={`w-[20px] h-[20px]  ${styles.flexCenter}`}>
+          <div className={`h-[20px] w-[20px]  ${styles.flexCenter}`}>
             <i className="fa-solid fa-plus text-[15px] text-inputCol"></i>
           </div>
           {/* text */}
@@ -75,14 +75,14 @@ const BuyinglistNewIngredient = () => {
             type="text"
             value={newIngredient.ingredient.text}
             onChange={(e) => handleInputChange(e, "ingredient")}
-            className={`bg-transparent w-full h-[20px] focus:outline-none text-lightTextCol ${styles.paragraph14} placeholder:text-inputPlaceholderCol`}
+            className={`h-[20px] w-full bg-transparent text-lightTextCol focus:outline-none ${styles.paragraph14} placeholder:text-inputPlaceholderCol`}
             placeholder="Add a new Ingredient..."
           />
         </div>
         {/* amount */}
-        <div className="text-inputCol w-3/12 sm:w-2/12 border-solid border-[1px] flex items-center rounded-xl px-[10px] gap-[8px] py-[12px]">
+        <div className="flex w-3/12 items-center gap-[8px] rounded-xl border-[1px] border-solid px-[10px] py-[12px] text-inputCol sm:w-2/12">
           {/* icon */}
-          <div className={`w-[20px] h-[20px]  ${styles.flexCenter}`}>
+          <div className={`h-[20px] w-[20px]  ${styles.flexCenter}`}>
             <i className="fa-solid fa-ruler text-[15px] text-inputCol"></i>
           </div>
           {/* text */}
@@ -90,14 +90,14 @@ const BuyinglistNewIngredient = () => {
             type="number"
             value={newIngredient.amount.text}
             onChange={(e) => handleInputChange(e, "amount")}
-            className={`bg-transparent w-full h-[20px] focus:outline-none text-lightTextCol ${styles.paragraph14} placeholder:text-inputPlaceholderCol`}
+            className={`h-[20px] w-full bg-transparent text-lightTextCol focus:outline-none ${styles.paragraph14} placeholder:text-inputPlaceholderCol`}
             placeholder="52"
           />
         </div>
         {/* unit */}
-        <div className="text-inputCol w-3/12 sm:w-2/12 border-solid border-[1px] flex items-center rounded-xl px-[10px] gap-[8px] py-[12px]">
+        <div className="flex w-3/12 items-center gap-[8px] rounded-xl border-[1px] border-solid px-[10px] py-[12px] text-inputCol sm:w-2/12">
           {/* icon */}
-          <div className={`w-[20px] h-[20px]  ${styles.flexCenter}`}>
+          <div className={`h-[20px] w-[20px]  ${styles.flexCenter}`}>
             <i className="fa-solid fa-ruler-combined text-[15px] text-inputCol"></i>
           </div>
           {/* text */}
@@ -105,7 +105,7 @@ const BuyinglistNewIngredient = () => {
             type="text"
             value={newIngredient.unit.text}
             onChange={(e) => handleInputChange(e, "unit")}
-            className={`bg-transparent w-full h-[20px] focus:outline-none text-lightTextCol ${styles.paragraph14} placeholder:text-inputPlaceholderCol`}
+            className={`h-[20px] w-full bg-transparent text-lightTextCol focus:outline-none ${styles.paragraph14} placeholder:text-inputPlaceholderCol`}
             placeholder="unit"
           />
         </div>
@@ -116,7 +116,7 @@ const BuyinglistNewIngredient = () => {
           whileTap={newIngredient.correctness ? { scale: 0.98 } : { scale: 1 }}
           type="button"
           onClick={() => handleAdd(newIngredient)}
-          className={`min-w-[50px] min-h-[46px] rounded-xl ${
+          className={`min-h-[46px] min-w-[50px] rounded-xl ${
             styles.flexCenter
           } text-lightTextCol ${
             newIngredient.correctness
@@ -138,7 +138,7 @@ const BuyinglistNewIngredient = () => {
       <button
         onClick={handleToastMsg}
         type="Button"
-        className={`${styles.flexCenter} w-full bg-slate-600 py-[10px] h-[46px] rounded-xl text-lightTextCol font-semibold text-[14px] btnPrimaryCol hover:bg-[#293D2B]`}
+        className={`${styles.flexCenter} btnPrimaryCol h-[46px] w-full rounded-xl bg-slate-600 py-[10px] text-[14px] font-semibold text-lightTextCol hover:bg-[#293D2B]`}
       >
         Export your Shopping List
       </button>

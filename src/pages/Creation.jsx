@@ -265,24 +265,24 @@ const Creation = () => {
   };
 
   return (
-    <div className="fixed top-0 left-0 w-full h-screen z-[100] bg-bgPrimaryCol">
+    <div className="fixed top-0 left-0 z-[100] h-screen w-full bg-bgPrimaryCol">
       {/* <Helmet>
         <title>Creation</title>
         <meta name="description" content="" />
       </Helmet> */}
-      <div className="relative w-full h-screen overflow-auto flex justify-center ">
+      <div className="relative flex h-screen w-full justify-center overflow-auto ">
         {/* beginning of the actual modal */}
         <div
-          className={`absolute top-[6%] 900:top-[13%] w-full min-h-[94%] 900:min-h-[87%] 900:w-10/12 rounded-t-[30px] modalShadow flex flex-col py-10 bg-bgPrimaryCol px-6 sm:px-10`}
+          className={`modalShadow absolute top-[6%] flex min-h-[94%] w-full flex-col rounded-t-[30px] bg-bgPrimaryCol py-10 px-6 900:top-[13%] 900:min-h-[87%] 900:w-10/12 sm:px-10`}
         >
           {/* top back and leave */}
-          <div className="w-full h-10 flex justify-between">
+          <div className="flex h-10 w-full justify-between">
             {/* go back */}
             <motion.div
               onClick={goBack}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className={`w-11 h-11 rounded-full ${styles.flexCenter}`}
+              className={`h-11 w-11 rounded-full ${styles.flexCenter}`}
             >
               <FaChevronLeft size="30px" className="text-lightTextCol" />
             </motion.div>
@@ -291,14 +291,14 @@ const Creation = () => {
               onClick={() => navigate("/favorites")}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className={`w-11 h-11 rounded-full ${styles.flexCenter} cursor-pointer`}
+              className={`h-11 w-11 rounded-full ${styles.flexCenter} cursor-pointer`}
             >
               <FaTimes size="30px" className="text-lightTextCol" />
             </motion.div>
           </div>
 
           {/* top titel and search + filter */}
-          <div className="w-full flex flex-col gap-4 py-4">
+          <div className="flex w-full flex-col gap-4 py-4">
             {/* title */}
             <p className={`${styles.heading24} text-lightTextCol`}>
               {creation[currentIteration].title}
@@ -309,10 +309,10 @@ const Creation = () => {
           </div>
 
           {/* meals */}
-          <div className={`w-full flex flex-row flex-1 pb-3 `}>
-            <div className="gap-2 flex flex-wrap w-full 600:gap-6 h-fit py-6 justify-center max-w-[1350px]">
+          <div className={`flex w-full flex-1 flex-row pb-3 `}>
+            <div className="flex h-fit w-full max-w-[1350px] flex-wrap justify-center gap-2 py-6 600:gap-6">
               {currentIteration === "mealtitle" ? (
-                <div className="w-[420px] flex gap-x-4">
+                <div className="flex w-[420px] gap-x-4">
                   <Input
                     callbackFct={handleCallBack}
                     formData={formData}
@@ -329,7 +329,7 @@ const Creation = () => {
                     whileTap={userInformation ? { scale: 0.98 } : { scale: 1 }}
                     type="button"
                     onClick={handleAdd}
-                    className={`min-w-[50px] min-h-[46px] max-h-[46px] rounded-xl ${
+                    className={`max-h-[46px] min-h-[46px] min-w-[50px] rounded-xl ${
                       styles.flexCenter
                     } text-lightTextCol ${
                       userInformation
@@ -373,8 +373,8 @@ const Creation = () => {
               onClick={handleSubmit}
               className={`${
                 currentIteration === "preview" ? "flex" : "hidden"
-              } fixed top-[88%]
-              } left-[74%] 600:left-[84%] btnPrimaryCol buttonShadow hover:bg-[#293D2B] w-14 h-14 600:w-20 600:h-20 z-30 rounded-full ${
+              } } btnPrimaryCol
+              buttonShadow fixed top-[88%] left-[74%] z-30 h-14 w-14 rounded-full hover:bg-[#293D2B] 600:left-[84%] 600:h-20 600:w-20 ${
                 styles.flexCenter
               }`}
             >

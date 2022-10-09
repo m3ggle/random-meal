@@ -8,7 +8,7 @@ import { initSpecificBuyinglist } from "./helper/InitSpecificBuyinglist";
 import { useGetMeal } from "./helper/useGetMeal";
 import MealdetailsView from "./view/MealdetailsView";
 
-const Mealdetails = ( ) => {
+const Mealdetails = () => {
   const { meals } = useMealContext();
   const { buyinglist, dispatchBuyinglist } = useBuyinglistContext();
   const [specificBuyinglist, setSpecificBuyinglist] = useState();
@@ -62,7 +62,7 @@ const Mealdetails = ( ) => {
   };
 
   return (
-    <div className="fixed top-0 left-0 w-full h-screen z-[100] bg-bgPrimaryCol">
+    <div className="fixed top-0 left-0 z-[100] h-screen w-full bg-bgPrimaryCol">
       {/* <Helmet>
         <title>{mealinformation.title}</title>
         <meta name="description" content="" />

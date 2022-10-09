@@ -92,16 +92,16 @@ const SearchFilter = ({
   };
 
   return (
-    <div className="flex justify-center h-30 pt-8">
-      <div className="w-full max-w-[325px] h-30 flex flex-col gap-y-[8px] ">
+    <div className="h-30 flex justify-center pt-8">
+      <div className="h-30 flex w-full max-w-[325px] flex-col gap-y-[8px] ">
         {/* Label */}
         <label className={`text-inputCol ${styles.paragraph14} hidden`}>
           Search
         </label>
-        <div className="w-full flex gap-x-[10px]">
-          <div className="text-inputCol w-full border-solid border-[1px] flex items-center rounded-xl px-[10px] gap-[8px] py-[12px]">
+        <div className="flex w-full gap-x-[10px]">
+          <div className="flex w-full items-center gap-[8px] rounded-xl border-[1px] border-solid px-[10px] py-[12px] text-inputCol">
             {/* icon */}
-            <div className={`w-[20px] h-[20px]  ${styles.flexCenter}`}>
+            <div className={`h-[20px] w-[20px]  ${styles.flexCenter}`}>
               <FaSearch className="text-inputCol" size="15px" />
             </div>
             {/* text */}
@@ -109,7 +109,7 @@ const SearchFilter = ({
               type="text"
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
-              className={`bg-transparent w-full h-[20px] focus:outline-none text-lightTextCol ${styles.paragraph14} placeholder:text-inputCol`}
+              className={`h-[20px] w-full bg-transparent text-lightTextCol focus:outline-none ${styles.paragraph14} placeholder:text-inputCol`}
               placeholder="Search For Meals..."
             />
           </div>
@@ -118,19 +118,19 @@ const SearchFilter = ({
             whileTap={{ scale: 0.98 }}
             className={`${
               twoChoice === first ? "flex" : "hidden"
-            } relative w-[50px] h-[46px] border-[1px] rounded-xl ${
+            } relative h-[46px] w-[50px] rounded-xl border-[1px] ${
               styles.flexCenter
-            } text-lightTextCol z-[60] cursor-pointer`}
+            } z-[60] cursor-pointer text-lightTextCol`}
             onClick={() => setFilterState((prevState) => !prevState)}
           >
             <FaFilter size="14px" />
             <div
               className={`${
                 filterState ? "flex" : "hidden"
-              } w-[256px] absolute bg-bgSecondaryDarkCol informationBoxShadow rounded-2xl top-[110%] right-0 flex-col p-4`}
+              } informationBoxShadow absolute top-[110%] right-0 w-[256px] flex-col rounded-2xl bg-bgSecondaryDarkCol p-4`}
             >
               <p
-                className={`${styles.heading14} border-b-[1px] border-lightTextCol mb-2`}
+                className={`${styles.heading14} mb-2 border-b-[1px] border-lightTextCol`}
               >
                 Filter for:
               </p>
@@ -141,12 +141,12 @@ const SearchFilter = ({
                     whileTap={{ scale: 0.98 }}
                     key={index}
                     onClick={() => handleSelectedFilterChange(key)}
-                    className="flex items-center hover:bg-[#3E4150] rounded-[4px] py-2 cursor-pointer hover:px-2"
+                    className="flex cursor-pointer items-center rounded-[4px] py-2 hover:bg-[#3E4150] hover:px-2"
                   >
                     <p className={`${styles.paragraph14} w-[110px]`}>{key}</p>
-                    <div className="flex flex-grow gap-x-4 items-center justify-between">
+                    <div className="flex flex-grow items-center justify-between gap-x-4">
                       <div
-                        className={`px-4 py-1 w-fit ${
+                        className={`w-fit px-4 py-1 ${
                           key === "Dinner"
                             ? "tagDinner"
                             : key === "Lunch"
@@ -180,7 +180,7 @@ const SearchFilter = ({
               return (
                 <div
                   key={index}
-                  className={`px-4 py-1 w-fit  ${
+                  className={`w-fit px-4 py-1  ${
                     key === "Dinner"
                       ? "tagDinner"
                       : key === "Lunch"

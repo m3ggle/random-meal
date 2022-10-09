@@ -1,15 +1,15 @@
-import React from 'react'
-import styles from '../styles'
+import React from "react";
+import styles from "../styles";
 
-const Buttons = ({text}) => {
+const Buttons = ({ text }) => {
   return (
     <button
       type="Button"
-      className={`${styles.flexCenter} w-full bg-slate-600 py-[10px] h-[46px] rounded-xl text-lightTextCol font-semibold text-[14px] btnPrimaryCol hover:bg-[#293D2B]`}
+      className={`${styles.flexCenter} btnPrimaryCol h-[46px] w-full rounded-xl bg-slate-600 py-[10px] text-[14px] font-semibold text-lightTextCol hover:bg-[#293D2B]`}
     >
       {text}
     </button>
   );
-}
+};
 
-export default Buttons
+export default Buttons;

@@ -1,9 +1,9 @@
 import React from "react";
 import Loading from "../../../components/Loading";
-import MealdetailsTop from "./MealdetailsTop"
-import MealdetailsHeader from "./MealdetailsHeader"
-import MealdetailsInstructions from "./MealdetailsInstructions"
-import MealdetailsIngredients from "./MealdetailsIngredients"
+import MealdetailsHeader from "./MealdetailsHeader";
+import MealdetailsIngredients from "./MealdetailsIngredients";
+import MealdetailsInstructions from "./MealdetailsInstructions";
+import MealdetailsTop from "./MealdetailsTop";
 
 const MealdetailsView = ({
   meal,
@@ -12,22 +12,19 @@ const MealdetailsView = ({
   navigationBack,
 }) => {
   return (
-    <div className="relative w-full h-screen overflow-auto flex justify-center">
+    <div className="relative flex h-screen w-full justify-center overflow-auto">
       {/* beginning of the actual modal */}
       <div
-        className={`absolute top-[50px] 900:top-[120px] w-full 900:w-10/12 rounded-t-[30px] modalShadow max-w-[1200px]`}
+        className={`modalShadow absolute top-[50px] w-full max-w-[1200px] rounded-t-[30px] 900:top-[120px] 900:w-10/12`}
       >
         {meal ? (
           <>
-            <MealdetailsTop
-              meal={meal}
-              navigationBack={navigationBack}
-            />
+            <MealdetailsTop meal={meal} navigationBack={navigationBack} />
 
-            <div className="w-full modalGradient flex flex-col px-[30px] 900:px-10 pb-20 gap-y-8 900:gap-y-4">
+            <div className="modalGradient flex w-full flex-col gap-y-8 px-[30px] pb-20 900:gap-y-4 900:px-10">
               <MealdetailsHeader meal={meal} />
 
-              <div className="w-full flex flex-col-reverse gap-y-8 900:gap-x-10 900:py-4">
+              <div className="flex w-full flex-col-reverse gap-y-8 900:gap-x-10 900:py-4">
                 <MealdetailsInstructions instructions={meal.instructions} />
 
                 <MealdetailsIngredients
@@ -38,7 +35,7 @@ const MealdetailsView = ({
             </div>
           </>
         ) : (
-          <div className="h-screen w-full flex justify-center items-center">
+          <div className="flex h-screen w-full items-center justify-center">
             <Loading />
           </div>
         )}

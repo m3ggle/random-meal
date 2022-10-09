@@ -45,16 +45,16 @@ const CardThreeContainer = ({ combo }) => {
       meals[combo.breakfast] &&
       meals[combo.lunch] &&
       meals[combo.dinner] ? (
-        <div className="flex flex-col px-6 pt-4 pb-6 h-fit rounded-[24px] combinationBg 500:w-full 700:w-fit max-w-[622px]">
+        <div className="combinationBg flex h-fit max-w-[622px] flex-col rounded-[24px] px-6 pt-4 pb-6 500:w-full 700:w-fit">
           {/* header */}
-          <div className="flex flex-row 500:items-center justify-between gap-x-5">
+          <div className="flex flex-row justify-between gap-x-5 500:items-center">
             {/* left part */}
             <div className="flex items-center gap-x-1 500:gap-x-4">
               <p
                 className={
                   width > 700
                     ? `${styles.heading24} text-lightTextCol`
-                    : `${styles.heading16} text-lightTextCol whitespace-nowrap truncate`
+                    : `${styles.heading16} truncate whitespace-nowrap text-lightTextCol`
                 }
               >
                 {combo.title}
@@ -65,8 +65,8 @@ const CardThreeContainer = ({ combo }) => {
               <p
                 className={
                   width > 700
-                    ? `text-[16px] font-semibold cursor-pointer`
-                    : `text-[14px] font-semibold cursor-pointer`
+                    ? `cursor-pointer text-[16px] font-semibold`
+                    : `cursor-pointer text-[14px] font-semibold`
                 }
               >
                 {combo.likeCount}
@@ -86,11 +86,11 @@ const CardThreeContainer = ({ combo }) => {
             </div>
           </div>
           {/* info */}
-          <div className="flex flex-wrap w-full gap-x-1 gap-y-[2px] mt-1 mb-2">
+          <div className="mt-1 mb-2 flex w-full flex-wrap gap-x-1 gap-y-[2px]">
             {combo.nutrients.map((nut) => (
               <div
                 key={uuidv4()}
-                className={`px-4 py-1 w-fit tagInfo rounded-full ${styles.tag10}`}
+                className={`tagInfo w-fit rounded-full px-4 py-1 ${styles.tag10}`}
               >
                 {nut.name}: {nut.amount.toFixed(0)}
                 {nut.unit}
@@ -98,7 +98,7 @@ const CardThreeContainer = ({ combo }) => {
             ))}
           </div>
           {/* cards */}
-          <div className="flex flex-col 700:flex-row gap-2">
+          <div className="flex flex-col gap-2 700:flex-row">
             <CardThree meal={meals[combo.breakfast]} />
             <CardThree meal={meals[combo.lunch]} />
             <CardThree meal={meals[combo.dinner]} />

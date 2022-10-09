@@ -110,7 +110,7 @@ const FavMeals = () => {
   return (
     <div
       onScroll={updateShowNavbar}
-      className="w-full h-full overflow-scroll flex flex-col gap-y-3"
+      className="flex h-full w-full flex-col gap-y-3 overflow-scroll"
     >
       {/* <Helmet>
         <title>Favorite Meals</title>
