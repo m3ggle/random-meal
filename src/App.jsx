@@ -84,7 +84,7 @@ function App() {
         <Loading />
       ) : (
         <div
-          className={`realative flex h-full w-full max-w-[1440px] overflow-hidden bg-bgPrimaryCol`}
+          className={`relative flex h-full w-full max-w-[1440px] overflow-hidden bg-bgPrimaryCol`}
         >
           <Router>
             <Navbar />

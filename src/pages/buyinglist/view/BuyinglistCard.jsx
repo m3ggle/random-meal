@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import { FaTimes } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { useBuyinglistContext } from "../../../context/buyinglist/buyinglistContext";
 import styles from "../../../styles";
@@ -9,13 +8,6 @@ import { useAddAndRemove } from "../helper/useAddAndRemove";
 const BuyinglistCard = () => {
   const { buyinglist } = useBuyinglistContext();
   const { handleDelete } = useAddAndRemove();
-
-  const navigate = useNavigate();
-
-  const handleClick = (meal, title) => {
-    let mealId = meal[title].filter((item) => typeof item === "number");
-    navigate(`/mealdetails/${mealId[0]}`, { state: { navigateBack: true } });
-  };
 
   return (
     <>
@@ -26,10 +18,7 @@ const BuyinglistCard = () => {
         >
           {/* mealname */}
           <div className="z-10 flex items-center justify-between border-b-2 py-1 text-lightTextCol">
-            <p
-              // onClick={() => handleClick(meal, Object.keys(meal)[0])}
-              className={`${styles.paragraph16} flex flex-grow`}
-            >
+            <p className={`${styles.paragraph16} flex flex-grow`}>
               {Object.keys(meal)[0]}
             </p>
             <div
